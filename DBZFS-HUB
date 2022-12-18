@@ -122,25 +122,21 @@ end
 --
 NPC = {}
 
-if game.PlaceId == 536102540 then 
-    local multidropdown = sec:MultiDropdown('Target NPC List', {'Snake', 'Scorpion', 'Black Scorpion', 'Red Ribbon Soldier', 'Red Ribbon Gunner', 'Tank', 'Shielded Tank', 'Corrupt Officer', 'Thug', 'Brute', 'Kung Fu Master', 'Android Proto', 'Chi Expert', 'Kick Boxer', 'Purple Fighter', 'Universal', 'Yeti', 'Saibaman', 'Alien', 'Android 18', 'Android 17', 'Gorilla', 'Bear', 'Galactic Patrol', 'Mad Scientist', 'Imperfect Cell', 'Evil Majin', 'Evil Saiyan', 'Evil Crane', 'Evil Namek'},{'Evil Saiyan'},'Dropdown', function(t)
-        NPC[1] = t[1]
-        NPC[2] = t[2]
-        NPC[3] = t[3]
-        NPC[4] = t[4]
-        -- four is traditional for this game so I did 4; add as many or remove as many as you want
-    end)
-end 
+local textbox = sec:Textbox('NPC #1: ', function(t)
+   NPC[1] = t; 
+end)
 
-if game.PlaceId == 882399924 then 
-    local multidropdown = sec:MultiDropdown('Target NPC List', {'Universal Namekian', 'Guldo', 'Recoome', 'Jeice', 'Ginyu', 'Burter', 'Frieza', 'Zarbon', 'Big Rock'},{'Frieza'},'Dropdown', function(t)
-        NPC[1] = t[1]
-        NPC[2] = t[2]
-        NPC[3] = t[3]
-        NPC[4] = t[4]
-        -- four is traditional for this game so I did 4; add as many or remove as many as you want
-    end)
-end 
+local textbox = sec:Textbox('NPC #2: ', function(t)
+   NPC[2] = t; 
+end)
+
+local textbox = sec:Textbox('NPC #3: ', function(t)
+   NPC[3] = t; 
+end)
+
+local textbox = sec:Textbox('NPC #4: ', true, function(t)
+   NPC[4] = t; 
+end)
 
 local toggle = sec:Toggle('Auto Farm', false, 'Toggle', function(t)
     
