@@ -1,21 +1,48 @@
-local SolarisLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/sol'))()
+local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua'))()
+local venyx = library.new('Nexus | GUI')
 
-local win = SolarisLib:New({
-  Name = 'Nexus | GUI';
-  FolderToSave = 'Nexus_AutoFarm'
-})
---
-local tab = win:Tab('Main')
-local sec = tab:Section('Auto Farm')
-local tab1 = win:Tab('Misc')
-local sec11 = tab1:Section('God Mode')
-local sec12 = tab1:Section('Utility Scripts')
-local sec13 = tab1:Section('Stat Adder')
-local tab2 = win:Tab('Buy')
-local sec21 = tab2:Section('Elder Kai')
-local sec22 = tab2:Section('Senzus')
-local tab3 = win:Tab('Teleports')
-local sec31 = tab3:Section('Teleports')
+-- themes
+local themes = {
+Background = Color3.fromRGB(24, 24, 24),
+Glow = Color3.fromRGB(0, 0, 0),
+Accent = Color3.fromRGB(10, 10, 10),
+LightContrast = Color3.fromRGB(20, 20, 20),
+DarkContrast = Color3.fromRGB(14, 14, 14),  
+TextColor = Color3.fromRGB(255, 255, 255)
+}
+
+
+
+local page0 = venyx:addPage('Information')
+local credits1 = page0:addSection('Updates')
+
+local page = venyx:addPage('Auto Farm')
+local farm1 = page:addSection('NPC Farm')
+local farm2 = page:addSection('Toggle Auto-Farm')
+local farm3 = page:addSection('Toggle Auto-Punch')
+local farm4 = page:addSection('Toggle Auto Bean Spam')
+
+local page1 = venyx:addPage('Utility Scripts')
+local misc1 = page1:addSection('Respawn')
+local misc2 = page1:addSection('God-Mode')
+local misc3 = page1:addSection('No-Slow')
+local misc4 = page1:addSection('Remove')
+
+--local page2 = venyx:addPage('Other Scripts')
+--local local1 = page2:addSection('Stat Checker')
+--local local2 = page2:addSection('Stat Adder')
+
+local page3 = venyx:addPage('Buy')
+local buy1 = page3:addSection('Beans / Jars')
+local buy2 = page3:addSection('Elder Kai')
+local buy3 = page3:addSection('Clothing')
+
+local page4 = venyx:addPage('Teleports')
+local tp1 = page4:addSection('World Teleports')
+
+local page5 = venyx:addPage('Settings')
+local setting1 = page5:addSection('UI Toggle')
+local setting2 = page5:addSection('Destroy UI')
 --
 local s = setmetatable({},{
     __index = function(self, key)
@@ -106,8 +133,7 @@ main = {}; do
         main.RespondChat('k')
     end
 end
---
--- anti afk because who the fuck enables this shit (if you don't have getconnections why are you exploiting it's 2022)
+-- 
 local GC = getconnections or get_signal_cons -- synx / krnl support
 
 if GC then
@@ -122,25 +148,35 @@ end
 --
 NPC = {}
 
-local textbox = sec:Textbox('NPC #1: ', function(t)
-   NPC[1] = t; 
+
+credits1:addButton('Last Updated: Dec. 18th, 2022', nil, function()
 end)
 
-local textbox = sec:Textbox('NPC #2: ', function(t)
-   NPC[2] = t; 
+credits1:addButton('[-] Added Auto Bean Spam', nil, function()
 end)
 
-local textbox = sec:Textbox('NPC #3: ', function(t)
-   NPC[3] = t; 
+credits1:addButton('[-] Added Teleports', nil, function()
 end)
 
-local textbox = sec:Textbox('NPC #4: ', true, function(t)
-   NPC[4] = t; 
+
+farm1:addTextbox('NPC 1', nil, function(v1)
+    NPC[1] = v1
 end)
 
-local toggle = sec:Toggle('Auto Farm', false, 'Toggle', function(t)
-    
-    getgenv().AF = t;
+farm1:addTextbox('NPC 2', nil, function(v2)
+    NPC[2] = v2
+end)
+
+farm1:addTextbox('NPC 3', nil, function(v3)
+    NPC[3] = v3
+end)
+
+farm1:addTextbox('NPC 4', nil, function(v4)
+    NPC[4] = v4
+end)
+
+farm2:addToggle('Auto Farm', nil, function(TAF)
+    getgenv().AF = TAF;
     
     NPCN = 1
     Client = game.Players.LocalPlayer;
@@ -178,25 +214,41 @@ local toggle = sec:Toggle('Auto Farm', false, 'Toggle', function(t)
     end
 end)
 
-local toggle = sec:Toggle('Auto Punch', false, 'Toggle', function(t)
-    getgenv().AP = t
+farm3:addToggle('Auto Punch', nil, function(TAP)
+    getgenv().AP = TAP
     
-    while task.wait(0.38) and true do 
-        if not AP then break end -- well cause it's a toggle so break would be the most visable
+    Client = game.Players.LocalPlayer
+    
+    while task.wait(.38) and true do 
+        if not getgenv().AP then break; end
         Client.Backpack.ServerTraits.Input:FireServer({ 'md' }, CFrame.new());
-    end 
+    end
 end)
 
-local toggle = sec:Toggle('Auto Senzu', false, 'Toggle', function(t)
-    getgenv().AS = t
+farm4:addToggle('Auto Bean Spam', nil, function(ABS)
+    getgenv().AB = ABS 
     
-    while task.wait(0.38) and true do 
-        if not AS then break end 
-        Client.Backpack.ServerTraits.EatSenzu:FireServer('')
+    Client = game.Players.LocalPlayer
+
+    while task.wait() and true do 
+        if not getgenv().AP then break; end
+        Client.Backpack.ServerTraits.EatSenzu:FireServer(' ')
     end 
 end)
 
-local toggle = sec11:Toggle('God Mode (Earth)', false, 'Toggle', function(t)
+misc1:addButton('Instant Respawn', nil, function()
+    local chatGui = Client.PlayerGui.HUD.Bottom.ChatGui;
+    local oldPosition = Root.CFrame;
+                    
+    fireclickdetector(game.Workspace.FriendlyNPCs['Hair Stylist'].ClickDetector);
+    repeat firesignal(chatGui.Opt1.MouseButton1Click) chatGui.Visible = false task.wait() until Client.Backpack:FindFirstChild('HairScript');
+                
+    Client.Backpack.HairScript.RemoteEvent:FireServer('woah');
+    Client.CharacterAdded:Wait();
+    repeat Root.CFrame = oldPosition task.wait() until Character:FindFirstChildOfClass('BoolValue');
+end)
+
+misc2:addToggle('God Mode (Earth)', nil, function(t)
     getgenv().God1 = t
     local function God()
         if not God1 then return end
@@ -204,10 +256,10 @@ local toggle = sec11:Toggle('God Mode (Earth)', false, 'Toggle', function(t)
         firetouchinterest(Root, game:GetService('Workspace').Touchy.Part, 1)
         Client.PlayerGui:WaitForChild('Popup').Enabled = false
     end
-    game:GetService('RunService').Stepped:Connect(God) -- will ensure that the loop doesn't "break"
+    game:GetService('RunService').Stepped:Connect(God) -- will ensure that the loop doesn't 'break'
 end)
 
-local toggle = sec11:Toggle('God Mode (Universal)', false, 'Toggle', function(t)
+misc2:addToggle('God Mode (Universal)', nil, function(t)
     getgenv().God2 = t
 
     local function God() 
@@ -219,7 +271,7 @@ local toggle = sec11:Toggle('God Mode (Universal)', false, 'Toggle', function(t)
                     
         repeat task.wait() until Character:FindFirstChildOfClass('BoolValue')
                     
-        pcall(function() -- so the loop doesn't "break" since FS's shitty code is in the way
+        pcall(function() -- so the loop doesn't 'break' since FS's shitty code is in the way
             Character.PrimaryPart:FindFirstChild('VanishParticle'):Destroy()
         end)
                     
@@ -232,16 +284,13 @@ local toggle = sec11:Toggle('God Mode (Universal)', false, 'Toggle', function(t)
     end
     GMS = game:GetService('RunService').RenderStepped:Connect(God) -- same shit as before
     
-    if not Root:FindFirstChild('VanishParticle') then 
-    	game.Players.LocalPlayer.Character:BreakJoints()
-    end
-    
     if not God2 then
         GMS:Disconnect()
+        game.Players.LocalPlayer.Character:BreakJoints()
         return
     end
     
-    -- bypass cause it's needed (made this before "Aloof" did *cough*)
+    -- bypass cause it's needed (made this before 'Aloof' did *cough*)
     if not Bypass then 
         old = hookmetamethod(game, '__namecall', function(self, ...)
             args = {...}
@@ -256,7 +305,7 @@ local toggle = sec11:Toggle('God Mode (Universal)', false, 'Toggle', function(t)
     Bypass = true; -- one way of making a check if the script has ran at least once
 end)
 
-local toggle = sec12:Toggle('No-Slow (Universal)', false, 'Toggle', function(t)
+misc3:addToggle('No-Slow (Universal)', nil, function(t)
     
     getgenv().NS = t
     
@@ -264,7 +313,7 @@ local toggle = sec12:Toggle('No-Slow (Universal)', false, 'Toggle', function(t)
     local NoS = {'Action', 'SuperAction', 'Attacking', 'Using', 'heavy', 'hyper', 'Hyper', 'Tele', 'tele', 'Slow', 'Killed', 'KiBlasted', 'MoveStart', 'Dodging', 'KiBlasting', 'BStun', 'KnockBacked', 'NotHardBack', 'creator'}
 
     while task.wait() do
-    if not NS then return end;
+    if not NS then break end;
     for _,v in next, Client.Character:GetDescendants() do 
         if table.find(NoS, v.Name) then 
             v:Destroy()
@@ -273,65 +322,45 @@ local toggle = sec12:Toggle('No-Slow (Universal)', false, 'Toggle', function(t)
     end
 end)
 
-local button = sec12:Button('Instant Respawn (Earth)', function(t)
-    local chatGui = Client.PlayerGui.HUD.Bottom.ChatGui;
-    local oldPosition = Root.CFrame;
-                    
-    fireclickdetector(game.Workspace.FriendlyNPCs['Hair Stylist'].ClickDetector);
-    repeat firesignal(chatGui.Opt1.MouseButton1Click) chatGui.Visible = false task.wait() until Client.Backpack:FindFirstChild('HairScript');
-                
-    Client.Backpack.HairScript.RemoteEvent:FireServer('woah');
-    Client.CharacterAdded:Wait();
-    repeat Root.CFrame = oldPosition task.wait() until Character:FindFirstChildOfClass('BoolValue');
-end)
-
-local dropdown = sec13:Dropdown('Target Stat:',{'Health-Max', 'Ki-Max', 'Phys-Damage', 'Ki-Damage', 'Phys-Resist', 'Ki-Resist', 'Speed'}, 'Phys-Damage', 'Dropdown', function(t)
-    getgenv().StatTrgt = t;
-end)
-
-local textbox = sec13:Textbox('Stat Points:', true, function(t)
-   getgenv().StatAmt = t; 
-end)
-
-local toggle = sec13:Button('Add Stats (Universal)', function(t)
-    for i = 1, StatAmt do
-        Client.Backpack.ServerTraits.AttemptUpgrade:FireServer(Client.PlayerGui.HUD.Bottom.Stats[StatTrgt])
-    end
-end)
-
-local toggle = sec21:Toggle('Elder Kai (Earth)', false, 'Toggle', function(t)
-    getgenv().EK = t
+misc4:addToggle('Remove Rebirth Wings / Heaven Halo', nil, function(t)
+    getgenv().Enabled = t;
     
-    local Zen = Client.PlayerGui.HUD.FullSize.Money.Text:gsub("%p+","")
+    local function Wings()
+        RW = game.Players.LocalPlayer.Character:FindFirstChild('RebirthWings')
+        if not RW then return end 
+        RW['Handle']:Destroy();
+    end 
     
-    while true and task.wait() do -- you could utilitize rbxconnections here but this is for simplicity's sake (2.5 year old scripts remind you)
-        if tonumber(Zen) < 10000 then return end
-        if not getgenv().EK then break end 
-        Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false -- this doesn't work properly for some reason; will debug soon
-        task.wait(0.015)
-        main.NewChat('Elder Kai')
-        task.wait(.35)
-        main.RespondChat('k')
-        task.wait(.35)
-        main.RespondChat('Yes')
-        task.wait(.35)
-        main.RespondChat('k')
-        task.wait(.35)
-        main.RespondChat('k')
+    local function Halo()
+        RH = game.Players.LocalPlayer.Character:FindFirstChild('RealHalo')
+        if not RH then return end
+        RH['Handle']:Destroy();
     end
+    
+    if Enabled then 
+        local RemW = game:GetService('RunService').RenderStepped:Connect(Wings)
+        local RemH = game:GetService('RunService').RenderStepped:Connect(Halo)
+    elseif not Enabled then 
+        RemW:Disconnect()
+        RemH:Disconnect()
+        game.Players.LocalPlayer.Character:BreakJoints()
+    end 
 end)
 
-local dropdown = sec22:Dropdown('Senzu Type', {'Beans', 'Jars'}, 'Beans', 'Dropdown', function(t)
-    getgenv().TYPE = t
+buy1:addDropdown('What to buy', {'Beans', 'Jars'}, function(BUY1)
+    getgenv().TYPE = BUY1
 end)
-local dropdown = sec22:Dropdown('Senzu Color', {'Red', 'Blue', 'Green', 'Yellow'}, 'Red', 'Dropdown', function(t)
-    getgenv().CLR = t
+
+buy1:addDropdown('Amount', {'80', '8'}, function(AMT)
+    getgenv().AMT = AMT
 end)
-local dropdown = sec22:Dropdown('Senzu Amount', {'8', '80'}, '80', 'Dropdown', function(t)
-    getgenv().AMT = t
+
+buy1:addDropdown('Color', {'Red', 'Yellow', 'Blue', 'Green'}, function(CLR)
+    getgenv().CLR = CLR
 end)
-local toggle = sec22:Toggle('Auto Buy Beans (Earth, Heaven)', false, 'Toggle', function(t)
-    getgenv().AutoB = t
+
+buy1:addToggle('Auto Buy', nil, function(AB)
+    getgenv().AutoB = AB
 
     while true and task.wait() do
         if not getgenv().AutoB then break end
@@ -368,30 +397,61 @@ local toggle = sec22:Toggle('Auto Buy Beans (Earth, Heaven)', false, 'Toggle', f
     end
 end)
 
-local button = sec31:Button('Earth', function(t)
+buy2:addToggle('Elder Kai', nil, function(AB2)
+   
+    getgenv().EK = AB2
+   
+    local Zen = Client.PlayerGui.HUD.FullSize.Money.Text:gsub('%p+','')
+    
+    while true and task.wait() do -- you could utilitize rbxconnections here but this is for simplicity's sake (2.5 year old scripts remind you)
+        if tonumber(Zen) < 10000 then return end
+        if not getgenv().EK then break end 
+        Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false -- this doesn't work properly for some reason; will debug soon
+        task.wait(0.015)
+        main.NewChat('Elder Kai')
+        task.wait(.35)
+        main.RespondChat('k')
+        task.wait(.35)
+        main.RespondChat('Yes')
+        task.wait(.35)
+        main.RespondChat('k')
+        task.wait(.35)
+        main.RespondChat('k')
+    end
+end)
+
+tp1:addButton('Rejoin', function()
+    game:GetService('TeleportService'):Teleport(game.PlaceId)
+end)
+tp1:addButton('Earth', function()
     game:GetService('TeleportService'):Teleport(536102540)   
 end) 
-
-local button = sec31:Button('Namek', function(t)
+tp1:addButton('Namek', function()
     game:GetService('TeleportService'):Teleport(882399924)   
 end) 
-
-local button = sec31:Button('Space', function(t)
+tp1:addButton('Space', function()
     game:GetService('TeleportService'):Teleport(478132461)   
 end) 
-
-local button = sec31:Button('Future', function(t)
+tp1:addButton('Future', function()
     game:GetService('TeleportService'):Teleport(569994010)   
 end) 
-
-local button = sec31:Button('Secret World', function(t)
+tp1:addButton('Secret World', function()
     game:GetService('TeleportService'):Teleport(2046990924)   
 end) 
-
-local button = sec31:Button('Zaros', function(t)
+tp1:addButton('Zaros', function()
     game:GetService('TeleportService'):Teleport(2651456105)   
 end) 
-
-local button = sec31:Button('Queue World', function(t)
+tp1:addButton('Queue World', function()
     game:GetService('TeleportService'):Teleport(3565304751)   
 end) 
+
+setting1:addKeybind('Toggle Keybind', Enum.KeyCode.RightControl, function()
+    venyx:toggle()
+    end, function()
+end)
+
+setting2:addButton('Destroy UI', function()
+    game:GetService('CoreGui'):FindFirstChild('Nexus | GUI'):Destroy()
+end)
+venyx:SelectPage(venyx.pages[1], true)
+
