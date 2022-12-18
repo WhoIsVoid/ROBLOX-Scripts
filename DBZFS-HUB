@@ -28,9 +28,9 @@ local misc2 = page1:addSection('God-Mode')
 local misc3 = page1:addSection('No-Slow')
 local misc4 = page1:addSection('Remove')
 
---local page2 = venyx:addPage('Other Scripts')
---local local1 = page2:addSection('Stat Checker')
---local local2 = page2:addSection('Stat Adder')
+local page2 = venyx:addPage('Other Scripts')
+local local1 = page2:addSection('Stat Checker')
+local local2 = page2:addSection('Stat Adder')
 
 local page3 = venyx:addPage('Buy')
 local buy1 = page3:addSection('Beans / Jars')
@@ -286,7 +286,7 @@ misc2:addToggle('God Mode (Universal)', nil, function(t)
     
     if not God2 then
         GMS:Disconnect()
-        game.Players.LocalPlayer.Character:BreakJoints()
+        Character:BreakJoints()
         return
     end
     
@@ -337,13 +337,14 @@ misc4:addToggle('Remove Rebirth Wings / Heaven Halo', nil, function(t)
         RH['Handle']:Destroy();
     end
     
-    if Enabled then 
-        local RemW = game:GetService('RunService').RenderStepped:Connect(Wings)
-        local RemH = game:GetService('RunService').RenderStepped:Connect(Halo)
-    elseif not Enabled then 
+    local RemW = game:GetService('RunService').RenderStepped:Connect(Wings)
+    local RemH = game:GetService('RunService').RenderStepped:Connect(Halo)
+    
+    if not Enabled then 
         RemW:Disconnect()
         RemH:Disconnect()
-        game.Players.LocalPlayer.Character:BreakJoints()
+        Character:BreakJoints()
+        return
     end 
 end)
 
