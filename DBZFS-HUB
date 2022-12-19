@@ -11,8 +11,6 @@ DarkContrast = Color3.fromRGB(14, 14, 14),
 TextColor = Color3.fromRGB(255, 255, 255)
 }
 
-
-
 local page0 = venyx:addPage('Information')
 local credits1 = page0:addSection('Updates')
 
@@ -22,27 +20,42 @@ local farm2 = page:addSection('Toggle Auto-Farm')
 local farm3 = page:addSection('Toggle Auto-Punch')
 local farm4 = page:addSection('Toggle Auto Bean Spam')
 
-local page1 = venyx:addPage('Utility Scripts')
-local misc1 = page1:addSection('Respawn')
-local misc2 = page1:addSection('God-Mode')
-local misc3 = page1:addSection('No-Slow')
-local misc4 = page1:addSection('Remove')
+local page1 = venyx:addPage('Main Scripts')
+local main1 = page1:addSection('Respawn')
+local main2 = page1:addSection('TOP Respawn')
+local main3 = page1:addSection('God-Mode')
+local main4 = page1:addSection('No-Slow')
+local main5 = page1:addSection('Remove')
 
-local page2 = venyx:addPage('Other Scripts')
-local local1 = page2:addSection('Stat Checker')
-local local2 = page2:addSection('Stat Adder')
+local page2 = venyx:addPage('Misc Scripts')
+local misc1 = page2:addSection('Teleport to Entity')
+local misc2 = page2:addSection('Speed Adjuster')
+--local misc3 = page2:addSection('Ki-Tracker')
+--local misc4 = page2:addSection('Move Spam')
 
-local page3 = venyx:addPage('Buy')
-local buy1 = page3:addSection('Beans / Jars')
-local buy2 = page3:addSection('Elder Kai')
-local buy3 = page3:addSection('Clothing')
 
-local page4 = venyx:addPage('Teleports')
-local tp1 = page4:addSection('World Teleports')
+local page3 = venyx:addPage('Other Scripts')
+local local1 = page3:addSection('Stat Checker')
+local local2 = page3:addSection('Stat Adder')
 
-local page5 = venyx:addPage('Settings')
-local setting1 = page5:addSection('UI Toggle')
-local setting2 = page5:addSection('Destroy UI')
+local page4 = venyx:addPage('Buy')
+local buy1 = page4:addSection('Beans / Jars')
+local buy2 = page4:addSection('Elder Kai')
+local buy3 = page4:addSection('Saiyan Prestige Forms')
+local buy4 = page4:addSection('Jiren Prestige Forms')
+local buy5 = page4:addSection('Namekian Prestige Forms')
+local buy6 = page4:addSection('Acrosian Prestige Forms')
+local buy7 = page4:addSection('Majin Prestige Forms')
+local buy8 = page4:addSection('Human Prestige Forms')
+local buy9 = page4:addSection('Mastered Ultra Instinct')
+local buy10 = page4:addSection('Clothing')
+
+local page5 = venyx:addPage('Teleports')
+local tp1 = page5:addSection('World Teleports')
+
+local page6 = venyx:addPage('Settings')
+local setting1 = page6:addSection('UI Toggle')
+local setting2 = page6:addSection('Destroy UI')
 --
 local s = setmetatable({},{
     __index = function(self, key)
@@ -61,6 +74,21 @@ main = {}; do
     
     main.RespondChat = function(args)
         Client.Backpack.ServerTraits.ChatAdvance:FireServer({args})
+    end
+    
+    main.GetPlayer = function(name)
+        for _,v in pairs(s.Players:GetPlayers()) do 
+            if string.sub(string.lower(v.Name), 3, string.len(name)) == string.lower(name) or string.sub(string.lower(v.DisplayName), 3, string.len(name)) == string.lower(name) then
+                return v 
+            end
+        end
+    end
+    
+    main.Tween = function(Goal, Time)
+        local Tween = s.TweenService:Create(Character.HumanoidRootPart, TweenInfo.new(Time, Enum.EasingStyle.Linear), Goal);
+        Tween:Play();
+        Tween.Completed:wait()
+        return Tween;
     end
     
     main.LevelSeq = function(args)
@@ -134,17 +162,7 @@ main = {}; do
     end
 end
 -- 
-local GC = getconnections or get_signal_cons -- synx / krnl support
 
-if GC then
-	for i,v in pairs(GC(Client.Idled)) do
-	    if v['Disable'] then
-			v['Disable'](v)
-		elseif v['Disconnect'] then
-			v['Disconnect'](v)
-		end
-	end
-end
 --
 NPC = {}
 
@@ -231,12 +249,12 @@ farm4:addToggle('Auto Bean Spam', nil, function(ABS)
     Client = game.Players.LocalPlayer
 
     while task.wait() and true do 
-        if not getgenv().AP then break; end
+        if not getgenv().AB then break; end
         Client.Backpack.ServerTraits.EatSenzu:FireServer(' ')
     end 
 end)
 
-misc1:addButton('Instant Respawn', nil, function()
+main1:addButton('Instant Respawn (Earth)', function()
     local chatGui = Client.PlayerGui.HUD.Bottom.ChatGui;
     local oldPosition = Root.CFrame;
                     
@@ -248,7 +266,7 @@ misc1:addButton('Instant Respawn', nil, function()
     repeat Root.CFrame = oldPosition task.wait() until Character:FindFirstChildOfClass('BoolValue');
 end)
 
-misc2:addToggle('God Mode (Earth)', nil, function(t)
+main3:addToggle('God Mode (Earth)', nil, function(t)
     getgenv().God1 = t
     local function God()
         if not God1 then return end
@@ -259,7 +277,7 @@ misc2:addToggle('God Mode (Earth)', nil, function(t)
     game:GetService('RunService').Stepped:Connect(God) -- will ensure that the loop doesn't 'break'
 end)
 
-misc2:addToggle('God Mode (Universal)', nil, function(t)
+main3:addToggle('God Mode (Universal)', nil, function(t)
     getgenv().God2 = t
 
     local function God() 
@@ -305,7 +323,7 @@ misc2:addToggle('God Mode (Universal)', nil, function(t)
     Bypass = true; -- one way of making a check if the script has ran at least once
 end)
 
-misc3:addToggle('No-Slow (Universal)', nil, function(t)
+main4:addToggle('No-Slow (Universal)', nil, function(t)
     
     getgenv().NS = t
     
@@ -322,7 +340,7 @@ misc3:addToggle('No-Slow (Universal)', nil, function(t)
     end
 end)
 
-misc4:addToggle('Remove Rebirth Wings / Heaven Halo', nil, function(t)
+main5:addToggle('Remove Rebirth Wings / Heaven Halo', nil, function(t)
     getgenv().Enabled = t;
     
     local function Wings()
@@ -346,6 +364,83 @@ misc4:addToggle('Remove Rebirth Wings / Heaven Halo', nil, function(t)
         Character:BreakJoints()
         return
     end 
+end)
+
+misc1:addTextbox('Target:', '', function(t)
+    local s = main.GetPlayer(t)
+    
+    repeat task.wait()
+        print(s.Name)
+        MG = (Character.PrimaryPart.Position - s.Character.PrimaryPart.Position).Magnitude / 3250
+        main.Tween({CFrame = s.Character.PrimaryPart.CFrame * CFrame.new(3,1,0)}, MG)
+    until Client:DistanceFromCharacter(s.Character.PrimaryPart.Position) <= 4
+end)
+
+misc2:addSlider('Speed', 0, 1, 5000, function(t)
+    firesignal(Client.Backpack.ServerTraits.Input.OnClientEvent, { t });
+end)
+
+local1:addTextbox('Target: ','',function(t)
+    if t == '' then 
+        Race.Button.Textbox.Text = ''
+        HealthMax.Button.Textbox.Text = ''
+        KiMax.Button.Textbox.Text = ''
+        PhysDamage.Button.Textbox.Text = ''
+        KiDamage.Button.Textbox.Text = ''
+        PhysResist.Button.Textbox.Text = ''
+        KiResist.Button.Textbox.Text = ''
+        Speed.Button.Textbox.Text = ''
+        return 
+    end
+    
+	local s = main.GetPlayer(t)
+	
+    Race.Button.Textbox.Text = s.Character.Race.Value
+    HealthMax.Button.Textbox.Text = s.Character.Stats['Health-Max'].Value
+    KiMax.Button.Textbox.Text = s.Character.Stats['Ki-Max'].Value
+    PhysDamage.Button.Textbox.Text = s.Character.Stats['Phys-Damage'].Value
+    KiDamage.Button.Textbox.Text = s.Character.Stats['Ki-Damage'].Value
+    PhysResist.Button.Textbox.Text = s.Character.Stats['Phys-Resist'].Value
+    KiResist.Button.Textbox.Text = s.Character.Stats['Ki-Resist'].Value
+    Speed.Button.Textbox.Text = s.Character.Stats['Speed'].Value
+end)
+
+Race = local1:addTextbox('Race','',function()
+end)
+
+HealthMax = local1:addTextbox('Health-Max','',function()
+end)
+
+KiMax = local1:addTextbox('Ki-Max','',function()
+end)
+
+PhysDamage = local1:addTextbox('Phys-Damage','',function()
+end)
+
+KiDamage = local1:addTextbox('Ki-Damage','',function()
+end)
+
+PhysResist = local1:addTextbox('Phys-Resist','',function()
+end)
+
+KiResist = local1:addTextbox('Ki-Resist','',function()
+end)
+
+Speed = local1:addTextbox('Speed','',function()
+end)
+
+local2:addDropdown('Target Stat: ', {'Health-Max', 'Ki-Max', 'Phys-Damage', 'Ki-Damage', 'Phys-Resist', 'Ki-Resist', 'Speed'}, function(t)
+    getgenv().StatTrgt = t;
+end)
+
+local2:addTextbox('Stat Points:', nil, function(t)
+   getgenv().StatAmt = t; 
+end)
+
+local2:addButton('Add Stats (Universal)', function(t)
+    for i = 1, StatAmt do
+        Client.Backpack.ServerTraits.AttemptUpgrade:FireServer(Client.PlayerGui.HUD.Bottom.Stats[StatTrgt])
+    end
 end)
 
 buy1:addDropdown('What to buy', {'Beans', 'Jars'}, function(BUY1)
@@ -421,6 +516,78 @@ buy2:addToggle('Elder Kai', nil, function(AB2)
     end
 end)
 
+buy3:addButton('SSJ4', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('SSJ4')
+end)
+
+buy3:addButton('SSJBE', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Complete Super Saiyan Blue')
+end)
+
+buy3:addButton('SSJ Rose', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('SSJ Rose')
+end)
+
+buy4:addButton('Despair', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Despair')
+end)
+
+buy5:addButton('White Namekian', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('White Namek')
+end)
+
+buy5:addButton('Demon Namekian', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Demon Namekian')
+end)
+
+buy6:addButton('Golden Cooler', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Gold Cooler')
+end)
+
+buy6:addButton('Cooler Form', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Fifth Form')
+end)
+
+buy7:addButton('Unstable Majin', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Unstable')
+end)
+
+buy7:addButton('Dark Majin', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Dark Majin')
+end)
+
+buy8:addButton('KKx100', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Kaioken x100')
+end)
+
+buy8:addButton('Dark Human', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Dark Human')
+end)
+
+buy9:addButton('MUI', function()
+	s.ReplicatedStorage.AttemptBuy:InvokeServer('Mastered Ultra Instinct')
+end)
+
+buy10:addButton('TC Armor', function()
+    main.NewChat('TC Armor')
+    task.wait(.3)
+    main.RespondChat('k')
+    task.wait(.3)
+    main.RespondChat('Purchase')
+    task.wait(.3)
+    main.RespondChat('k')
+end)
+
+buy10:addButton('Aqua Gi', function()
+    main.NewChat('Aqua Gi')
+    task.wait(.3)
+    main.RespondChat('k')
+    task.wait(.3)
+    main.RespondChat('Purchase')
+    task.wait(.3)
+    main.RespondChat('k')
+end)
+
 tp1:addButton('Rejoin', function()
     game:GetService('TeleportService'):Teleport(game.PlaceId)
 end)
@@ -455,4 +622,3 @@ setting2:addButton('Destroy UI', function()
     game:GetService('CoreGui'):FindFirstChild('Nexus | GUI'):Destroy()
 end)
 venyx:SelectPage(venyx.pages[1], true)
-
