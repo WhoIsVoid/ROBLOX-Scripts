@@ -1,61 +1,55 @@
-local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua'))()
-local venyx = library.new('Nexus | GUI')
+local SolarisLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/sol'))()
 
--- themes
-local themes = {
-Background = Color3.fromRGB(24, 24, 24),
-Glow = Color3.fromRGB(0, 0, 0),
-Accent = Color3.fromRGB(10, 10, 10),
-LightContrast = Color3.fromRGB(20, 20, 20),
-DarkContrast = Color3.fromRGB(14, 14, 14),  
-TextColor = Color3.fromRGB(255, 255, 255)
-}
+local win = SolarisLib:New({
+  Name = 'Nexus | GUI';
+  FolderToSave = 'Nexus_AutoFarm'
+})
+--
 
-local page0 = venyx:addPage('Information')
-local credits1 = page0:addSection('Updates')
+local page0 = win:Tab('Information')
+local credits1 = page0:Section('Updates')
+local credits2 = page0:Section('Credits')
 
-local page = venyx:addPage('Auto Farm')
-local farm1 = page:addSection('NPC Farm')
-local farm2 = page:addSection('Toggle Auto-Farm')
-local farm3 = page:addSection('Toggle Auto-Punch')
-local farm4 = page:addSection('Toggle Auto Bean Spam')
+local page = win:Tab('Auto Farm')
+local farm1 = page:Section('NPC Farm')
+local farm2 = page:Section('Toggle Auto-Farm')
+local farm3 = page:Section('Toggle Auto-Punch')
+local farm4 = page:Section('Toggle Auto Bean Spam')
 
-local page1 = venyx:addPage('Main Scripts')
-local main1 = page1:addSection('Respawn')
-local main2 = page1:addSection('TOP Respawn')
-local main3 = page1:addSection('God-Mode')
-local main4 = page1:addSection('No-Slow')
-local main5 = page1:addSection('Remove')
+local page1 = win:Tab('Main Scripts')
+local main1 = page1:Section('Respawn')
+--local main2 = page1:Section('TOP Respawn')
+local main3 = page1:Section('God-Mode')
+local main4 = page1:Section('No-Slow')
+--local main5 = page1:Section('Remove')
 
-local page2 = venyx:addPage('Misc Scripts')
-local misc1 = page2:addSection('Teleport to Entity')
-local misc2 = page2:addSection('Speed Adjuster')
---local misc3 = page2:addSection('Ki-Tracker')
---local misc4 = page2:addSection('Move Spam')
+local page2 = win:Tab('Misc Scripts')
+local misc1 = page2:Section('Teleport to Entity')
+local misc2 = page2:Section('Speed Adjuster')
+--local misc3 = page2:Section('Ki-Tracker')
+--local misc4 = page2:Section('Move Spam')
 
 
-local page3 = venyx:addPage('Other Scripts')
-local local1 = page3:addSection('Stat Checker')
-local local2 = page3:addSection('Stat Adder')
+local page3 = win:Tab('Other Scripts')
+local local1 = page3:Section('Stat Checker')
+local local2 = page3:Section('Stat Adder')
+local local3 = page3:Section('Level 1-55')
 
-local page4 = venyx:addPage('Buy')
-local buy1 = page4:addSection('Beans / Jars')
-local buy2 = page4:addSection('Elder Kai')
-local buy3 = page4:addSection('Saiyan Prestige Forms')
-local buy4 = page4:addSection('Jiren Prestige Forms')
-local buy5 = page4:addSection('Namekian Prestige Forms')
-local buy6 = page4:addSection('Acrosian Prestige Forms')
-local buy7 = page4:addSection('Majin Prestige Forms')
-local buy8 = page4:addSection('Human Prestige Forms')
-local buy9 = page4:addSection('Mastered Ultra Instinct')
-local buy10 = page4:addSection('Clothing')
+local page4 = win:Tab('Buy')
+local buy1 = page4:Section('Beans / Jars')
+local buy2 = page4:Section('Elder Kai')
+local buy3 = page4:Section('Saiyan Prestige Forms')
+local buy4 = page4:Section('Jiren Prestige Forms')
+local buy5 = page4:Section('Namekian Prestige Forms')
+local buy6 = page4:Section('Acrosian Prestige Forms')
+local buy7 = page4:Section('Majin Prestige Forms')
+local buy8 = page4:Section('Human Prestige Forms')
+local buy9 = page4:Section('Mastered Ultra Instinct')
+local buy10 = page4:Section('Clothing')
 
-local page5 = venyx:addPage('Teleports')
-local tp1 = page5:addSection('World Teleports')
+local page5 = win:Tab('Teleports')
+local tp1 = page5:Section('World Teleports')
 
-local page6 = venyx:addPage('Settings')
-local setting1 = page6:addSection('UI Toggle')
-local setting2 = page6:addSection('Destroy UI')
 --
 local s = setmetatable({},{
     __index = function(self, key)
@@ -78,7 +72,7 @@ main = {}; do
     
     main.GetPlayer = function(name)
         for _,v in pairs(s.Players:GetPlayers()) do 
-            if string.sub(string.lower(v.Name), 3, string.len(name)) == string.lower(name) or string.sub(string.lower(v.DisplayName), 3, string.len(name)) == string.lower(name) then
+            if string.sub(string.lower(v.Name), 1, string.len(name)) == string.lower(name) or string.sub(string.lower(v.DisplayName), 1, string.len(name)) == string.lower(name) then
                 return v 
             end
         end
@@ -162,38 +156,53 @@ main = {}; do
     end
 end
 -- 
+-- 
+local GC = getconnections or get_signal_cons -- synx / krnl support
 
+if GC then
+	for i,v in pairs(GC(Client.Idled)) do
+	    if v['Disable'] then
+			v['Disable'](v)
+		elseif v['Disconnect'] then
+			v['Disconnect'](v)
+		end
+	end
+end
+-- 
+SolarisLib:Notification('Nexus | GUI', 'Created by: Lxst')
 --
 NPC = {}
 
 
-credits1:addButton('Last Updated: Dec. 18th, 2022', nil, function()
+credits1:Button('Last Updated: Dec. 18th, 2022', nil, function()
 end)
 
-credits1:addButton('[-] Added Auto Bean Spam', nil, function()
+credits1:Button('[-] Added Stat Checker', nil, function()
 end)
 
-credits1:addButton('[-] Added Teleports', nil, function()
+credits1:Button('[*] Fixed issue with Elder Kai breaking', nil, function()
 end)
 
+credits2:Button('Scripts created by Lxst', nil, function()
+end)
 
-farm1:addTextbox('NPC 1', nil, function(v1)
+farm1:Textbox('NPC 1', nil, function(v1)
     NPC[1] = v1
 end)
 
-farm1:addTextbox('NPC 2', nil, function(v2)
+farm1:Textbox('NPC 2', nil, function(v2)
     NPC[2] = v2
 end)
 
-farm1:addTextbox('NPC 3', nil, function(v3)
+farm1:Textbox('NPC 3', nil, function(v3)
     NPC[3] = v3
 end)
 
-farm1:addTextbox('NPC 4', nil, function(v4)
+farm1:Textbox('NPC 4', nil, function(v4)
     NPC[4] = v4
 end)
 
-farm2:addToggle('Auto Farm', nil, function(TAF)
+farm2:Toggle('Auto Farm', nil, 'Toggle', function(TAF)
     getgenv().AF = TAF;
     
     NPCN = 1
@@ -232,7 +241,7 @@ farm2:addToggle('Auto Farm', nil, function(TAF)
     end
 end)
 
-farm3:addToggle('Auto Punch', nil, function(TAP)
+farm3:Toggle('Auto Punch', nil, 'Toggle', function(TAP)
     getgenv().AP = TAP
     
     Client = game.Players.LocalPlayer
@@ -243,7 +252,7 @@ farm3:addToggle('Auto Punch', nil, function(TAP)
     end
 end)
 
-farm4:addToggle('Auto Bean Spam', nil, function(ABS)
+farm4:Toggle('Auto Bean Spam', nil, 'Toggle', function(ABS)
     getgenv().AB = ABS 
     
     Client = game.Players.LocalPlayer
@@ -254,7 +263,7 @@ farm4:addToggle('Auto Bean Spam', nil, function(ABS)
     end 
 end)
 
-main1:addButton('Instant Respawn (Earth)', function()
+main1:Button('Instant Respawn (Earth)', function()
     local chatGui = Client.PlayerGui.HUD.Bottom.ChatGui;
     local oldPosition = Root.CFrame;
                     
@@ -266,7 +275,7 @@ main1:addButton('Instant Respawn (Earth)', function()
     repeat Root.CFrame = oldPosition task.wait() until Character:FindFirstChildOfClass('BoolValue');
 end)
 
-main3:addToggle('God Mode (Earth)', nil, function(t)
+main3:Toggle('God Mode (Earth)', nil, 'Toggle', function(t)
     getgenv().God1 = t
     local function God()
         if not God1 then return end
@@ -277,7 +286,7 @@ main3:addToggle('God Mode (Earth)', nil, function(t)
     game:GetService('RunService').Stepped:Connect(God) -- will ensure that the loop doesn't 'break'
 end)
 
-main3:addToggle('God Mode (Universal)', nil, function(t)
+main3:Toggle('God Mode (Universal)', nil, 'Toggle', function(t)
     getgenv().God2 = t
 
     local function God() 
@@ -304,7 +313,9 @@ main3:addToggle('God Mode (Universal)', nil, function(t)
     
     if not God2 then
         GMS:Disconnect()
-        Character:BreakJoints()
+        if not Character.PrimaryPart:FindFirstChild('VanishParticle') then 
+            Character:BreakJoints()
+        end
         return
     end
     
@@ -323,7 +334,7 @@ main3:addToggle('God Mode (Universal)', nil, function(t)
     Bypass = true; -- one way of making a check if the script has ran at least once
 end)
 
-main4:addToggle('No-Slow (Universal)', nil, function(t)
+main4:Toggle('No-Slow (Universal)', nil, 'Toggle', function(t)
     
     getgenv().NS = t
     
@@ -340,122 +351,94 @@ main4:addToggle('No-Slow (Universal)', nil, function(t)
     end
 end)
 
-main5:addToggle('Remove Rebirth Wings / Heaven Halo', nil, function(t)
-    getgenv().Enabled = t;
-    
-    local function Wings()
-        RW = game.Players.LocalPlayer.Character:FindFirstChild('RebirthWings')
-        if not RW then return end 
-        RW['Handle']:Destroy();
-    end 
-    
-    local function Halo()
-        RH = game.Players.LocalPlayer.Character:FindFirstChild('RealHalo')
-        if not RH then return end
-        RH['Handle']:Destroy();
-    end
-    
-    local RemW = game:GetService('RunService').RenderStepped:Connect(Wings)
-    local RemH = game:GetService('RunService').RenderStepped:Connect(Halo)
-    
-    if not Enabled then 
-        RemW:Disconnect()
-        RemH:Disconnect()
-        Character:BreakJoints()
-        return
-    end 
+local TRGT1 = {}
+
+misc1:Textbox('Target:', nil, function(t)
+    TRGT1[1] = t;
 end)
 
-misc1:addTextbox('Target:', '', function(t)
-    local s = main.GetPlayer(t)
+misc1:Button('Teleport (Universal)', function(t)
+    local v = main.GetPlayer(TRGT1[1])
     
     repeat task.wait()
-        print(s.Name)
-        MG = (Character.PrimaryPart.Position - s.Character.PrimaryPart.Position).Magnitude / 3250
+        MG = (Client.Character.PrimaryPart.Position - s.Character.PrimaryPart.Position).Magnitude / 3250
         main.Tween({CFrame = s.Character.PrimaryPart.CFrame * CFrame.new(3,1,0)}, MG)
     until Client:DistanceFromCharacter(s.Character.PrimaryPart.Position) <= 4
 end)
 
-misc2:addSlider('Speed', 0, 1, 5000, function(t)
+misc2:Slider('Speed (Universal)', 0, 5000, 0, 1, 'Slider', function(t)
     firesignal(Client.Backpack.ServerTraits.Input.OnClientEvent, { t });
 end)
 
-local1:addTextbox('Target: ','',function(t)
-    if t == '' then 
-        Race.Button.Textbox.Text = ''
-        HealthMax.Button.Textbox.Text = ''
-        KiMax.Button.Textbox.Text = ''
-        PhysDamage.Button.Textbox.Text = ''
-        KiDamage.Button.Textbox.Text = ''
-        PhysResist.Button.Textbox.Text = ''
-        KiResist.Button.Textbox.Text = ''
-        Speed.Button.Textbox.Text = ''
-        return 
-    end
+local TRGT2 = {}
+
+local1:Textbox('Target: ', nil, function(t)
+    TRGT2[1] = t;
+end)
+
+local1:Button('Get Stats (Universal)', function(t)
+    local s = main.GetPlayer(TRGT2[1]);
     
-	local s = main.GetPlayer(t)
-	
-    Race.Button.Textbox.Text = s.Character.Race.Value
-    HealthMax.Button.Textbox.Text = s.Character.Stats['Health-Max'].Value
-    KiMax.Button.Textbox.Text = s.Character.Stats['Ki-Max'].Value
-    PhysDamage.Button.Textbox.Text = s.Character.Stats['Phys-Damage'].Value
-    KiDamage.Button.Textbox.Text = s.Character.Stats['Ki-Damage'].Value
-    PhysResist.Button.Textbox.Text = s.Character.Stats['Phys-Resist'].Value
-    KiResist.Button.Textbox.Text = s.Character.Stats['Ki-Resist'].Value
-    Speed.Button.Textbox.Text = s.Character.Stats['Speed'].Value
+    local Name = s.Name
+    local Race = s.Character.Race.Value
+    local Health = s.Character.Stats['Health-Max'].Value
+    local Ki = s.Character.Stats['Ki-Max'].Value
+    local Melee = s.Character.Stats['Phys-Damage'].Value
+    local KiD = s.Character.Stats['Ki-Damage'].Value
+    local MeleeR = s.Character.Stats['Phys-Resist'].Value
+    local KiR = s.Character.Stats['Ki-Resist'].Value
+    local Speed = s.Character.Stats['Speed'].Value
+    SolarisLib:Notification('Grabbing stats of: ', ''..Name)
+    task.wait(0.25)
+    SolarisLib:Notification('Race: ', ''..Race)
+    task.wait(0.25)
+    SolarisLib:Notification('Health-Max: ', ''..Health)
+    task.wait(0.25)
+    SolarisLib:Notification('Ki-Max: ', ''..Ki)
+    task.wait(0.25)
+    SolarisLib:Notification('Phys-Damage: ', ''..Melee)
+    task.wait(0.25)
+    SolarisLib:Notification('Ki-Damage: ', ''..KiD)
+    task.wait(0.25)
+    SolarisLib:Notification('Phys-Resist: ', ''..MeleeR)
+    task.wait(0.25)
+    SolarisLib:Notification('Ki-Resist: ', ''..KiR)
+    task.wait(0.25)
+    SolarisLib:Notification('Speed: ', ''..Speed)
 end)
 
-Race = local1:addTextbox('Race','',function()
-end)
 
-HealthMax = local1:addTextbox('Health-Max','',function()
-end)
-
-KiMax = local1:addTextbox('Ki-Max','',function()
-end)
-
-PhysDamage = local1:addTextbox('Phys-Damage','',function()
-end)
-
-KiDamage = local1:addTextbox('Ki-Damage','',function()
-end)
-
-PhysResist = local1:addTextbox('Phys-Resist','',function()
-end)
-
-KiResist = local1:addTextbox('Ki-Resist','',function()
-end)
-
-Speed = local1:addTextbox('Speed','',function()
-end)
-
-local2:addDropdown('Target Stat: ', {'Health-Max', 'Ki-Max', 'Phys-Damage', 'Ki-Damage', 'Phys-Resist', 'Ki-Resist', 'Speed'}, function(t)
+local2:Dropdown('Target Stat', {'Health-Max', 'Ki-Max', 'Phys-Damage', 'Ki-Damage', 'Phys-Resist', 'Ki-Resist', 'Speed'}, 'Health-Max', 'Dropdown', function(t)
     getgenv().StatTrgt = t;
 end)
 
-local2:addTextbox('Stat Points:', nil, function(t)
+local2:Textbox('Stat Points:', nil, function(t)
    getgenv().StatAmt = t; 
 end)
 
-local2:addButton('Add Stats (Universal)', function(t)
+local2:Button('Add Stats (Universal)', function(t)
     for i = 1, StatAmt do
         Client.Backpack.ServerTraits.AttemptUpgrade:FireServer(Client.PlayerGui.HUD.Bottom.Stats[StatTrgt])
     end
 end)
 
-buy1:addDropdown('What to buy', {'Beans', 'Jars'}, function(BUY1)
+local3:Button('Level 1 -> 55 (Earth)', function(t)
+    main.LevelSeq()
+end)
+
+buy1:Dropdown('What to buy', {'Beans', 'Jars'}, 'Beans', 'Dropdown', function(BUY1)
     getgenv().TYPE = BUY1
 end)
 
-buy1:addDropdown('Amount', {'80', '8'}, function(AMT)
+buy1:Dropdown('Amount', {'80', '8'}, '80', 'Dropdown', function(AMT)
     getgenv().AMT = AMT
 end)
 
-buy1:addDropdown('Color', {'Red', 'Yellow', 'Blue', 'Green'}, function(CLR)
+buy1:Dropdown('Color', {'Red', 'Yellow', 'Blue', 'Green'}, 'Red', 'Dropdown', function(CLR)
     getgenv().CLR = CLR
 end)
 
-buy1:addToggle('Auto Buy', nil, function(AB)
+buy1:Toggle('Auto Buy', nil, 'Toggle', function(AB)
     getgenv().AutoB = AB
 
     while true and task.wait() do
@@ -493,7 +476,7 @@ buy1:addToggle('Auto Buy', nil, function(AB)
     end
 end)
 
-buy2:addToggle('Elder Kai', nil, function(AB2)
+buy2:Toggle('Elder Kai', nil, 'Toggle', function(AB2)
    
     getgenv().EK = AB2
    
@@ -516,59 +499,59 @@ buy2:addToggle('Elder Kai', nil, function(AB2)
     end
 end)
 
-buy3:addButton('SSJ4', function()
+buy3:Button('SSJ4', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('SSJ4')
 end)
 
-buy3:addButton('SSJBE', function()
+buy3:Button('SSJBE', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Complete Super Saiyan Blue')
 end)
 
-buy3:addButton('SSJ Rose', function()
+buy3:Button('SSJ Rose', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('SSJ Rose')
 end)
 
-buy4:addButton('Despair', function()
+buy4:Button('Despair', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Despair')
 end)
 
-buy5:addButton('White Namekian', function()
+buy5:Button('White Namekian', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('White Namek')
 end)
 
-buy5:addButton('Demon Namekian', function()
+buy5:Button('Demon Namekian', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Demon Namekian')
 end)
 
-buy6:addButton('Golden Cooler', function()
+buy6:Button('Golden Cooler', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Gold Cooler')
 end)
 
-buy6:addButton('Cooler Form', function()
+buy6:Button('Cooler Form', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Fifth Form')
 end)
 
-buy7:addButton('Unstable Majin', function()
+buy7:Button('Unstable Majin', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Unstable')
 end)
 
-buy7:addButton('Dark Majin', function()
+buy7:Button('Dark Majin', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Dark Majin')
 end)
 
-buy8:addButton('KKx100', function()
+buy8:Button('KKx100', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Kaioken x100')
 end)
 
-buy8:addButton('Dark Human', function()
+buy8:Button('Dark Human', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Dark Human')
 end)
 
-buy9:addButton('MUI', function()
+buy9:Button('MUI', function()
 	s.ReplicatedStorage.AttemptBuy:InvokeServer('Mastered Ultra Instinct')
 end)
 
-buy10:addButton('TC Armor', function()
+buy10:Button('TC Armor', function()
     main.NewChat('TC Armor')
     task.wait(.3)
     main.RespondChat('k')
@@ -578,7 +561,7 @@ buy10:addButton('TC Armor', function()
     main.RespondChat('k')
 end)
 
-buy10:addButton('Aqua Gi', function()
+buy10:Button('Aqua Gi', function()
     main.NewChat('Aqua Gi')
     task.wait(.3)
     main.RespondChat('k')
@@ -588,37 +571,27 @@ buy10:addButton('Aqua Gi', function()
     main.RespondChat('k')
 end)
 
-tp1:addButton('Rejoin', function()
+tp1:Button('Rejoin', function()
     game:GetService('TeleportService'):Teleport(game.PlaceId)
 end)
-tp1:addButton('Earth', function()
+tp1:Button('Earth', function()
     game:GetService('TeleportService'):Teleport(536102540)   
 end) 
-tp1:addButton('Namek', function()
+tp1:Button('Namek', function()
     game:GetService('TeleportService'):Teleport(882399924)   
 end) 
-tp1:addButton('Space', function()
+tp1:Button('Space', function()
     game:GetService('TeleportService'):Teleport(478132461)   
 end) 
-tp1:addButton('Future', function()
+tp1:Button('Future', function()
     game:GetService('TeleportService'):Teleport(569994010)   
 end) 
-tp1:addButton('Secret World', function()
+tp1:Button('Secret World', function()
     game:GetService('TeleportService'):Teleport(2046990924)   
 end) 
-tp1:addButton('Zaros', function()
+tp1:Button('Zaros', function()
     game:GetService('TeleportService'):Teleport(2651456105)   
 end) 
-tp1:addButton('Queue World', function()
+tp1:Button('Queue World', function()
     game:GetService('TeleportService'):Teleport(3565304751)   
 end) 
-
-setting1:addKeybind('Toggle Keybind', Enum.KeyCode.RightControl, function()
-    venyx:toggle()
-    end, function()
-end)
-
-setting2:addButton('Destroy UI', function()
-    game:GetService('CoreGui'):FindFirstChild('Nexus | GUI'):Destroy()
-end)
-venyx:SelectPage(venyx.pages[1], true)
