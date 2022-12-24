@@ -26,29 +26,35 @@ local main4 = page1:Section('No-Slow')
 local page2 = win:Tab('Misc Scripts')
 local misc1 = page2:Section('Teleport to Entity')
 local misc2 = page2:Section('Speed Adjuster')
---local misc3 = page2:Section('Ki-Tracker')
---local misc4 = page2:Section('Move Spam')
-
+local misc3 = page2:Section('FOV')
+--local misc4 = page2:Section('Ki-Tracker')
+--local misc5 = page2:Section('Move Spam')
 
 local page3 = win:Tab('Other Scripts')
 local local1 = page3:Section('Stat Checker')
 local local2 = page3:Section('Stat Adder')
 local local3 = page3:Section('Level 1-55')
 
-local page4 = win:Tab('Buy')
-local buy1 = page4:Section('Beans / Jars')
-local buy2 = page4:Section('Elder Kai')
-local buy3 = page4:Section('Saiyan Prestige Forms')
-local buy4 = page4:Section('Jiren Prestige Forms')
-local buy5 = page4:Section('Namekian Prestige Forms')
-local buy6 = page4:Section('Acrosian Prestige Forms')
-local buy7 = page4:Section('Majin Prestige Forms')
-local buy8 = page4:Section('Human Prestige Forms')
-local buy9 = page4:Section('Mastered Ultra Instinct')
-local buy10 = page4:Section('Clothing')
+local page4 = win:Tab('Visuals')
+local visuals1 = page4:Section('Dust')
+local visuals2 = page4:Section('Dark Chat Theme')
+local visuals3 = page4:Section('Remove Aura')
+local visuals4 = page4:Section('Auras')
 
-local page5 = win:Tab('Teleports')
-local tp1 = page5:Section('World Teleports')
+local page5 = win:Tab('Buy')
+local buy1 = page5:Section('Beans / Jars')
+local buy2 = page5:Section('Elder Kai')
+local buy3 = page5:Section('Saiyan Prestige Forms')
+local buy4 = page5:Section('Jiren Prestige Forms')
+local buy5 = page5:Section('Namekian Prestige Forms')
+local buy6 = page5:Section('Acrosian Prestige Forms')
+local buy7 = page5:Section('Majin Prestige Forms')
+local buy8 = page5:Section('Human Prestige Forms')
+local buy9 = page5:Section('Mastered Ultra Instinct')
+local buy10 = page5:Section('Clothing')
+
+local page6 = win:Tab('Teleports')
+local tp1 = page6:Section('World Teleports')
 
 --
 local s = setmetatable({},{
@@ -58,7 +64,8 @@ local s = setmetatable({},{
 })
 --
 local Client = game.Players.LocalPlayer;
-local Character = Client.Character or Client.CharacterAdded:wait()
+local Character = Client.Character or Client.CharacterAdded:Wait()
+local Humanoid = Character.Humanoid
 local Root = Character.HumanoidRootPart or Character.PrimaryPart
 --
 main = {}; do 
@@ -172,15 +179,14 @@ end
 SolarisLib:Notification('Nexus | GUI', 'Created by: Lxst')
 --
 NPC = {}
-
-
-credits1:Button('Last Updated: Dec. 18th, 2022', nil, function()
+--
+credits1:Button('Last Updated: Dec. 24th, 2022', nil, function()
 end)
 
-credits1:Button('[-] Added Stat Checker', nil, function()
+credits1:Button('[-] Added "Visuals" tab', nil, function()
 end)
 
-credits1:Button('[*] Fixed issue with Elder Kai breaking', nil, function()
+credits1:Button('[-] Improved the Auto Farm function', nil, function()
 end)
 
 credits2:Button('Scripts created by Lxst', nil, function()
@@ -283,7 +289,7 @@ main3:Toggle('God Mode (Earth)', nil, 'Toggle', function(t)
         firetouchinterest(Root, game:GetService('Workspace').Touchy.Part, 1)
         Client.PlayerGui:WaitForChild('Popup').Enabled = false
     end
-    game:GetService('RunService').Stepped:Connect(God) -- will ensure that the loop doesn't 'break'
+    s.RunService.Stepped:Connect(God) -- will ensure that the loop doesn't 'break'
 end)
 
 main3:Toggle('God Mode (Universal)', nil, 'Toggle', function(t)
@@ -309,7 +315,7 @@ main3:Toggle('God Mode (Universal)', nil, 'Toggle', function(t)
         until Character:FindFirstChild('i')
         AIS:Deactivate()
     end
-    GMS = game:GetService('RunService').RenderStepped:Connect(God) -- same shit as before
+    GMS = s.RunService.Stepped:Connect(God) -- same shit as before
     
     if not God2 then
         GMS:Disconnect()
@@ -367,7 +373,15 @@ misc1:Button('Teleport (Universal)', function(t)
 end)
 
 misc2:Slider('Speed (Universal)', 0, 5000, 0, 1, 'Slider', function(t)
-    firesignal(Client.Backpack.ServerTraits.Input.OnClientEvent, { t });
+    getgenv().Speed = t;
+    if t == 0 then return end
+    firesignal(Client.Backpack.ServerTraits.Input.OnClientEvent, { Speed });
+end)
+
+misc3:Slider('Field of View (Universal)', 0, 120, 0, 70, 'Slider', function(t)
+    getgenv().FOV = t;
+    if t == 0 then return end
+	workspace.CurrentCamera.FieldOfView = FOV
 end)
 
 local TRGT2 = {}
@@ -425,6 +439,133 @@ end)
 local3:Button('Level 1 -> 55 (Earth)', function(t)
     main.LevelSeq()
 end)
+
+visuals1:Toggle('Dust Particles (Universal)', nil, 'Toggle', function(t)
+	getgenv().Dusti = t;
+	local function Dust()
+	    if not Dusti then return end
+		Client.Backpack.ServerTraits.Vanish:FireServer('average', CFrame.new())
+	end
+	
+	RD = s.RunService.Stepped:Connect(Dust)
+	
+	if not Dusti then 
+		RD:Disconnect();
+		return
+	end
+end)
+
+visuals2:Toggle('Dark Theme Chat (Client)', nil, 'Toggle', function(t)
+	getgenv().Dark = t;
+	
+	local DarkTheme = Instance.new('Folder')
+	DarkTheme.Name = 'DarkTheme'
+	DarkTheme.Parent = Client.Character
+	
+	if not Dark and Character:FindFirstChild('DarkTheme') then 
+		Character:FindFirstChild('DarkTheme'):Destroy()
+	end
+end)
+
+visuals3:Toggle('Remove Form Aura', nil, 'Toggle', function(t)
+    getgenv().RF = t;
+    
+    local function RAU()
+    	if Root then
+    		if Root:FindFirstChild('TempAura') then
+    			Root.TempAura:Destroy()
+    		end
+    		if Root:FindFirstChild('Lightning') then
+    			Root.Lightning:Destroy()
+    		end
+    	end
+    end
+	
+    RA = s.RunService.Stepped:Connect(RAU)
+
+	if not RF then  
+		RA:Disconnect();
+	end
+end)
+
+visuals3:Toggle('Remove Bean Aura', nil, 'Toggle', function(t)
+	getgenv().RemB = t;
+	
+	local function Bean()
+		if Root:FindFirstChild('Critz') then
+			Root.Critz:Destroy()
+		else 
+		    return
+		end
+	end
+	
+	RB = s.RunService.Stepped:Connect(Bean)
+	
+	if not RemB then 
+		RB:Disconnect()
+	end
+end)
+
+visuals4:Button('Blaster Meteor Aura', function()
+	if not Client.Backpack:FindFirstChild('Blaster Meteor') and not Character:FindFirstChild('Blaster Meteor') then
+        SolarisLib:Notification('Error!', 'You need to defeat Broly BR until you get "Blaster Meteor"')
+        return
+	end
+	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Blaster Meteor'))
+	task.wait(.3)
+	Character['Blaster Meteor'].Activator.Sound:Destroy()
+end)
+
+visuals4:Button('Rush Aura', function()
+	if not Client.Backpack:FindFirstChild('Rush') and not Character:FindFirstChild('Rush') then
+        SolarisLib:Notification('Error!', 'You need to buy "Rush" from the move shop!')
+		return
+	end
+	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Rush'))
+	task.wait(.3)
+	Character['Rush'].Activator.DASH2:Destroy()
+end)
+
+visuals4:Button('Super Rush Aura', function()
+	if not Client.Backpack:FindFirstChild('Super Rush') and not Character:FindFirstChild('Super Rush') then
+        SolarisLib:Notification('Error!', 'You need to buy "Super Rush" from the move shop!')
+		return
+	end
+	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Super Rush'))
+	task.wait(.3)
+	Character['Super Rush'].Activator.DASH2:Destroy()
+end)
+
+visuals4:Button('Dragon Fist Aura', function()
+	if not Client.Backpack:FindFirstChild('Super Dragon Fist') and not Character:FindFirstChild('Super Dragon Fist') then
+        SolarisLib:Notification('Error!', 'You need to buy "Dragon Fist" from the move shop!')
+		return
+	end
+	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Super Dragon Fist'))
+	task.wait(.5)
+	Character['Super Dragon Fist'].Activator.Forward:Destroy()
+end)
+
+visuals4:Button('Kaioken Assault Aura', function()
+	if not Client.Backpack:FindFirstChild('Kaioken Assault') and not Character:FindFirstChild('Kaioken Assault') then
+        SolarisLib:Notification('Error!', 'You need to buy "Kaioken Assault" from the move shop!')
+		return
+	end
+	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Kaioken Assault'))
+	task.wait(0.5)
+	Character['Kaioken Assault'].Activator.Forward:Destroy()
+end)
+
+visuals4:Button('Wrathful Charge Aura', function()
+	if not Client.Backpack:FindFirstChild('Wrathful Charge') and not Character:FindFirstChild('Wrathful Charge') then
+        SolarisLib:Notification('Error!', 'You need to defeat Broly BR until you get "Wraithful Charge"')
+		return
+	end
+	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Wrathful Charge'))
+	task.wait(0.5)
+	Character['Wrathful Charge'].Activator.Forward:Destroy()
+end)
+
 
 buy1:Dropdown('What to buy', {'Beans', 'Jars'}, 'Beans', 'Dropdown', function(BUY1)
     getgenv().TYPE = BUY1
