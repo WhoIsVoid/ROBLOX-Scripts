@@ -361,9 +361,9 @@ misc1:Button('Teleport (Universal)', function(t)
     local v = main.GetPlayer(TRGT1[1])
     
     repeat task.wait()
-        MG = (Client.Character.PrimaryPart.Position - s.Character.PrimaryPart.Position).Magnitude / 3250
-        main.Tween({CFrame = s.Character.PrimaryPart.CFrame * CFrame.new(3,1,0)}, MG)
-    until Client:DistanceFromCharacter(s.Character.PrimaryPart.Position) <= 4
+        MG = (Root.Position - v.Character.HumanoidRootPart.Position).Magnitude / 3250
+        main.Tween({CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(3,1,0)}, MG)
+    until Client:DistanceFromCharacter(v.Character.HumanoidRootPart.Position) <= 4
 end)
 
 misc2:Slider('Speed (Universal)', 0, 5000, 0, 1, 'Slider', function(t)
