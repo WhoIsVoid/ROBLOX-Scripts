@@ -217,9 +217,9 @@ farm2:Toggle('Auto Farm', nil, 'Toggle', function(TAF)
         
     while true and task.wait() do  
         if not getgenv().AF then break end 
-        for _,v in pairs(workspace.Live:GetChildren()) do 
-            if v.Name:find(NPC[NPCN]) and string.len(NPC[NPCN]) > 2 and not v.Name:find('Red') then -- honestly this code is 2 years old so I forgot what 'Red' was lmfao
-                pcall(function() -- although this isn't the best script practice, DBZ:FS has old code so not much I can do here lol
+        pcall(function()    -- although this isn't the best script practice, DBZ:FS has old code so not much I can do here lol
+            for _,v in pairs(workspace.Live:GetChildren()) do 
+                if v.Name:find(NPC[NPCN]) and string.len(NPC[NPCN]) > 2 and not v.Name:find('Red') then -- honestly this code is 2 years old so I forgot what 'Red' was lmfao
                     if v.HumanoidRootPart and v.HumanoidRootPart.Position.Y > 1000 then 
                         repeat wait(.5) until 
                         v.HumanoidRootPart.Position.Y <= 1000
@@ -236,9 +236,9 @@ farm2:Toggle('Auto Farm', nil, 'Toggle', function(TAF)
                             until v.Humanoid.Health < 0.01 or not v.HumanoidRootPart
                         end
                     end
-                end)
+                end
             end
-        end
+        end)
         if NPCN ~= #NPC then 
             NPCN = NPCN + 1
         elseif NPCN == #NPC then
