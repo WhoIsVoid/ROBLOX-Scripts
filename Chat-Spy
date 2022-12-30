@@ -27,19 +27,26 @@ end
 
 local function onChatted(p, msg)
     if string.find(msg, '/e resume') and p == Client then 
-        ChatNotify('{Chat Spy: Enabled}')
-        getgenv().ChatSpy = true;
+    	if ChatSpy then 
+	    ChatNotify('{Chat Spy is already enabled!}')
+        else
+            ChatNotify('{Chat Spy: Enabled}')
+            getgenv().ChatSpy = true;
+	end
     end
     
-    if string.find(msg, '/e end') and p == Client then 
-        ChatNotify('{Chat Spy: Disabled}')
-        getgenv().ChatSpy = false;
+    if string.find(msg, '/e pause') and p == Client then 
+    	if ChatSpy then 
+	    ChatNotify('{Chat Spy is already disabled!}')
+        else
+            ChatNotify('{Chat Spy: Disabled}')
+            getgenv().ChatSpy = false;
+	end
     end
     
-    if string.find(msg, '/e help') then 
-        ChatNotify("911, what's your emergency?")
-        task.wait(0.25)
-        ChatNotify('Commands are: /e resume or /e end please stop calling')
+    if string.find(msg, '/e') then and p == Client then
+        ChatNotify('Commands are: /e resume for enabling the chat spy')
+	ChatNotify('and /e pause for disabling the chat spy')
     end 
     
     if not getgenv().ChatSpy then return end
@@ -62,6 +69,6 @@ end)
 
 ChatNotify('Chat Spy by lxst#1400')
 task.wait(0.25)
-ChatNotify('Say "/e end" to disable Chat Spy!')
+ChatNotify('Say "/e pause" to disable Chat Spy!')
 task.wait(0.25)
 ChatNotify('Say "/e resume" to re-enable Chat Spy!')
