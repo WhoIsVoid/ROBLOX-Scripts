@@ -10,9 +10,9 @@ local StarterGui = game:GetService('StarterGui')
 local ChatSpyFrame = Client.PlayerGui.Chat.Frame
 -- 
 privateProperties = {
-	Color = Color3.fromRGB(getgenv().Colour); 
+	Color = Color3.fromRGB(255,255,0); 
 	Font = Enum.Font.SourceSansBold;
-	TextSize = getgenv().TextSize;
+	TextSize = 20;
 }
 --
 local function OpenChatSpyWindow()
