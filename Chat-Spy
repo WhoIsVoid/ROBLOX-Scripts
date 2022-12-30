@@ -32,7 +32,7 @@ local function onChatted(p, msg)
         else
             ChatNotify('{Chat Spy: Enabled}')
             getgenv().ChatSpy = true;
-	end
+	    end
     end
     
     if string.find(msg, '/e pause') and p == Client then 
@@ -41,13 +41,8 @@ local function onChatted(p, msg)
         else
             ChatNotify('{Chat Spy: Disabled}')
             getgenv().ChatSpy = false;
-	end
+	    end
     end
-    
-    if string.find(msg, '/e') and p == Client then
-        ChatNotify('Commands are: /e resume for enabling the chat spy')
-	ChatNotify('and /e pause for disabling the chat spy')
-    end 
     
     if not getgenv().ChatSpy then return end
     
