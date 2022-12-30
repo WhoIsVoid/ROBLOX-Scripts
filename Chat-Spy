@@ -44,7 +44,7 @@ local function onChatted(p, msg)
 	end
     end
     
-    if string.find(msg, '/e') then and p == Client then
+    if string.find(msg, '/e') and p == Client then
         ChatNotify('Commands are: /e resume for enabling the chat spy')
 	ChatNotify('and /e pause for disabling the chat spy')
     end 
