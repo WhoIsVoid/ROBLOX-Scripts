@@ -1,0 +1,97 @@
+-- 
+repeat task.wait() until game:IsLoaded()
+--
+local HttpService = game:GetService('HttpService')
+local Categories = game:HttpGet('https://catalog.roblox.com/v1/categories')
+local animationCategory = HttpService:JSONDecode(Categories).AvatarAnimations
+local subCategory = game:HttpGet('https://catalog.roblox.com/v1/subcategories')
+local emoteCategory = HttpService:JSONDecode(subCategory).EmoteAnimations
+--
+local cursor = ''
+--
+local animsTable = HttpService:JSONDecode(game:HttpGet('https://pastebin.com/raw/XppaAPF7'))
+local emotesTable = {}
+local animsTableNames = {}
+local emoteNames = {}
+local robloxEmotes = {}
+-- 
+local Client = game:GetService('Players').LocalPlayer
+local Character = Client.Character or Client.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild('Humanoid')
+local HumanoidDesc = Humanoid:WaitForChild('HumanoidDescription')
+--
+while true do
+
+    local requestString = ('https://catalog.roblox.com/v1/search/items/details?Category=%s&Subcategory=%s&IncludeNotForSale=true&Limit=30&Cursor=%s'):format(
+        animationCategory, emoteCategory, cursor
+    )
+    
+    local response = HttpService:JSONDecode(game:HttpGet(requestString))
+    
+    cursor = response.nextPageCursor
+    
+    for _, data in ipairs(response.data) do
+        table.insert(emotesTable, {
+            data.name,
+            data.id
+        })
+    end
+    if not cursor then
+        break;
+    end
+end
+
+for _, v in ipairs(emotesTable) do 
+    table.insert(emoteNames, v[1])
+    robloxEmotes[v[1]] = { v[2] }
+end
+
+for name in pairs(animsTable) do
+    table.insert(animsTableNames, name)
+end
+
+local function updateAnimations() -- CREDITS TO SOLARIS FOR HELPING ME WITH THIS (wow im retarded)
+    local Client = game:GetService('Players').LocalPlayer
+    local Character = Client.Character or Client.CharacterAdded:Wait()
+    --
+    local animation = animsTable[EquippedAnimation[1]]
+    local animate = Character:WaitForChild('Animate') or character:FindFirstChild('Animate', true)
+
+    if not animate then return end
+
+    local swimIdle = false
+
+    for anim, data in pairs(animation) do
+        for idx, id in ipairs(data) do
+            local obj = animate:WaitForChild(anim)
+            if not obj then return end
+            if anim == 'idle' then
+                obj:WaitForChild('Animation' .. idx).AnimationId = id
+            elseif anim == 'swim' then
+                if not swimIdle then
+                    obj:WaitForChild('Swim').AnimationId = id
+                    swimIdle = true
+                else
+                    animate:WaitForChild('swimidle').SwimIdle.AnimationId = id
+                end
+            else
+                local parsed = anim:gsub('^.', anim.upper)
+                obj:WaitForChild(parsed .. 'Anim').AnimationId = id
+            end
+        end
+    end
+end
+
+HumanoidDesc:SetEmotes(robloxEmotes)
+HumanoidDesc:SetEquippedEmotes(EquippedEmotes)
+updateAnimations()
+
+Client.CharacterAdded:Connect(function(acharacter)
+    local Client = game:GetService('Players').LocalPlayer
+    local Character = acharacter or Client.CharacterAdded:Wait()
+    local Humanoid = Character:WaitForChild('Humanoid')
+    local HumanoidDesc = Humanoid:WaitForChild('HumanoidDescription')
+    HumanoidDesc:SetEmotes(robloxEmotes)
+    HumanoidDesc:SetEquippedEmotes(EquippedEmotes)
+    updateAnimations()
+end)
