@@ -84,7 +84,9 @@ end
 
 HumanoidDesc:SetEmotes(robloxEmotes)
 HumanoidDesc:SetEquippedEmotes(EquippedEmotes)
-updateAnimations()
+--[[
+updateAnimations() is disabled because of roblox's animation system
+--]]
 
 Client.CharacterAdded:Connect(function(acharacter)
     local Client = game:GetService('Players').LocalPlayer
@@ -93,5 +95,7 @@ Client.CharacterAdded:Connect(function(acharacter)
     local HumanoidDesc = Humanoid:WaitForChild('HumanoidDescription')
     HumanoidDesc:SetEmotes(robloxEmotes)
     HumanoidDesc:SetEquippedEmotes(EquippedEmotes)
-    updateAnimations()
+    --[[
+    updateAnimations() is disabled because of roblox's animation system
+    --]]
 end)
