@@ -1,5 +1,5 @@
 --[[
-    by lxst#1400
+    by lxst#2161 | 180482546239406080
 --]]
 
 --
@@ -62,7 +62,6 @@ getgenv().ChatSpy = game.Players.PlayerAdded:Connect(function(p)
 	p.Chatted:Connect(function(msg) onChatted(p, msg) end)
 end)
 
-ChatNotify('Chat Spy by lxst#1400')
 task.wait(0.25)
 ChatNotify('Say "/e pause" to disable Chat Spy!')
 task.wait(0.25)
