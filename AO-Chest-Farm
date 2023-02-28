@@ -1,0 +1,46 @@
+
+--
+local TS = game.TweenService
+local Client = game.Players.LocalPlayer
+local Character = Client.Character
+local Root = Character.HumanoidRootPart
+--
+main = {}; do
+    main.Tween = function(Goal, Time)
+        local Tween = TS:Create(Character.HumanoidRootPart, TweenInfo.new(Time, Enum.EasingStyle.Linear), Goal);
+        Tween:Play();
+        Tween.Completed:wait()
+        return Tween;
+    end
+    main.grabChest = function(string)
+        local MG = (Root.Position - string:FindFirstChild('Base').Position).Magnitude / 4250
+        main.Tween({CFrame = string:FindFirstChild('Base').CFrame}, MG)
+        task.wait(0.15)
+        fireproximityprompt(string.Base:FindFirstChild('Prompt'))
+        task.wait(0.15)
+        fireproximityprompt(string.Base:FindFirstChild('Prompt'))
+        task.wait(0.15)
+        fireproximityprompt(string.Base:FindFirstChild('Prompt'))
+        task.wait(1.55)
+        main.Tween({CFrame = CFrame.new(2601.33984, 433.979675, 6483.66943)}, MG)
+        task.wait(math.random(30,45))
+    end
+end
+--
+while task.wait() do
+    if not getgenv().AutoChestFarm then return; end
+    --
+    local Client = game.Players.LocalPlayer
+    local Character = Client.Character
+    local Root = Character.HumanoidRootPart
+    --
+    for _, v in pairs(workspace:GetDescendants()) do
+        if table.find(PrioritzedItems, v.Name) then 
+            main.grabChest(v)
+        else
+            if string.find(v.Name, WhatToFarm) and v:FindFirstChild('Base') and not v:FindFirstChild('Open') then
+                main.grabChest(v)
+            end
+        end
+    end
+end
