@@ -1,0 +1,170 @@
+local SolarisLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/sol'))()
+
+local win = SolarisLib:New({
+  Name = "Miner's Haven [v1.2 BETA]";
+  FolderToSave = 'MinerHaven'
+})
+--
+
+local page0 = win:Tab('Information')
+local credits1 = page0:Section('Updates')
+
+local page1 = win:Tab('Auto Farm')
+local main1 = page1:Section('Auto Reborn')
+local main2 = page1:Section('Auto Crates')
+local main3 = page1:Section('Auto Clovers')
+
+local page2 = win:Tab('Player Functions')
+local player1 = page2:Section('Walk Speed')
+local player2 = page2:Section('Jump Power')
+
+local page3 = win:Tab('Teleports')
+local teleport1 = page3:Section('Area Teleports')
+local teleport2 = page3:Section('Teleport to Base')
+
+--local page4 = win:Tab('Misc')
+
+
+-- 
+local GC = getconnections or get_signal_cons -- synx / krnl support
+
+if GC then
+	for i,v in pairs(GC(game.Players.LocalPlayer.Idled)) do
+	    if v['Disable'] then
+			v['Disable'](v)
+		elseif v['Disconnect'] then
+			v['Disconnect'](v)
+		end
+	end
+end
+--
+main = {}; do 
+    main.toBase = function()
+        for i,v in pairs(workspace.Tycoons:GetDescendants()) do 
+            if string.find(v.Name, 'Factory') and v.Owner.Value == game.Players.LocalPlayer.Name then 
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Base.CFrame * CFrame.new(0,15,0);
+            end
+        end
+    end
+end
+
+credits1:Button('Last Updated: Mar. 6th, 2023', function()
+end)
+
+credits1:Button('[-] Added Auto Rebirth', function()
+end)
+
+credits1:Button('[-] Added Teleports', function()
+end)
+
+main1:Toggle('Auto Rebirth', nil, 'Toggle', function(t)
+    getgenv().AutoRebirth = t;
+
+    while task.wait() and AutoRebirth do
+        if not AutoRebirth then break; end
+        
+        if LoadOut2Active then 
+            game.ReplicatedStorage.Layouts:InvokeServer('Load', 'Layout'..LoadOut2)
+            task.wait(5)
+            game.ReplicatedStorage.DestroyAll:InvokeServer()
+        end
+    
+        game.ReplicatedStorage.Layouts:InvokeServer('Load', 'Layout'..LoadOut)
+        task.wait(2.5)
+        repeat task.wait()
+            game.ReplicatedStorage.Rebirth:InvokeServer(26)
+        until game.Players.LocalPlayer.leaderstats.Cash.Value == '$50'
+    end
+end)
+
+main1:Dropdown('Primary Loadout', {'1', '2', '3'}, '1', 'Dropdown', function(t)
+    getgenv().LoadOut = t;
+end)
+main1:Toggle('Use Secondary Loadout?', nil, 'Toggle', function(t)
+    getgenv().LoadOut2Active = t;
+end)
+main1:Dropdown('Secondary Loadout', {'1', '2', '3'}, '2', 'Dropdown', function(t)
+    getgenv().LoadOut2 = t;
+end)
+
+main2:Toggle('Auto Crates', nil, 'Toggle', function(t)
+    getgenv().AutoBox = t;
+    while task.wait() and AutoBox do 
+        if not getgenv().AutoBox then main.toBase() end
+        for i,v in pairs(workspace.Boxes:GetChildren()) do 
+            if not getgenv().AutoBox then main.toBase() task.wait(0.5) break; end
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame;
+            task.wait(0.25)
+        end
+    end
+end)
+
+main3:Toggle('Auto Clovers', nil, 'Toggle', function(t)
+    getgenv().AutoClovers = t;
+    
+    while task.wait() and AutoClovers do
+        if not getgenv().AutoClovers then main.toBase() end
+        for i,v in pairs(workspace.Clovers:GetChildren()) do 
+            if not getgenv().AutoClovers then main.toBase() task.wait(0.5) break; end
+            if string.find('Rainbow', v.Name) or string.find('Diamond', v.Name) or string.find('Gold', v.Name)  then 
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                task.wait(0.33)
+                fireproximityprompt(v.ProximityPrompt, 0)
+                task.wait(0.16)
+            end
+        end
+    end
+end)
+
+player1:Slider('Walk Speed', 0, 100, 1, 1, 'Slider', function(t)
+    getgenv().Walkspeed = t;
+end)
+
+player1:Toggle('Enable Walk Speed', nil, 'Toggle', function(t)
+    getgenv().ToggleSpeed = t;
+    getgenv().WSS = game.RunService.Heartbeat:connect(function() 
+        if not getgenv().ToggleSpeed then return; end
+        repeat task.wait() until game.Players.LocalPlayer.Character.Humanoid
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().Walkspeed -- only non-skids know why I am not using shortnames
+    end)
+    
+    if not getgenv().ToggleSpeed then 
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16;
+        WSS:Disconnect();
+    end
+end)
+
+player2:Slider('Jump Power', 0, 200, 1, 1, 'Slider', function(t)
+    getgenv().Jumppower = t;
+end)
+
+player2:Toggle('Enable Jump Power', nil, 'Toggle', function(t)
+    getgenv().ToggleJump = t;
+    getgenv().JPS = game.RunService.Heartbeat:connect(function() 
+        if not getgenv().ToggleJump then return; end
+        repeat task.wait() until game.Players.LocalPlayer.Character.Humanoid
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = getgenv().Jumppower -- only non-skids know why I am not using shortnames
+    end)
+    
+    if not getgenv().ToggleJump then 
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50;
+        JPS:Disconnect();
+    end
+end)
+
+teleport1:Button('Docks', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(988,47,-19)
+end)
+
+
+teleport1:Button('Bridge', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-324,104,524)
+end)
+
+teleport1:Button('Leaderboard', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-67,179,328)
+end)
+
+teleport2:Button('Teleport to Base', function()
+    main.toBase()
+end)
