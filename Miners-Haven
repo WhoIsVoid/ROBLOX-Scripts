@@ -1,7 +1,7 @@
 local SolarisLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/sol'))()
 
 local win = SolarisLib:New({
-  Name = "Miner's Haven [v1.2 BETA]";
+  Name = "Miner's Haven [v1.3 BETA]";
   FolderToSave = 'MinerHaven'
 })
 --
@@ -9,22 +9,23 @@ local win = SolarisLib:New({
 local page0 = win:Tab('Information')
 local credits1 = page0:Section('Updates')
 
-local page1 = win:Tab('Auto Farm')
+local page1 = win:Tab('Main Functions')
 local main1 = page1:Section('Auto Reborn')
 local main2 = page1:Section('Auto Crates')
 local main3 = page1:Section('Auto Clovers')
 
-local page2 = win:Tab('Player Functions')
-local player1 = page2:Section('Walk Speed')
-local player2 = page2:Section('Jump Power')
+local page2 = win:Tab('Misc. Functions')
+local misc1 = page2:Section('Auto Open Crates')
+local misc2 = page2:Section('Crate Shop UI')
+local misc3 = page2:Section("St. Pat's Shop UI")
 
-local page3 = win:Tab('Teleports')
-local teleport1 = page3:Section('Area Teleports')
-local teleport2 = page3:Section('Teleport to Base')
+local page3 = win:Tab('Player Functions')
+local player1 = page3:Section('Walk Speed')
+local player2 = page3:Section('Jump Power')
 
---local page4 = win:Tab('Misc')
-
-
+local page4 = win:Tab('Teleports')
+local teleport1 = page4:Section('Area Teleports')
+local teleport2 = page4:Section('Teleport to Base')
 -- 
 local GC = getconnections or get_signal_cons -- synx / krnl support
 
@@ -51,10 +52,13 @@ end
 credits1:Button('Last Updated: Mar. 6th, 2023', function()
 end)
 
-credits1:Button('[-] Added Auto Rebirth', function()
+credits1:Button('[-] Added Misc Tab', function()
 end)
 
-credits1:Button('[-] Added Teleports', function()
+credits1:Button('[-] Added Auto Open Crates', function()
+end)
+
+credits1:Button('[-] Added Shop GUIs', function()
 end)
 
 main1:Toggle('Auto Rebirth', nil, 'Toggle', function(t)
@@ -114,6 +118,26 @@ main3:Toggle('Auto Clovers', nil, 'Toggle', function(t)
             end
         end
     end
+end)
+
+misc1:Dropdown('What box to open?', {'Regular', 'Unreal', 'Inferno', 'Luxury', 'Red-Banded', 'Spectral', 'Heavenly', 'Magnificent', 'Festive', 'Easter', 'Birthday', 'Twitch'}, 'Regular', 'Dropdown', function(t)
+    getgenv().TargetBox = t;
+end)
+
+misc1:Toggle('Auto Open Boxes', nil, 'Toggle', function(t)
+    getgenv().OpenBox = t;
+    while task.wait() and OpenBox do 
+        if not getgenv().OpenBox then break; end
+        game.ReplicatedStorage.MysteryBox:InvokeServer(TargetBox)
+    end
+end)
+
+misc2:Button('Open Crate Shop', function()
+    game.Players.LocalPlayer.PlayerGui.GUI.SpookMcDookShop.Visible = true;
+end)
+
+misc3:Button('Open St Patty Shop', function()
+    game.Players.LocalPlayer.PlayerGui.GUI.Patrick.Visible = true;
 end)
 
 player1:Slider('Walk Speed', 0, 100, 1, 1, 'Slider', function(t)
