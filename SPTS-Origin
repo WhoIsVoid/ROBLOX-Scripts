@@ -25,7 +25,7 @@ local player3 = page3:Section('No-Clip')
 local player4 = page3:Section('Water Walking')
 
 local page4 = win:Tab('Teleports')
-local teleport0 = page4:Section('Stay after Death?')
+local teleport0 = page4:Section('Teleport to Last Position on Death')
 local teleport1 = page4:Section('Strength')
 local teleport2 = page4:Section('Body Toughness')
 local teleport3 = page4:Section('Psychic')
@@ -53,6 +53,16 @@ main = {}; do
     
     main.unequipTool = function(v)
         game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+    end
+    
+    main.clickButton = function(v)
+        for i, b in pairs(getconnections(v.Activated)) do
+            b.Function()
+        end
+
+        for i, b in pairs(getconnections(v.MouseButton1Click)) do
+            b.Function()
+        end
     end
 end
 -- 
@@ -314,26 +324,18 @@ player4:Toggle('Water Walking', nil, 'Toggle', function(t)
     end
 end)
 
-teleport0:Toggle('Stay after Death', nil, 'Toggle', function(t)
+teleport0:Toggle('Teleport to Last Position on Death', nil, 'Toggle', function(t)
     getgenv().ComeAfterDeath = t;
     
     while task.wait() do 
-        if not getgenv().ComeAfterDeath then 
-            if not s.Players.LocalPlayer.PlayerGui.IntroGui.Enabled then 
-                s.Players.LocalPlayer.PlayerGui.IntroGui.Enabled = true; 
-                s.Lighting:FindFirstChild('Blur').Enabled = true;
-            end
-            break; 
-        end
+        if not getgenv().ComeAfterDeath then break; end
         repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
         if game.Players.LocalPlayer.Character.Humanoid.Health <= 1 then 
-            task.wait(1)
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Respawn'})
-            pcall(function()
-                task.wait(2.33)
-                s.Players.LocalPlayer.PlayerGui.IntroGui.Enabled = false; 
-                s.Lighting:FindFirstChild('Blur').Enabled = false;
-            end)
+            local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+            if game.Players.LocalPlayer.PlayerGui.IntroGui.Enabled then 
+                main.clickButton(game.Players.LocalPlayer.PlayerGui.IntroGui.PlayBtn)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+            end
         end
     end
 end)
@@ -350,8 +352,6 @@ teleport1:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(408,271,973))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(408,271,973))
         end
     end
     
@@ -361,8 +361,6 @@ teleport1:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-2275,1943,1059))
             end
-        elseif not getgenv().ComeAfterDeath then 
-            main.toPos(CFrame.new(-2275,1943,1059))
         end
     end
     
@@ -372,8 +370,6 @@ teleport1:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(1176,4789,-2293))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(1176,4789,-2293))
         end
     end
     
@@ -383,8 +379,6 @@ teleport1:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(1381,9274,1647))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(1381,9274,1647))
         end
     end
     
@@ -394,8 +388,6 @@ teleport1:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-369,15735,-9))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-369,15735,-9))
         end
     end
 end)
@@ -412,8 +404,6 @@ teleport2:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(365,250,-445))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(365,250,-445))
         end
     end 
     
@@ -423,8 +413,6 @@ teleport2:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(355,264,-491))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(355,264,-491))
         end
     end 
     
@@ -434,8 +422,6 @@ teleport2:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(1640,256,2244))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(1640,256,2244))
         end
     end 
     
@@ -445,8 +431,6 @@ teleport2:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-2307, 976, 1068))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-2307, 976, 1068))
         end
     end 
     
@@ -456,8 +440,6 @@ teleport2:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-2024, 714, -1860))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-2024, 714, -1860))
         end
     end 
     
@@ -467,8 +449,6 @@ teleport2:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-254, 286, 980))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-254, 286, 980))
         end
     end 
     
@@ -478,8 +458,6 @@ teleport2:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-271, 279, 991))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-271, 279, 991))
         end
     end 
     
@@ -489,8 +467,6 @@ teleport2:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-279, 279, 1007))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-279, 279, 1007))
         end
     end
 end)
@@ -507,8 +483,6 @@ teleport3:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-2527, 5486, -532))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-2527, 5486, -532))
         end
     end 
     
@@ -518,8 +492,6 @@ teleport3:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-2560, 5500, -439))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-2560, 5500, -439))
         end
     end 
     
@@ -529,8 +501,6 @@ teleport3:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-2582, 5516, -504))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-2582, 5516, -504))
         end
     end 
     
@@ -540,8 +510,6 @@ teleport3:Button('Teleport', function()
                 if not getgenv().ComeAfterDeath then break; end
                 main.toPos(CFrame.new(-2544, 5412, -495))
             end
-        elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(-2544, 5412, -495))
         end
     end
 end)
