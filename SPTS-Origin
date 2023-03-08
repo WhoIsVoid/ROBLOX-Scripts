@@ -1,0 +1,350 @@
+local SolarisLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/sol'))()
+
+local win = SolarisLib:New({
+  Name = "SPTS: Origin v1.01 [BETA]";
+  FolderToSave = 'SPTS_Origin'
+})
+--
+
+local page0 = win:Tab('Information')
+local credits1 = page0:Section('Updates')
+
+local page1 = win:Tab('Main Functions')
+local main1 = page1:Section('Auto Farm All Stats')
+local main2 = page1:Section('Auto Farm Individual Stats')
+
+-- local page2 = win:Tab('Misc. Functions') ill think of some shit later
+
+local page3 = win:Tab('Player Functions')
+local player1 = page3:Section('Walk Speed')
+local player2 = page3:Section('Jump Power')
+
+local page4 = win:Tab('Teleports')
+local teleport0 = page4:Section('Stay after Death?')
+local teleport1 = page4:Section('Strength')
+local teleport2 = page4:Section('Body Toughness')
+local teleport3 = page4:Section('Psychic')
+-- 
+local GC = getconnections or get_signal_cons -- synx / krnl support
+
+if GC then
+	for i,v in pairs(GC(game.Players.LocalPlayer.Idled)) do
+	    if v['Disable'] then
+			v['Disable'](v)
+		elseif v['Disconnect'] then
+			v['Disconnect'](v)
+		end
+	end
+end
+--
+main = {}; do 
+    main.toPos = function(v)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v
+    end
+end
+
+credits1:Button('Last Updated: Mar. 7th, 2023', function()
+end)
+
+credits1:Button('[-] Release', function()
+end)
+--
+main1:Toggle('Auto Stats', nil, 'Toggle', function(t)
+    getgenv().StatFarm = t;
+
+    local s = setmetatable({}, {
+        __index = function(self, serv)
+            return game:GetService(serv)
+        end
+    })        
+    
+    -- game aint fixing wht it should fix
+    local requestRemotes = {
+        'Add_FS_Request';
+        'Add_MS_Request';
+        'Add_JF_Request';
+        '+BT1';
+        '+PP1';
+    }
+    while task.wait(0.1) do 
+        if not getgenv().StatFarm then break; end;
+        for i,v in pairs(requestRemotes) do 
+            if table.find(requestRemotes, v) then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = v})
+            end
+        end
+    end
+end)
+
+main2:Toggle('Fist Strength', nil, 'Toggle', function(t)
+    getgenv().Fist = t;
+    while task.wait(0.1) do 
+        if not getgenv().Fist then return; end;
+        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_FS_Request'})
+    end
+end)
+
+main2:Toggle('Body Strength', nil, 'Toggle', function(t)
+    getgenv().BODYS = t;
+    while task.wait(0.1) do 
+        if not getgenv().BODYS then return; end;
+        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+BT1'})
+    end
+end)
+
+main2:Toggle('Psychic Power', nil, 'Toggle', function(t)
+    getgenv().PP = t;
+    while task.wait(0.1) do 
+        if not getgenv().PP then return; end;
+        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+PP1'})
+    end
+end)
+
+main2:Toggle('Move Speed', nil, 'Toggle', function(t)
+    getgenv().MS = t;
+    while task.wait(0.1) do 
+        if not getgenv().MS then return; end;
+        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_MS_Request'})
+    end
+end)
+
+main2:Toggle('Jump Force', nil, 'Toggle', function(t)
+    getgenv().JF = t;
+    while task.wait(0.1) do 
+        if not getgenv().JF then return; end;
+        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_JF_Request'})
+    end
+end)
+
+player1:Slider('Walk Speed', 0, 100, 1, 1, 'Slider', function(t)
+    getgenv().Walkspeed = t;
+end)
+
+player1:Toggle('Enable Walk Speed', nil, 'Toggle', function(t)
+    getgenv().ToggleSpeed = t;
+    getgenv().WSS = game.RunService.Heartbeat:connect(function() 
+        if not getgenv().ToggleSpeed then return; end
+        repeat task.wait() until game.Players.LocalPlayer.Character.Humanoid
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().Walkspeed -- only non-skids know why I am not using shortnames
+    end)
+    
+    if not getgenv().ToggleSpeed then 
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16;
+        WSS:Disconnect();
+    end
+end)
+
+player2:Slider('Jump Power', 0, 200, 1, 1, 'Slider', function(t)
+    getgenv().Jumppower = t;
+end)
+
+player2:Toggle('Enable Jump Power', nil, 'Toggle', function(t)
+    getgenv().ToggleJump = t;
+    getgenv().JPS = game.RunService.Heartbeat:connect(function() 
+        if not getgenv().ToggleJump then return; end
+        repeat task.wait() until game.Players.LocalPlayer.Character.Humanoid
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = getgenv().Jumppower -- only non-skids know why I am not using shortnames
+    end)
+    
+    if not getgenv().ToggleJump then 
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50;
+        JPS:Disconnect();
+    end
+end)
+
+teleport0:Toggle('Stay after Death', nil, 'Toggle', function(t)
+    getgenv().ComeAfterDeath = t;
+end)
+
+teleport1:Dropdown('Strength Teleports', {'ROCK [100+ FS]', 'CRYSTAL [1M+ FS]', 'BLUE STAR [1B+ FS]', 'GREEN STAR [100B+ FS]', 'ORANGE STAR [10T+ FS]'}, 'Select', 'Dropdown', function(t)
+    if t == 'ROCK [100+ FS]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(408,271,973))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(408,271,973))
+        end
+    end
+    
+    if t == 'CRYSTAL [1M+ FS]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-2275,1943,1059))
+            end
+        elseif not getgenv().ComeAfterDeath then 
+            main.toPos(CFrame.new(-2275,1943,1059))
+        end
+    end
+    
+    if t == 'BLUE STAR [1B+ FS]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(1176,4789,-2293))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(1176,4789,-2293))
+        end
+    end
+    
+    if t == 'GREEN STAR [100B+ FS]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(1381,9274,1647))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(1381,9274,1647))
+        end
+    end
+    
+    if t == 'ORANGE STAR [10T+ FS]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-369,15735,-9))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-369,15735,-9))
+        end
+    end
+end)
+
+teleport2:Dropdown('Body Toughness Teleports', {'ICE BATH [100+ BT]', 'LAVA BATH [10K+ BT]', 'ICE MOUNTAIN [100K+ BT]', 'TORNADO [1M+ BT]', 'VOLCANO [10M+ BT]', 'ACID GAS [1B+ BT]', 'ACID POOL [100B+ BT]', 'LAVA POOL [10T+ BT]'}, 'Select', 'Dropdown', function(t)
+    if t == 'ICE BATH [100+ BT]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(365,250,-445))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(365,250,-445))
+        end
+    end 
+    
+    if t == 'LAVA BATH [10K+ BT]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(355,264,-491))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(355,264,-491))
+        end
+    end 
+    
+    if t == 'ICE MOUNTAIN [100K+ BT]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(1640,266,2244))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(1640,266,2244))
+        end
+    end 
+    
+    if t == 'TORNADO [1M+ BT]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-2307, 976, 1068))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-2307, 976, 1068))
+        end
+    end 
+    
+    if t == 'VOLCANO [10M+ BT]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-2024, 714, -1860))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-2024, 714, -1860))
+        end
+    end 
+    
+    if t == 'ACID GAS [1B+ BT]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-254, 286, 980))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-254, 286, 980))
+        end
+    end 
+    
+    if t == 'ACID POOL [100B+ BT]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-271, 279, 991))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-271, 279, 991))
+        end
+    end 
+    
+    if t == 'LAVA POOL [10T+ BT]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-279, 279, 1007))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-279, 279, 1007))
+        end
+    end 
+end)
+
+teleport3:Dropdown('Psychic Teleports', {'ISLAND #1 [1M+ PP]', 'ISLAND #2 [1B+ PP]', 'ISLAND #3 [1T+ PP]', 'ISLAND #4 [1Qa+ PP]'}, 'Select', 'Dropdown', function(t)
+    if t == 'ISLAND #1 [1M+ PP]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-2527, 5486, -532))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-2527, 5486, -532))
+        end
+    end 
+    
+    if t == 'ISLAND #2 [1B+ PP]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-2560, 5500, -439))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-2560, 5500, -439))
+        end
+    end 
+    
+    if t == 'ISLAND #3 [1T+ PP]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do 
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-2582, 5516, -504))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-2582, 5516, -504))
+        end
+    end 
+    
+    if t == 'ISLAND #4 [1Qa+ PP]' then 
+        if getgenv().ComeAfterDeath then 
+            while task.wait() do
+                if not getgenv().ComeAfterDeath then break; end
+                main.toPos(CFrame.new(-2544, 5412, -495))
+            end
+        elseif not getgenv().ComeAfterDeath then
+            main.toPos(CFrame.new(-2544, 5412, -495))
+        end
+    end 
+end)
