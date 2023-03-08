@@ -83,7 +83,7 @@ main1:Toggle('Auto Stats', nil, 'Toggle', function(t)
         'Add_JF_Request';
         '+BT1';
     }
-    while task.wait(0.1) do 
+    while task.wait() do 
         if not getgenv().StatFarm then break; end;
         for i,v in pairs(requestRemotes) do 
             if table.find(requestRemotes, v) then 
@@ -95,7 +95,7 @@ end)
 
 main2:Toggle('Fist Strength', nil, 'Toggle', function(t)
     getgenv().Fist = t;
-    while task.wait(0.1) do 
+    while task.wait() do 
         if not getgenv().Fist then return; end;
         s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_FS_Request'})
     end
@@ -103,7 +103,7 @@ end)
 
 main2:Toggle('Body Strength', nil, 'Toggle', function(t)
     getgenv().BODYS = t;
-    while task.wait(0.1) do 
+    while task.wait() do 
         if not getgenv().BODYS then return; end;
         s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+BT1'})
     end
@@ -111,16 +111,17 @@ end)
 
 main2:Toggle('Psychic Power', nil, 'Toggle', function(t)
     getgenv().PP = t;
-    while task.wait(0.1) do 
+    while task.wait() do 
         repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
         if not getgenv().PP then main.unequipTool() return; end;
         main.equipTool(game.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
+        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+PP1'})
     end
 end)
 
 main2:Toggle('Move Speed', nil, 'Toggle', function(t)
     getgenv().MS = t;
-    while task.wait(0.1) do 
+    while task.wait() do 
         if not getgenv().MS then return; end;
         s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_MS_Request'})
     end
@@ -128,7 +129,7 @@ end)
 
 main2:Toggle('Jump Force', nil, 'Toggle', function(t)
     getgenv().JF = t;
-    while task.wait(0.1) do 
+    while task.wait() do 
         if not getgenv().JF then return; end;
         s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_JF_Request'})
     end
@@ -142,7 +143,7 @@ main3:Toggle('Auto Equip Weights', nil, 'Toggle', function(b)
     getgenv().AutoEquipWeights = b; 
     
     
-    while task.wait(0.1) do 
+    while task.wait() do 
         if not getgenv().AutoEquipWeights then return; end
         t = getgenv().weights 
         if t == 'None' then 
@@ -337,7 +338,7 @@ teleport0:Toggle('Stay after Death', nil, 'Toggle', function(t)
     end
 end)
 
-teleport1:Dropdown('Strength Teleports', {'ROCK [100+ FS]', 'CRYSTAL [1M+ FS]', 'BLUE STAR [1B+ FS]', 'GREEN STAR [100B+ FS]', 'ORANGE STAR [10T+ FS]'}, 'Select', 'Dropdown', function(t)
+teleport1:Dropdown('Strength Teleports', {'ROCK [NO REQUIRED FS]', 'CRYSTAL [NO REQUIRED FS]', 'BLUE STAR [1B+ FS]', 'GREEN STAR [100B+ FS]', 'ORANGE STAR [10T+ FS]'}, 'Select', 'Dropdown', function(t)
     getgenv().strengthtp = t;
 end)
 
@@ -431,10 +432,10 @@ teleport2:Button('Teleport', function()
         if getgenv().ComeAfterDeath then 
             while task.wait() do 
                 if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(1640,266,2244))
+                main.toPos(CFrame.new(1640,256,2244))
             end
         elseif not getgenv().ComeAfterDeath then
-            main.toPos(CFrame.new(1640,266,2244))
+            main.toPos(CFrame.new(1640,256,2244))
         end
     end 
     
