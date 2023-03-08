@@ -343,7 +343,7 @@ end)
 
 teleport1:Button('Teleport', function()
     local t = getgenv().strengthtp
-    if t == 'ROCK [100+ FS]' then 
+    if t == 'ROCK [NO REQUIRED FS]' then 
         if getgenv().ComeAfterDeath then 
             while task.wait() do 
                 if not getgenv().ComeAfterDeath then break; end
@@ -354,7 +354,7 @@ teleport1:Button('Teleport', function()
         end
     end
     
-    if t == 'CRYSTAL [1M+ FS]' then 
+    if t == 'CRYSTAL [NO REQUIRED FS]' then 
         if getgenv().ComeAfterDeath then 
             while task.wait() do 
                 if not getgenv().ComeAfterDeath then break; end
