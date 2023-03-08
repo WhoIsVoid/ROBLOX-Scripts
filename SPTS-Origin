@@ -1,3 +1,5 @@
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
+
 local SolarisLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/sol'))()
 
 local win = SolarisLib:New({
@@ -10,14 +12,17 @@ local page0 = win:Tab('Information')
 local credits1 = page0:Section('Updates')
 
 local page1 = win:Tab('Main Functions')
-local main1 = page1:Section('Auto Farm All Stats')
+local main1 = page1:Section('Auto Farm All Stats (excl. Psychic)')
 local main2 = page1:Section('Auto Farm Individual Stats')
+local main3 = page1:Section('Auto Equip')
 
 -- local page2 = win:Tab('Misc. Functions') ill think of some shit later
 
 local page3 = win:Tab('Player Functions')
 local player1 = page3:Section('Walk Speed')
 local player2 = page3:Section('Jump Power')
+local player3 = page3:Section('No-Clip')
+local player4 = page3:Section('Water Walking')
 
 local page4 = win:Tab('Teleports')
 local teleport0 = page4:Section('Stay after Death?')
@@ -41,30 +46,42 @@ main = {}; do
     main.toPos = function(v)
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v
     end
+    
+    main.equipTool = function(v)
+        game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+    end 
+    
+    main.unequipTool = function(v)
+        game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+    end
 end
-
+-- 
+local s = setmetatable({}, {
+    __index = function(self, serv)
+        return game:GetService(serv)
+    end
+})        
+--
 credits1:Button('Last Updated: Mar. 7th, 2023', function()
 end)
 
-credits1:Button('[-] Release', function()
+credits1:Button('[-] Added Water Walking', function()
+end)
+credits1:Button('[-] Added No-Clip', function()
+end)
+credits1:Button('[-] Added Auto-Equip Weights', function()
+end)
+credits1:Button('[-] Fixed numerous bugs', function()
 end)
 --
 main1:Toggle('Auto Stats', nil, 'Toggle', function(t)
     getgenv().StatFarm = t;
-
-    local s = setmetatable({}, {
-        __index = function(self, serv)
-            return game:GetService(serv)
-        end
-    })        
-    
     -- game aint fixing wht it should fix
     local requestRemotes = {
         'Add_FS_Request';
         'Add_MS_Request';
         'Add_JF_Request';
         '+BT1';
-        '+PP1';
     }
     while task.wait(0.1) do 
         if not getgenv().StatFarm then break; end;
@@ -95,8 +112,9 @@ end)
 main2:Toggle('Psychic Power', nil, 'Toggle', function(t)
     getgenv().PP = t;
     while task.wait(0.1) do 
-        if not getgenv().PP then return; end;
-        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+PP1'})
+        repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
+        if not getgenv().PP then main.unequipTool() return; end;
+        main.equipTool(game.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
     end
 end)
 
@@ -113,6 +131,119 @@ main2:Toggle('Jump Force', nil, 'Toggle', function(t)
     while task.wait(0.1) do 
         if not getgenv().JF then return; end;
         s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_JF_Request'})
+    end
+end)
+
+main3:Dropdown('Auto Equip Weights', {'None', '100 LB', '1 TON', '10 TON', '100 TON', '1K TON', '10K TON', '100K TON', '1M TON', '10M TON', '1B TON', '100B TON', '10T TON', '1Qa TON', '100Qa TON', '10Qi TON', '1Sx TON', '100Sx TON', '10Sp TON', '100c TON', '10No TON', '10Dc TON', '10Td TON', '10Qad TON', '10Qid TON'}, '100 LB', 'Dropdown', function(t)
+    getgenv().weights = t;
+end)
+
+main3:Toggle('Auto Equip Weights', nil, 'Toggle', function(b)
+    getgenv().AutoEquipWeights = b; 
+    
+    
+    while task.wait(0.1) do 
+        if not getgenv().AutoEquipWeights then return; end
+        t = getgenv().weights 
+        if t == 'None' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 0})
+        end 
+        
+        if t == '100 LB' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 1})
+        end 
+        
+        if t == '1 TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 2})
+        end 
+        
+        if t == '10 TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 3})
+        end 
+        
+        if t == '100 TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 4})
+        end 
+        
+        if t == '1k TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 5})
+        end 
+        
+        if t == '10k TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 6})
+        end 
+        
+        if t == '100k TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 7})
+        end 
+        
+        if t == '1M TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 8})
+        end 
+        
+        if t == '10M TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 9})
+        end 
+        
+        if t == '1B TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 10})
+        end 
+        
+        if t == '100B TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 11})
+        end 
+        
+        if t == '10T TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 12})
+        end 
+        
+        if t == '1Qa TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 13})
+        end 
+        
+        if t == '100Qa TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 14})
+        end 
+        
+        if t == '10Qi TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 15})
+        end 
+        
+        if t == '1Sx TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 16})
+        end 
+        
+        if t == '100Sx TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 17})
+        end 
+        
+        if t == '10Sp TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 18})
+        end 
+        
+        if t == '100c TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 19})
+        end 
+        
+        if t == '10No TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 20})
+        end 
+        
+        if t == '10Dc TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 21})
+        end 
+        
+        if t == '10Td TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 22})
+        end 
+        
+        if t == '10Qad TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 23})
+        end 
+        
+        if t == '10Qid TON' then 
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 24})
+        end 
     end
 end)
 
@@ -152,11 +283,66 @@ player2:Toggle('Enable Jump Power', nil, 'Toggle', function(t)
     end
 end)
 
+player3:Bind('No-Clip', Enum.KeyCode.N, false, 'BindNormal', function(t)
+    if not NoClip then 
+        getgenv().NoClip = true;
+        local function NoClip()
+            for _,nc in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
+                if nc:IsA('BasePart') and nc.CanCollide == true and nc.Name ~= floatName then 
+                    nc.CanCollide = false 
+                end
+            end
+        end
+        NC = s.RunService.Stepped:Connect(NoClip) 
+    elseif NoClip then 
+        getgenv().NoClip = false;
+        for _,nc in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
+            if nc:IsA('BasePart') and nc.CanCollide == false and nc.Name ~= floatName then 
+                nc.CanCollide = true 
+            end
+        end
+        NC:Disconnect();
+    end
+end)
+
+player4:Toggle('Water Walking', nil, 'Toggle', function(t)
+    getgenv().WaterWalk = t; 
+    
+    for i,v in pairs(workspace.Map.Decorations.WaterWalkFloor:GetChildren()) do 
+        v.CanCollide = t; 
+    end
+end)
+
 teleport0:Toggle('Stay after Death', nil, 'Toggle', function(t)
     getgenv().ComeAfterDeath = t;
+    
+    while task.wait() do 
+        if not getgenv().ComeAfterDeath then 
+            if not s.Players.LocalPlayer.PlayerGui.IntroGui.Enabled then 
+                s.Players.LocalPlayer.PlayerGui.IntroGui.Enabled = true; 
+                s.Lighting:FindFirstChild('Blur').Enabled = true;
+            end
+            break; 
+        end
+        repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
+        if game.Players.LocalPlayer.Character.Humanoid.Health <= 1 then 
+            task.wait(1)
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Respawn'})
+            pcall(function()
+                task.wait(2.33)
+                s.Players.LocalPlayer.PlayerGui.IntroGui.Enabled = false; 
+                s.Lighting:FindFirstChild('Blur').Enabled = false;
+            end)
+        end
+    end
 end)
 
 teleport1:Dropdown('Strength Teleports', {'ROCK [100+ FS]', 'CRYSTAL [1M+ FS]', 'BLUE STAR [1B+ FS]', 'GREEN STAR [100B+ FS]', 'ORANGE STAR [10T+ FS]'}, 'Select', 'Dropdown', function(t)
+    getgenv().strengthtp = t;
+end)
+
+teleport1:Button('Teleport', function()
+    local t = getgenv().strengthtp
     if t == 'ROCK [100+ FS]' then 
         if getgenv().ComeAfterDeath then 
             while task.wait() do 
@@ -214,6 +400,11 @@ teleport1:Dropdown('Strength Teleports', {'ROCK [100+ FS]', 'CRYSTAL [1M+ FS]', 
 end)
 
 teleport2:Dropdown('Body Toughness Teleports', {'ICE BATH [100+ BT]', 'LAVA BATH [10K+ BT]', 'ICE MOUNTAIN [100K+ BT]', 'TORNADO [1M+ BT]', 'VOLCANO [10M+ BT]', 'ACID GAS [1B+ BT]', 'ACID POOL [100B+ BT]', 'LAVA POOL [10T+ BT]'}, 'Select', 'Dropdown', function(t)
+    getgenv().bodytp = t;  
+end)
+
+teleport2:Button('Teleport', function()
+    local t = getgenv().bodytp 
     if t == 'ICE BATH [100+ BT]' then 
         if getgenv().ComeAfterDeath then 
             while task.wait() do 
@@ -300,10 +491,15 @@ teleport2:Dropdown('Body Toughness Teleports', {'ICE BATH [100+ BT]', 'LAVA BATH
         elseif not getgenv().ComeAfterDeath then
             main.toPos(CFrame.new(-279, 279, 1007))
         end
-    end 
+    end
 end)
 
 teleport3:Dropdown('Psychic Teleports', {'ISLAND #1 [1M+ PP]', 'ISLAND #2 [1B+ PP]', 'ISLAND #3 [1T+ PP]', 'ISLAND #4 [1Qa+ PP]'}, 'Select', 'Dropdown', function(t)
+    getgenv().psychictp = t; 
+end)
+
+teleport3:Button('Teleport', function()
+    local t = getgenv().psychictp;
     if t == 'ISLAND #1 [1M+ PP]' then 
         if getgenv().ComeAfterDeath then 
             while task.wait() do 
@@ -346,5 +542,5 @@ teleport3:Dropdown('Psychic Teleports', {'ISLAND #1 [1M+ PP]', 'ISLAND #2 [1B+ P
         elseif not getgenv().ComeAfterDeath then
             main.toPos(CFrame.new(-2544, 5412, -495))
         end
-    end 
+    end
 end)
