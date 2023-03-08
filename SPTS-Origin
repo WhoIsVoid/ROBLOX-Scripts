@@ -72,16 +72,12 @@ local s = setmetatable({}, {
     end
 })        
 --
-credits1:Button('Last Updated: Mar. 7th, 2023', function()
+credits1:Button('Last Updated: Mar. 8th, 2023', function()
 end)
 
-credits1:Button('[-] Added Water Walking', function()
+credits1:Button('[-] Fixed Respawning on Death', function()
 end)
-credits1:Button('[-] Added No-Clip', function()
-end)
-credits1:Button('[-] Added Auto-Equip Weights', function()
-end)
-credits1:Button('[-] Fixed numerous bugs', function()
+credits1:Button('[-] Added Fly Speed', function()
 end)
 --
 main1:Toggle('Auto Stats', nil, 'Toggle', function(t)
@@ -347,48 +343,23 @@ end)
 teleport1:Button('Teleport', function()
     local t = getgenv().strengthtp
     if t == 'ROCK [NO REQUIRED FS]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(408,271,973))
-            end
-        end
+        main.toPos(CFrame.new(408,271,973))
     end
     
     if t == 'CRYSTAL [NO REQUIRED FS]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-2275,1943,1059))
-            end
-        end
+        main.toPos(CFrame.new(-2275,1943,1059))
     end
     
     if t == 'BLUE STAR [1B+ FS]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(1176,4789,-2293))
-            end
-        end
+        main.toPos(CFrame.new(1176,4789,-2293))
     end
     
     if t == 'GREEN STAR [100B+ FS]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(1381,9274,1647))
-            end
-        end
+        main.toPos(CFrame.new(1381,9274,1647))
     end
     
     if t == 'ORANGE STAR [10T+ FS]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-369,15735,-9))
-            end
-        end
+        main.toPos(CFrame.new(-369,15735,-9))
     end
 end)
 
@@ -399,75 +370,35 @@ end)
 teleport2:Button('Teleport', function()
     local t = getgenv().bodytp 
     if t == 'ICE BATH [100+ BT]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(365,250,-445))
-            end
-        end
+        main.toPos(CFrame.new(365,250,-445))
     end 
     
     if t == 'LAVA BATH [10K+ BT]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(355,264,-491))
-            end
-        end
+        main.toPos(CFrame.new(355,264,-491))
     end 
     
     if t == 'ICE MOUNTAIN [100K+ BT]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(1640,256,2244))
-            end
-        end
+        main.toPos(CFrame.new(1640,256,2244))
     end 
     
     if t == 'TORNADO [1M+ BT]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-2307, 976, 1068))
-            end
-        end
+        main.toPos(CFrame.new(-2307, 976, 1068))
     end 
     
     if t == 'VOLCANO [10M+ BT]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-2024, 714, -1860))
-            end
-        end
+        main.toPos(CFrame.new(-2024, 714, -1860))
     end 
     
     if t == 'ACID GAS [1B+ BT]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-254, 286, 980))
-            end
-        end
+        main.toPos(CFrame.new(-254, 286, 980))
     end 
     
     if t == 'ACID POOL [100B+ BT]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-271, 279, 991))
-            end
-        end
+        main.toPos(CFrame.new(-271, 279, 991))
     end 
     
     if t == 'LAVA POOL [10T+ BT]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-279, 279, 1007))
-            end
-        end
+        main.toPos(CFrame.new(-279, 279, 1007))
     end
 end)
 
@@ -478,38 +409,18 @@ end)
 teleport3:Button('Teleport', function()
     local t = getgenv().psychictp;
     if t == 'ISLAND #1 [1M+ PP]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-2527, 5486, -532))
-            end
-        end
+        main.toPos(CFrame.new(-2527, 5486, -532))
     end 
     
     if t == 'ISLAND #2 [1B+ PP]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-2560, 5500, -439))
-            end
-        end
+        main.toPos(CFrame.new(-2560, 5500, -439))
     end 
     
     if t == 'ISLAND #3 [1T+ PP]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do 
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-2582, 5516, -504))
-            end
-        end
+        main.toPos(CFrame.new(-2582, 5516, -504))
     end 
     
     if t == 'ISLAND #4 [1Qa+ PP]' then 
-        if getgenv().ComeAfterDeath then 
-            while task.wait() do
-                if not getgenv().ComeAfterDeath then break; end
-                main.toPos(CFrame.new(-2544, 5412, -495))
-            end
-        end
+        main.toPos(CFrame.new(-2544, 5412, -495))
     end
 end)
