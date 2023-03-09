@@ -98,6 +98,7 @@ main1:Toggle('Auto Stats', nil, 'Toggle', function(t)
         if not getgenv(0.33).StatFarm then break; end;
         for i,v in pairs(requestRemotes) do 
             if table.find(requestRemotes, v) then 
+                task.wait(0.05)
                 s.ReplicatedStorage.RemoteEvent:FireServer({[1] = v})
             end
         end
