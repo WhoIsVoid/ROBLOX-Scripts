@@ -10,6 +10,7 @@ local win = SolarisLib:New({
 
 local page0 = win:Tab('Information')
 local credits1 = page0:Section('Updates')
+local credits2 = page0:Section('Credits')
 
 local page1 = win:Tab('Main Functions')
 local main1 = page1:Section('Auto Farm All Stats (excl. Psychic)')
@@ -19,6 +20,8 @@ local main3 = page1:Section('Auto Equip')
 -- local page2 = win:Tab('Misc. Functions') ill think of some shit later
 
 local page3 = win:Tab('Player Functions')
+local player00 = page3:Section('Remove')
+local player0 = page3:Section('Invisiblity')
 local player1 = page3:Section('Walk Speed')
 local player2 = page3:Section('Jump Power')
 local player3 = page3:Section('No-Clip')
@@ -74,16 +77,14 @@ local s = setmetatable({}, {
 --
 credits1:Button('Last Updated: Mar. 9th, 2023', function()
 end)
-
-credits1:Button('[-] Fixed SOME lag issues, but not all', function()
+credits1:Button('[-] Added Invisiblity functions (NOBODY CAN SEE YOU)', function()
 end)
-credits1:Button('[-] Improved the Respawn on Death function', function()
+credits1:Button('[-] Added Hide Name / Rank functions', function()
 end)
-credits1:Button("[-] NOTE: There's a low possiblity that you can be banned.", function()
+credits1:Button("[-] NOTE: ONLY USE INVISIBLITY IF YOU'RE FARMING!", function()
 end)
-credits1:Button("[-] NOTE: I will add the rest of the teleports soon! (be patient)", function()
+credits2:Button('[-] Scripts made by lxst#2161', function()
 end)
-
 --
 main1:Toggle('Auto Stats', nil, 'Toggle', function(t)
     getgenv().StatFarm = t;
@@ -260,6 +261,59 @@ main3:Toggle('Auto Equip Weights', nil, 'Toggle', function(b)
     end
 end)
 
+player00:Button('Hide Name', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_PN_BG'):Destroy()
+end)
+
+player00:Toggle('Auto Hide Name', nil, 'Toggle', function(t)
+    getgenv().HideName = t;
+    while task.wait() do 
+        if not getgenv().HideName then break; end
+        if game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_PN_BG') then 
+            game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_PN_BG'):Destroy()
+        end 
+    end
+end)
+
+player00:Button('Hide Rank', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_RK_BG'):Destroy()
+end)
+
+player00:Toggle('Auto Hide Rank', nil, 'Toggle', function(t)
+    getgenv().HideRank = t;
+    while task.wait() do 
+        if not getgenv().HideRank then break; end
+        if game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_RK_BG') then 
+            game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_RK_BG'):Destroy()
+        end 
+    end
+end)
+
+player0:Button('Become Invisible', function()
+    local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-24,-99,1064)
+    task.wait(0.05)
+    game.Players.LocalPlayer.Character:FindFirstChild('LowerTorso'):Destroy();
+    task.wait(0.05)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+end)
+
+player0:Toggle('Become Invisible on Death', nil, 'Toggle', function(t)
+    getgenv().BecomeInvisibleOnDeath = t;
+    
+    while task.wait() do 
+        if not BecomeInvisibleOnDeath then break; end 
+        if game.Players.LocalPlayer.Character:FindFirstChild('LowerTorso') then 
+            local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-24,-99,1064)
+            task.wait(0.05)
+            game.Players.LocalPlayer.Character:FindFirstChild('LowerTorso'):Destroy();
+            task.wait(0.05)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+        end 
+    end
+end)
+
 player1:Slider('Walk Speed', 0, 100, 1, 1, 'Slider', function(t)
     getgenv().Walkspeed = t;
 end)
@@ -296,7 +350,7 @@ player2:Toggle('Enable Jump Power', nil, 'Toggle', function(t)
     end
 end)
 
-player3:Bind('No-Clip', Enum.KeyCode.N, false, 'BindNormal', function(t)
+player3:Bind('No-Clip', Enum.KeyCode.N, false, 'BindNormal', function()
     if not NoClip then 
         getgenv().NoClip = true;
         local function NoClip()
@@ -322,7 +376,9 @@ player4:Toggle('Water Walking', nil, 'Toggle', function(t)
     getgenv().WaterWalk = t; 
     
     for i,v in pairs(workspace.Map.Decorations.WaterWalkFloor:GetChildren()) do 
-        v.CanCollide = t; 
+        if v.CanCollide and not WaterWalk then 
+            v.CanCollide = t; 
+        end
     end
 end)
 
