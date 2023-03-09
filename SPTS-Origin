@@ -330,6 +330,7 @@ teleport0:Toggle('Teleport to Last Position on Death', nil, 'Toggle', function(t
             local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
             if game.Players.LocalPlayer.PlayerGui.IntroGui.Enabled then 
                 main.clickButton(game.Players.LocalPlayer.PlayerGui.IntroGui.PlayBtn)
+                task.wait(.66)
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
             end
         end
