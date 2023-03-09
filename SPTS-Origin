@@ -292,9 +292,9 @@ end)
 player0:Button('Become Invisible', function()
     local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-24,-99,1064)
-    task.wait(0.05)
+    task.wait(0.125)
     game.Players.LocalPlayer.Character:FindFirstChild('LowerTorso'):Destroy();
-    task.wait(0.05)
+    task.wait(0.125)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
 end)
 
@@ -306,9 +306,9 @@ player0:Toggle('Become Invisible on Death', nil, 'Toggle', function(t)
         if game.Players.LocalPlayer.Character:FindFirstChild('LowerTorso') then 
             local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-24,-99,1064)
-            task.wait(0.05)
+            task.wait(0.125)
             game.Players.LocalPlayer.Character:FindFirstChild('LowerTorso'):Destroy();
-            task.wait(0.05)
+            task.wait(0.125)
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
         end 
     end
