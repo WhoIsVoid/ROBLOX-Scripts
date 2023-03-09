@@ -204,7 +204,7 @@ main3:Toggle('Auto Equip Weights', nil, 'Toggle', function(b)
         end 
         
         if t == '100B TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 11})s
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 11})
         end 
         
         if t == '10T TON' then 
