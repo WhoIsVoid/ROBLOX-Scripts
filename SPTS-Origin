@@ -204,7 +204,7 @@ main3:Toggle('Auto Equip Weights', nil, 'Toggle', function(b)
         end 
         
         if t == '100B TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 11})
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 11})s
         end 
         
         if t == '10T TON' then 
@@ -376,9 +376,7 @@ player4:Toggle('Water Walking', nil, 'Toggle', function(t)
     getgenv().WaterWalk = t; 
     
     for i,v in pairs(workspace.Map.Decorations.WaterWalkFloor:GetChildren()) do 
-        if v.CanCollide and not WaterWalk then 
-            v.CanCollide = t; 
-        end
+         v.CanCollide = getgenv().WaterWalk
     end
 end)
 
