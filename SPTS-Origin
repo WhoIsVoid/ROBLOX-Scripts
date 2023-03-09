@@ -3,7 +3,7 @@ repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
 local SolarisLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/sol'))()
 
 local win = SolarisLib:New({
-  Name = "SPTS: Origin v1.01 [BETA]";
+  Name = "SPTS: Origin v1.02 [STABLE]";
   FolderToSave = 'SPTS_Origin'
 })
 --
