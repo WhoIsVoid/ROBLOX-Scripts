@@ -83,6 +83,7 @@ credits1:Button("[-] NOTE: There's a low possiblity that you can be banned.", fu
 end)
 credits1:Button("[-] NOTE: I will add the rest of the teleports soon! (be patient)", function()
 end)
+
 --
 main1:Toggle('Auto Stats', nil, 'Toggle', function(t)
     getgenv().StatFarm = t;
@@ -94,7 +95,7 @@ main1:Toggle('Auto Stats', nil, 'Toggle', function(t)
         '+BT1';
     }
     while task.wait() do 
-        if not getgenv(0.1).StatFarm then break; end;
+        if not getgenv(0.33).StatFarm then break; end;
         for i,v in pairs(requestRemotes) do 
             if table.find(requestRemotes, v) then 
                 s.ReplicatedStorage.RemoteEvent:FireServer({[1] = v})
@@ -105,7 +106,7 @@ end)
 
 main2:Toggle('Fist Strength', nil, 'Toggle', function(t)
     getgenv().Fist = t;
-    while task.wait(0.1) do 
+    while task.wait(0.33) do 
         if not getgenv().Fist then break; end;
         s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_FS_Request'})
     end
@@ -113,7 +114,7 @@ end)
 
 main2:Toggle('Body Strength', nil, 'Toggle', function(t)
     getgenv().BODYS = t;
-    while task.wait(0.1) do 
+    while task.wait(0.33) do 
         if not getgenv().BODYS then break; end;
         s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+BT1'})
     end
@@ -121,7 +122,7 @@ end)
 
 main2:Toggle('Psychic Power', nil, 'Toggle', function(t)
     getgenv().PP = t;
-    while task.wait(0.1) do 
+    while task.wait(0.33) do 
         repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
         if not getgenv().PP then main.unequipTool() break; end;
         main.equipTool(game.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
@@ -131,7 +132,7 @@ end)
 
 main2:Toggle('Move Speed', nil, 'Toggle', function(t)
     getgenv().MS = t;
-    while task.wait(0.1) do 
+    while task.wait(0.33) do 
         if not getgenv().MS then break; end;
         s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_MS_Request'})
     end
@@ -139,7 +140,7 @@ end)
 
 main2:Toggle('Jump Force', nil, 'Toggle', function(t)
     getgenv().JF = t;
-    while task.wait(0.1) do 
+    while task.wait(0.33) do 
         if not getgenv().JF then break; end;
         s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_JF_Request'})
     end
