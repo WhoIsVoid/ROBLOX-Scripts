@@ -17,7 +17,9 @@ local main1 = page1:Section('Auto Farm All Stats (excl. Psychic)')
 local main2 = page1:Section('Auto Farm Individual Stats')
 local main3 = page1:Section('Auto Equip')
 
--- local page2 = win:Tab('Misc. Functions') ill think of some shit later
+local page2 = win:Tab('Quest Functions')
+local misc1 = page2:Section('Auto Grab Quests')
+local misc2 = page2:Section('Focus on Quest')
 
 local page3 = win:Tab('Player Functions')
 local player00 = page3:Section('Remove')
@@ -75,13 +77,11 @@ local s = setmetatable({}, {
     end
 })        
 --
-credits1:Button('Last Updated: Mar. 9th, 2023', function()
+credits1:Button('Last Updated: Mar. 10th, 2023', function()
 end)
-credits1:Button('[-] Added Invisiblity functions (NOBODY CAN SEE YOU)', function()
+credits1:Button('[-] Added Auto Quest functions', function()
 end)
-credits1:Button('[-] Added Hide Name / Rank functions', function()
-end)
-credits1:Button("[-] NOTE: ONLY USE INVISIBLITY IF YOU'RE FARMING!", function()
+credits1:Button('[-] NOTE: "Focus on Quest" ONLY farms stats!', function()
 end)
 credits2:Button('[-] Scripts made by lxst#2161', function()
 end)
@@ -257,6 +257,50 @@ main3:Toggle('Auto Equip Weights', nil, 'Toggle', function(b)
         
         if t == '10Qid TON' then 
             s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 24})
+        end 
+    end
+end)
+
+misc1:Toggle('Auto Grab Quests', nil, 'Toggle', function(t)
+    getgenv().AutoGrabQuest = t;
+    while task.wait() do 
+        if not getgenv().AutoGrabQuest then break; end
+        if npcGiver.QuestBbGui.Enabled then 
+            local pos = s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame; 
+            task.wait(0.1)
+            s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = npcGiver.HumanoidRootPart.CFrame;
+            task.wait(1)
+            main.clickButton(s.Players.LocalPlayer.PlayerGui.ScreenGui.QuestTalkBtn)
+            repeat task.wait(0.1)
+                main.clickButton(s.Players.LocalPlayer.PlayerGui.ScreenGui.QuestMsgFrame.Btn)
+            until not s.Players.LocalPlayer.PlayerGui.ScreenGui.QuestMsgFrame.Visible;
+            task.wait(1)
+            s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos;
+        end 
+    end
+end)
+
+misc2:Toggle('Focus on Quest', nil, 'Toggle', function(t)
+    getgenv().FocusQuest = t;
+    while task.wait() do 
+        if not getgenv().FocusQuest then main.unequipTool() break; end
+        for i,v in pairs(s.Players.LocalPlayer.PlayerGui.ScreenGui.MainQuestFrame:GetChildren()) do 
+            if string.find(v.Name, 'MaxFrame') then
+                if v.Visible then 
+                    if string.find(v.QuestTxt.Text, 'Train Psychic Power') and not v.ClaimBtn.Visible then 
+                        if v.ClaimBtn.Visible then main.unequipTool() end 
+                        main.equipTool(game.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
+                    elseif string.find(v.QuestTxt.Text, 'Train Movement Speed') and not v.ClaimBtn.Visible then 
+                        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_MS_Request'})
+                    elseif string.find(v.QuestTxt.Text, 'Train Jump Force') and not v.ClaimBtn.Visible then 
+                        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_JF_Request'})
+                    elseif string.find(v.QuestTxt.Text, 'Train Body Toughness') and not v.ClaimBtn.Visible then 
+                        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+BT1'})
+                    elseif string.find(v.QuestTxt.Text, 'Train Fist Strength') and not v.ClaimBtn.Visible then 
+                        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_FS_Request'})
+                    end
+                end
+            end
         end 
     end
 end)
