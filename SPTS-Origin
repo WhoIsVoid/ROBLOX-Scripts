@@ -1,3 +1,4 @@
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 local win = Rayfield:CreateWindow({
@@ -71,6 +72,12 @@ local page3 = win:CreateTab('Player Functions')
 --\\\--
 local page4 = win:CreateTab('Teleports')
 --///--
+--
+Rayfield:Notify({
+    Title = 'UI Library has loaded!',
+    Content = 'by lxst#2161',
+    Duration = 5
+})
 --
 page0:CreateSection('Updates')
 
@@ -493,16 +500,16 @@ local Keybind = page3:CreateKeybind({
         if not getgenv().NoClip then 
             getgenv().NoClip = true;
             local function NoClip()
-                for _,nc in pairs(s.Players.LocalPlayer.Character:GetDescendants()) do 
+                for _,nc in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
                     if nc:IsA('BasePart') and nc.CanCollide == true and nc.Name ~= floatName then 
                         nc.CanCollide = false 
                     end
                 end
             end
-            getgenv().NC = s.RunService.Stepped:Connect(NoClip) 
+            NC = s.RunService.Stepped:Connect(NoClip) 
         elseif getgenv().NoClip then 
             getgenv().NoClip = false;
-            for _,nc in pairs(s.Players.LocalPlayer.Character:GetDescendants()) do 
+            for _,nc in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
                 if nc:IsA('BasePart') and nc.CanCollide == false and nc.Name ~= floatName then 
                     nc.CanCollide = true 
                 end
@@ -597,7 +604,7 @@ local Dropdown = page4:CreateDropdown({
 local Button = page4:CreateButton({
     Name = 'Teleport',
     Callback = function()
-        getgenv().TargetBTArea = t;
+        t = getgenv().TargetBTArea;
         if t == 'ICE BATH [100+ BT]' then 
             main.toPos(CFrame.new(365,250,-445))
         end 
