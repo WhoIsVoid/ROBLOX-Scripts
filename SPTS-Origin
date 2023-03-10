@@ -1,44 +1,25 @@
-repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
-local SolarisLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/sol'))()
-
-local win = SolarisLib:New({
-  Name = "SPTS: Origin v1.02 [STABLE]";
-  FolderToSave = 'SPTS_Origin'
+local win = Rayfield:CreateWindow({
+   Name = 'SPTS: Origin v1.03 [STABLE]',
+   LoadingTitle = 'SPTS: Origin',
+   LoadingSubtitle = 'by Lxst ┃ lxst#2161',
+   ConfigurationSaving = {
+      Enabled = true,
+      FileName = 'SPTSOrigin'
+   }
 })
---
-
-local page0 = win:Tab('Information')
-local credits1 = page0:Section('Updates')
-local credits2 = page0:Section('Credits')
-
-local page1 = win:Tab('Main Functions')
-local main1 = page1:Section('Auto Farm All Stats (excl. Psychic)')
-local main2 = page1:Section('Auto Farm Individual Stats')
-local main3 = page1:Section('Auto Equip')
-
-local page2 = win:Tab('Quest Functions')
-local misc1 = page2:Section('Auto Grab Quests')
-local misc2 = page2:Section('Focus on Quest')
-
-local page3 = win:Tab('Player Functions')
-local player00 = page3:Section('Remove')
-local player0 = page3:Section('Invisiblity')
-local player1 = page3:Section('Walk Speed')
-local player2 = page3:Section('Jump Power')
-local player3 = page3:Section('No-Clip')
-local player4 = page3:Section('Water Walking')
-
-local page4 = win:Tab('Teleports')
-local teleport0 = page4:Section('Teleport to Last Position on Death')
-local teleport1 = page4:Section('Strength')
-local teleport2 = page4:Section('Body Toughness')
-local teleport3 = page4:Section('Psychic')
+-- 
+local s = setmetatable({}, {
+    __index = function(self, serv)
+        return game:GetService(serv)
+    end
+}) 
 -- 
 local GC = getconnections or get_signal_cons -- synx / krnl support
 
 if GC then
-	for i,v in pairs(GC(game.Players.LocalPlayer.Idled)) do
+	for i,v in pairs(GC(s.Players.LocalPlayer.Idled)) do
 	    if v['Disable'] then
 			v['Disable'](v)
 		elseif v['Disconnect'] then
@@ -49,15 +30,15 @@ end
 --
 main = {}; do 
     main.toPos = function(v)
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v
+        s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v
     end
     
     main.equipTool = function(v)
-        game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+        s.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
     end 
     
     main.unequipTool = function(v)
-        game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+        s.Players.LocalPlayer.Character.Humanoid:UnequipTools()
     end
     
     main.clickButton = function(v)
@@ -70,462 +51,621 @@ main = {}; do
         end
     end
 end
--- 
-local s = setmetatable({}, {
-    __index = function(self, serv)
-        return game:GetService(serv)
-    end
-})        
 --
-credits1:Button('Last Updated: Mar. 10th, 2023', function()
-end)
-credits1:Button('[-] Added Auto Quest functions', function()
-end)
-credits1:Button('[-] NOTE: "Focus on Quest" ONLY farms stats!', function()
-end)
-credits2:Button('[-] Scripts made by lxst#2161', function()
-end)
+--\\\--
+local page0 = win:CreateTab('Information')
+--///--
+-------
+--\\\--
+local page1 = win:CreateTab('Main Functions')
+--///--
+-------
+--\\\--
+local page2 = win:CreateTab('Quest Functions')
+--///--
+-------
+--\\\--
+local page3 = win:CreateTab('Player Functions')
+--///--
+-------
+--\\\--
+local page4 = win:CreateTab('Teleports')
+--///--
 --
-main1:Toggle('Auto Stats', nil, 'Toggle', function(t)
-    getgenv().StatFarm = t;
-    -- game aint fixing wht it should fix
-    local requestRemotes = {
-        'Add_FS_Request';
-        'Add_MS_Request';
-        'Add_JF_Request';
-        '+BT1';
-    }
-    while task.wait() do 
-        if not getgenv(0.33).StatFarm then break; end;
-        for i,v in pairs(requestRemotes) do 
-            if table.find(requestRemotes, v) then 
-                task.wait(0.05)
-                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = v})
+page0:CreateSection('Updates')
+
+page0:CreateLabel('[-] Last Update: March 10th, 2023')
+page0:CreateLabel('[-] Changed UI Libraries, DM me of any bugs that may occur!')
+
+page0:CreateSection('Credits')
+page0:CreateLabel('[-] by lxst#2161')
+--
+page1:CreateSection('Auto Farm All Stats (excl. Psychic)')
+local Toggle = page1:CreateToggle({
+    Name = 'Auto Farm All Stats',
+    CurrentValue = false,
+    Flag = 'AutoFarmAllStats', 
+    Callback = function(t)
+      getgenv().StatFarm = t;
+        -- game aint fixing wht it should fix
+        local requestRemotes = {
+            'Add_FS_Request';
+            'Add_MS_Request';
+            'Add_JF_Request';
+            '+BT1';
+        }
+        while task.wait() do 
+            if not getgenv(0.33).StatFarm then break; end;
+            for i,v in pairs(requestRemotes) do 
+                if table.find(requestRemotes, v) then 
+                    task.wait(0.05)
+                    s.ReplicatedStorage.RemoteEvent:FireServer({[1] = v})
+                end
             end
         end
-    end
-end)
-
-main2:Toggle('Fist Strength', nil, 'Toggle', function(t)
-    getgenv().Fist = t;
-    while task.wait(0.33) do 
-        if not getgenv().Fist then break; end;
-        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_FS_Request'})
-    end
-end)
-
-main2:Toggle('Body Strength', nil, 'Toggle', function(t)
-    getgenv().BODYS = t;
-    while task.wait(0.33) do 
-        if not getgenv().BODYS then break; end;
-        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+BT1'})
-    end
-end)
-
-main2:Toggle('Psychic Power', nil, 'Toggle', function(t)
-    getgenv().PP = t;
-    while task.wait(0.33) do 
-        repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
-        if not getgenv().PP then main.unequipTool() break; end;
-        main.equipTool(game.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
-        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+PP1'})
-    end
-end)
-
-main2:Toggle('Move Speed', nil, 'Toggle', function(t)
-    getgenv().MS = t;
-    while task.wait(0.33) do 
-        if not getgenv().MS then break; end;
-        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_MS_Request'})
-    end
-end)
-
-main2:Toggle('Jump Force', nil, 'Toggle', function(t)
-    getgenv().JF = t;
-    while task.wait(0.33) do 
-        if not getgenv().JF then break; end;
-        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_JF_Request'})
-    end
-end)
-
-main3:Dropdown('Auto Equip Weights', {'None', '100 LB', '1 TON', '10 TON', '100 TON', '1K TON', '10K TON', '100K TON', '1M TON', '10M TON', '1B TON', '100B TON', '10T TON', '1Qa TON', '100Qa TON', '10Qi TON', '1Sx TON', '100Sx TON', '10Sp TON', '100c TON', '10No TON', '10Dc TON', '10Td TON', '10Qad TON', '10Qid TON'}, '100 LB', 'Dropdown', function(t)
-    getgenv().weights = t;
-end)
-
-main3:Toggle('Auto Equip Weights', nil, 'Toggle', function(b)
-    getgenv().AutoEquipWeights = b; 
+    end,
+})
+page1:CreateSection('Auto Farm Individual Stats')
+local Toggle = page1:CreateToggle({
+    Name = 'Fist Strength',
+    CurrentValue = false,
+    Flag = 'AutoFistStrength', 
+    Callback = function(t)
+        getgenv().Fist = t;
+        while task.wait(0.33) do 
+            if not getgenv().Fist then break; end;
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_FS_Request'})
+        end
+    end,
+})
+local Toggle = page1:CreateToggle({
+    Name = 'Body Strength',
+    CurrentValue = false,
+    Flag = 'AutoBodyStrength', 
+    Callback = function(t)
+        getgenv().Body = t;
+        while task.wait(0.33) do 
+            if not getgenv().Body then break; end;
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+BT1'})
+        end
+    end,
+})
+local Toggle = page1:CreateToggle({
+    Name = 'Psychic Power',
+    CurrentValue = false,
+    Flag = 'AutoPsychic', 
+    Callback = function(t)
+        getgenv().Psychic = t;
+        while task.wait(0.33) do 
+            if not getgenv().Psychic then break; end;
+            repeat task.wait() until s.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
+            if not getgenv().PP then main.unequipTool() break; end;
+            main.equipTool(s.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
+        end
+    end,
+})
+local Toggle = page1:CreateToggle({
+    Name = 'Move Speed',
+    CurrentValue = false,
+    Flag = 'AutoMoveSpeed', 
+    Callback = function(t)
+        getgenv().Speed = t;
+        while task.wait(0.33) do 
+            if not getgenv().Speed then break; end;
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_MS_Request'})
+        end
+    end,
+})
+local Toggle = page1:CreateToggle({
+    Name = 'Jump Force',
+    CurrentValue = false,
+    Flag = 'AutoJumpForce', 
+    Callback = function(t)
+        getgenv().Jump = t;
+        while task.wait(0.33) do 
+            if not getgenv().Jump then break; end;
+            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_JF_Request'})
+        end
+    end,
+})
+page1:CreateSection('Auto Equip')
+local Dropdown = page1:CreateDropdown({
+    Name = 'Select Weight',
+    Options = {'None', '100 LB', '1 TON', '10 TON', '100 TON', '1K TON', '10K TON', '100K TON', '1M TON', '10M TON', '1B TON', '100B TON', '10T TON', '1Qa TON', '100Qa TON', '10Qi TON', '1Sx TON', '100Sx TON', '10Sp TON', '100c TON', '10No TON', '10Dc TON', '10Td TON', '10Qad TON', '10Qid TON'},
+    CurrentOption = 'None',
+    Flag = 'WeightSelect', -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(t)
+        getgenv().TargetWeight = t;
+    end,
+})
+local Toggle = page1:CreateToggle({
+    Name = 'Auto Equip Weights',
+    CurrentValue = false,
+    Flag = 'WeightToggle', 
+    Callback = function(b)
+        getgenv().AutoEquipWeights = b; 
     
-    
-    while task.wait(0.1) do 
-        if not getgenv().AutoEquipWeights then return; end
-        t = getgenv().weights 
-        if t == 'None' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 0})
-        end 
+        while task.wait(0.1) do 
+            if not getgenv().AutoEquipWeights then return; end
+            local t = getgenv().TargetWeight 
+            if t == 'None' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 0})
+            end 
+            
+            if t == '100 LB' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 1})
+            end 
+            
+            if t == '1 TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 2})
+            end 
+            
+            if t == '10 TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 3})
+            end 
+            
+            if t == '100 TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 4})
+            end 
+            
+            if t == '1k TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 5})
+            end 
+            
+            if t == '10k TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 6})
+            end 
+            
+            if t == '100k TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 7})
+            end 
+            
+            if t == '1M TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 8})
+            end 
+            
+            if t == '10M TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 9})
+            end 
+            
+            if t == '1B TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 10})
+            end 
+            
+            if t == '100B TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 11})
+            end 
+            
+            if t == '10T TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 12})
+            end 
+            
+            if t == '1Qa TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 13})
+            end 
+            
+            if t == '100Qa TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 14})
+            end 
+            
+            if t == '10Qi TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 15})
+            end 
+            
+            if t == '1Sx TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 16})
+            end 
+            
+            if t == '100Sx TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 17})
+            end 
+            
+            if t == '10Sp TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 18})
+            end 
+            
+            if t == '100c TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 19})
+            end 
+            
+            if t == '10No TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 20})
+            end 
+            
+            if t == '10Dc TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 21})
+            end 
+            
+            if t == '10Td TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 22})
+            end 
+            
+            if t == '10Qad TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 23})
+            end 
+            
+            if t == '10Qid TON' then 
+                s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 24})
+            end 
+        end
+    end,
+})
+--
+misc1 = page2:CreateSection('Auto Grab Quests')
+local Toggle = page2:CreateToggle({
+    Name = 'Auto Grab Quest',
+    CurrentValue = false,
+    Flag = 'QuestGrabToggle', 
+    Callback = function(t)
+        getgenv().AutoGrabQuest = t;
+        while task.wait() do 
+            if not getgenv().AutoGrabQuest then break; end
+            local npcGiver = workspace.Map.QuestNPC.Sathopian;
+            if npcGiver.QuestBbGui.Enabled then 
+                local pos = s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame; 
+                task.wait(0.1)
+                s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = npcGiver.HumanoidRootPart.CFrame;
+                task.wait(1)
+                main.clickButton(s.Players.LocalPlayer.PlayerGui.ScreenGui.QuestTalkBtn)
+                repeat task.wait(0.1)
+                    main.clickButton(s.Players.LocalPlayer.PlayerGui.ScreenGui.QuestMsgFrame.Btn)
+                until not s.Players.LocalPlayer.PlayerGui.ScreenGui.QuestMsgFrame.Visible;
+                task.wait(1)
+                s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos;
+            end 
+        end
+    end,
+})
+misc2 = page2:CreateSection('Focus on Quest')
+local Toggle = page2:CreateToggle({
+    Name = 'Focus On Quest',
+    CurrentValue = false,
+    Flag = 'QuestFocusToggle', 
+    Callback = function(t)
+        getgenv().FocusQuest = t;
+        while task.wait() do 
+            if not getgenv().FocusQuest then main.unequipTool() break; end
+            for i,v in pairs(s.Players.LocalPlayer.PlayerGui.ScreenGui.MainQuestFrame:GetChildren()) do 
+                if string.find(v.Name, 'MaxFrame') then
+                    if v.Visible then 
+                        if string.find(v.QuestTxt.Text, 'Train Psychic Power') and not v.ClaimBtn.Visible then 
+                            if v.ClaimBtn.Visible then main.unequipTool() end 
+                            main.equipTool(s.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
+                        elseif string.find(v.QuestTxt.Text, 'Train Movement Speed') and not v.ClaimBtn.Visible then 
+                            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_MS_Request'})
+                        elseif string.find(v.QuestTxt.Text, 'Train Jump Ability') and not v.ClaimBtn.Visible then 
+                            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_JF_Request'})
+                        elseif string.find(v.QuestTxt.Text, 'Train Body Toughness') and not v.ClaimBtn.Visible then 
+                            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+BT1'})
+                        elseif string.find(v.QuestTxt.Text, 'Train Fist Strength') and not v.ClaimBtn.Visible then 
+                            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_FS_Request'})
+                        end
+                    end
+                end
+            end 
+        end
+    end,
+})
+--
+player1 = page3:CreateSection('Remove')
+local Button = page3:CreateButton({
+    Name = 'Username',
+    Callback = function()
+        s.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_PN_BG'):Destroy()
+    end,
+})
+local Toggle = page3:CreateToggle({
+    Name = 'Auto Hide Username',
+    CurrentValue = false,
+    Flag = 'NameHideToggle', 
+    Callback = function(t)
+        getgenv().HideName = t;
+        while task.wait() do 
+            if not getgenv().HideName then break; end
+            if s.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_PN_BG') then 
+                s.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_PN_BG'):Destroy()
+            end 
+        end
+    end,
+})
+-- 
+local Button = page3:CreateButton({
+    Name = 'Rank',
+    Callback = function()
+        s.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_RK_BG'):Destroy()
+    end,
+})
+local Toggle = page3:CreateToggle({
+    Name = 'Auto Hide Rank',
+    CurrentValue = false,
+    Flag = 'RankHideToggle', 
+    Callback = function(t)
+        getgenv().HideRank = t;
+        while task.wait() do 
+            if not getgenv().HideRank then break; end
+            if s.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_RK_BG') then 
+                s.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_RK_BG'):Destroy()
+            end 
+        end
+    end,
+})
+player2 = page3:CreateSection('Invisiblity')
+local Button = page3:CreateButton({
+    Name = 'Become Invisible',
+    Callback = function()
+        local pos = s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+        s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-24,-99,1064)
+        task.wait(0.125)
+        s.Players.LocalPlayer.Character:FindFirstChild('LowerTorso'):Destroy();
+        task.wait(0.125)
+        s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+    end,
+})
+-- 
+local Toggle = page3:CreateToggle({
+    Name = 'Become Invisible after Death',
+    CurrentValue = false,
+    Flag = 'InvisibleDeathToggle',
+    Callback = function(t)
+        getgenv().BecomeInvisibleOnDeath = t;
         
-        if t == '100 LB' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 1})
-        end 
+        while task.wait() do 
+            if not BecomeInvisibleOnDeath then break; end 
+            if s.Players.LocalPlayer.Character:FindFirstChild('LowerTorso') then 
+                local pos = s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+                s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-24,-99,1064)
+                task.wait(0.125)
+                s.Players.LocalPlayer.Character:FindFirstChild('LowerTorso'):Destroy();
+                task.wait(0.125)
+                s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+            end 
+        end
+    end,
+}) 
+player3 = page3:CreateSection('Walk Speed')
+local Slider = page3:CreateSlider({
+    Name = 'Walk-Speed',
+    Range = {16, 250},
+    Increment = 1,
+    Suffix = 'WS',
+    CurrentValue = 16,
+    Flag = 'WalkspeedSlider', 
+    Callback = function(t)
+        getgenv().Walkspeed = t;
+    end,
+})
+-- 
+local Toggle = page3:CreateToggle({
+    Name = 'Enable Walk-Speed',
+    CurrentValue = false,
+    Flag = 'WalkspeedToggle',
+    Callback = function(t)
+        getgenv().ToggleSpeed = t;
+        getgenv().WSS = s.RunService.Heartbeat:connect(function() 
+            if not getgenv().ToggleSpeed then return; end
+            repeat task.wait() until s.Players.LocalPlayer.Character.Humanoid
+            s.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().Walkspeed -- only non-skids know why I am not using shortnames
+        end)
         
-        if t == '1 TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 2})
-        end 
+        if not getgenv().ToggleSpeed then 
+            s.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50;
+            WSS:Disconnect();
+        end
+    end,
+})
+player4 = page3:CreateSection('Jump Power')
+local Slider = page3:CreateSlider({
+    Name = 'Jump-Power',
+    Range = {50, 250},
+    Increment = 1,
+    Suffix = 'WS',
+    CurrentValue = 50,
+    Flag = 'JumppowerSlider', 
+    Callback = function(t)
+        getgenv().Jumppower = t;
+    end,
+})
+-- 
+local Toggle = page3:CreateToggle({
+    Name = 'Enable Jump-Power',
+    CurrentValue = false,
+    Flag = 'JumppowerToggle',
+    Callback = function(t)
+        getgenv().ToggleJump = t;
+        getgenv().JPS = s.RunService.Heartbeat:connect(function() 
+            if not getgenv().ToggleJump then return; end
+            repeat task.wait() until s.Players.LocalPlayer.Character.Humanoid
+            s.Players.LocalPlayer.Character.Humanoid.JumpPower = getgenv().Jumppower -- only non-skids know why I am not using shortnames
+        end)
         
-        if t == '10 TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 3})
-        end 
-        
-        if t == '100 TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 4})
-        end 
-        
-        if t == '1k TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 5})
-        end 
-        
-        if t == '10k TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 6})
-        end 
-        
-        if t == '100k TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 7})
-        end 
-        
-        if t == '1M TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 8})
-        end 
-        
-        if t == '10M TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 9})
-        end 
-        
-        if t == '1B TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 10})
-        end 
-        
-        if t == '100B TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 11})
-        end 
-        
-        if t == '10T TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 12})
-        end 
-        
-        if t == '1Qa TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 13})
-        end 
-        
-        if t == '100Qa TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 14})
-        end 
-        
-        if t == '10Qi TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 15})
-        end 
-        
-        if t == '1Sx TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 16})
-        end 
-        
-        if t == '100Sx TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 17})
-        end 
-        
-        if t == '10Sp TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 18})
-        end 
-        
-        if t == '100c TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 19})
-        end 
-        
-        if t == '10No TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 20})
-        end 
-        
-        if t == '10Dc TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 21})
-        end 
-        
-        if t == '10Td TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 22})
-        end 
-        
-        if t == '10Qad TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 23})
-        end 
-        
-        if t == '10Qid TON' then 
-            s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'EquipWeight_Request', [2] = 24})
-        end 
-    end
-end)
-
-misc1:Toggle('Auto Grab Quests', nil, 'Toggle', function(t)
-    getgenv().AutoGrabQuest = t;
-    while task.wait() do 
-        if not getgenv().AutoGrabQuest then break; end
-        if npcGiver.QuestBbGui.Enabled then 
-            local pos = s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame; 
-            task.wait(0.1)
-            s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = npcGiver.HumanoidRootPart.CFrame;
-            task.wait(1)
-            main.clickButton(s.Players.LocalPlayer.PlayerGui.ScreenGui.QuestTalkBtn)
-            repeat task.wait(0.1)
-                main.clickButton(s.Players.LocalPlayer.PlayerGui.ScreenGui.QuestMsgFrame.Btn)
-            until not s.Players.LocalPlayer.PlayerGui.ScreenGui.QuestMsgFrame.Visible;
-            task.wait(1)
-            s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos;
-        end 
-    end
-end)
-
-misc2:Toggle('Focus on Quest', nil, 'Toggle', function(t)
-    getgenv().FocusQuest = t;
-    while task.wait() do 
-        if not getgenv().FocusQuest then main.unequipTool() break; end
-        for i,v in pairs(s.Players.LocalPlayer.PlayerGui.ScreenGui.MainQuestFrame:GetChildren()) do 
-            if string.find(v.Name, 'MaxFrame') then
-                if v.Visible then 
-                    if string.find(v.QuestTxt.Text, 'Train Psychic Power') and not v.ClaimBtn.Visible then 
-                        if v.ClaimBtn.Visible then main.unequipTool() end 
-                        main.equipTool(game.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
-                    elseif string.find(v.QuestTxt.Text, 'Train Movement Speed') and not v.ClaimBtn.Visible then 
-                        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_MS_Request'})
-                    elseif string.find(v.QuestTxt.Text, 'Train Jump Force') and not v.ClaimBtn.Visible then 
-                        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_JF_Request'})
-                    elseif string.find(v.QuestTxt.Text, 'Train Body Toughness') and not v.ClaimBtn.Visible then 
-                        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = '+BT1'})
-                    elseif string.find(v.QuestTxt.Text, 'Train Fist Strength') and not v.ClaimBtn.Visible then 
-                        s.ReplicatedStorage.RemoteEvent:FireServer({[1] = 'Add_FS_Request'})
+        if not getgenv().ToggleJump then 
+            s.Players.LocalPlayer.Character.Humanoid.JumpPower = 50;
+            JPS:Disconnect();
+        end
+    end,
+})
+player5 = page3:CreateSection('No-Clip')
+local Keybind = page3:CreateKeybind({
+    Name = 'No-Clip',
+    CurrentKeybind = 'N',
+    HoldToInteract = false,
+    Flag = 'NoClipBind',
+    Callback = function()
+        if not getgenv().NoClip then 
+            getgenv().NoClip = true;
+            local function NoClip()
+                for _,nc in pairs(s.Players.LocalPlayer.Character:GetDescendants()) do 
+                    if nc:IsA('BasePart') and nc.CanCollide == true and nc.Name ~= floatName then 
+                        nc.CanCollide = false 
                     end
                 end
             end
-        end 
-    end
-end)
-
-player00:Button('Hide Name', function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_PN_BG'):Destroy()
-end)
-
-player00:Toggle('Auto Hide Name', nil, 'Toggle', function(t)
-    getgenv().HideName = t;
-    while task.wait() do 
-        if not getgenv().HideName then break; end
-        if game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_PN_BG') then 
-            game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_PN_BG'):Destroy()
-        end 
-    end
-end)
-
-player00:Button('Hide Rank', function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_RK_BG'):Destroy()
-end)
-
-player00:Toggle('Auto Hide Rank', nil, 'Toggle', function(t)
-    getgenv().HideRank = t;
-    while task.wait() do 
-        if not getgenv().HideRank then break; end
-        if game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_RK_BG') then 
-            game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('SPTS_RK_BG'):Destroy()
-        end 
-    end
-end)
-
-player0:Button('Become Invisible', function()
-    local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-24,-99,1064)
-    task.wait(0.125)
-    game.Players.LocalPlayer.Character:FindFirstChild('LowerTorso'):Destroy();
-    task.wait(0.125)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
-end)
-
-player0:Toggle('Become Invisible on Death', nil, 'Toggle', function(t)
-    getgenv().BecomeInvisibleOnDeath = t;
+            getgenv().NC = s.RunService.Stepped:Connect(NoClip) 
+        elseif getgenv().NoClip then 
+            getgenv().NoClip = false;
+            for _,nc in pairs(s.Players.LocalPlayer.Character:GetDescendants()) do 
+                if nc:IsA('BasePart') and nc.CanCollide == false and nc.Name ~= floatName then 
+                    nc.CanCollide = true 
+                end
+            end
+            NC:Disconnect();
+        end
+    end,
+})
+player6 = page3:CreateSection('Water Walking')
+local Toggle = page3:CreateToggle({
+    Name = 'Water Walking',
+    CurrentValue = nil,
+    Flag = 'WaterWalkToggle',
+    Callback = function(t)
+        getgenv().WaterWalk = t; 
     
-    while task.wait() do 
-        if not BecomeInvisibleOnDeath then break; end 
-        if game.Players.LocalPlayer.Character:FindFirstChild('LowerTorso') then 
-            local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-24,-99,1064)
-            task.wait(0.125)
-            game.Players.LocalPlayer.Character:FindFirstChild('LowerTorso'):Destroy();
-            task.wait(0.125)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
-        end 
-    end
-end)
-
-player1:Slider('Walk Speed', 0, 100, 1, 1, 'Slider', function(t)
-    getgenv().Walkspeed = t;
-end)
-
-player1:Toggle('Enable Walk Speed', nil, 'Toggle', function(t)
-    getgenv().ToggleSpeed = t;
-    getgenv().WSS = game.RunService.Heartbeat:connect(function() 
-        if not getgenv().ToggleSpeed then return; end
-        repeat task.wait() until game.Players.LocalPlayer.Character.Humanoid
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().Walkspeed -- only non-skids know why I am not using shortnames
-    end)
+        for i,v in pairs(workspace.Map.Decorations.WaterWalkFloor:GetChildren()) do 
+             v.CanCollide = getgenv().WaterWalk
+        end
+    end,
+})
+--
+teleport1 = page4:CreateSection('Teleport to Last Position on Death')
+local Toggle = page4:CreateToggle({
+    Name = 'Teleport to Last Position on Death?',
+    CurrentValue = false,
+    Flag = 'LastPositionOnDeathToggle',
+    Callback = function(t)
+        getgenv().ComeAfterDeath = t;
     
-    if not getgenv().ToggleSpeed then 
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16;
-        WSS:Disconnect();
-    end
-end)
-
-player2:Slider('Jump Power', 0, 200, 1, 1, 'Slider', function(t)
-    getgenv().Jumppower = t;
-end)
-
-player2:Toggle('Enable Jump Power', nil, 'Toggle', function(t)
-    getgenv().ToggleJump = t;
-    getgenv().JPS = game.RunService.Heartbeat:connect(function() 
-        if not getgenv().ToggleJump then return; end
-        repeat task.wait() until game.Players.LocalPlayer.Character.Humanoid
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = getgenv().Jumppower -- only non-skids know why I am not using shortnames
-    end)
-    
-    if not getgenv().ToggleJump then 
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50;
-        JPS:Disconnect();
-    end
-end)
-
-player3:Bind('No-Clip', Enum.KeyCode.N, false, 'BindNormal', function()
-    if not NoClip then 
-        getgenv().NoClip = true;
-        local function NoClip()
-            for _,nc in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
-                if nc:IsA('BasePart') and nc.CanCollide == true and nc.Name ~= floatName then 
-                    nc.CanCollide = false 
+        while task.wait() do 
+            if not getgenv().ComeAfterDeath then break; end
+            repeat task.wait() until s.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
+            if s.Players.LocalPlayer.Character.Humanoid.Health <= 1 then 
+                local pos = s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+                if s.Players.LocalPlayer.PlayerGui.IntroGui.Enabled then 
+                    main.clickButton(s.Players.LocalPlayer.PlayerGui.IntroGui.PlayBtn)
+                    task.wait(1.25)
+                    s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
                 end
             end
         end
-        NC = s.RunService.Stepped:Connect(NoClip) 
-    elseif NoClip then 
-        getgenv().NoClip = false;
-        for _,nc in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
-            if nc:IsA('BasePart') and nc.CanCollide == false and nc.Name ~= floatName then 
-                nc.CanCollide = true 
-            end
+    end,
+})
+teleport2 = page4:CreateSection('Strength')
+local Dropdown = page4:CreateDropdown({
+    Name = 'Select Area',
+    Options = {'ROCK [NO REQUIRED FS]', 'CRYSTAL [NO REQUIRED FS]', 'BLUE STAR [1B+ FS]', 'GREEN STAR [100B+ FS]', 'ORANGE STAR [10T+ FS]'},
+    CurrentOption = 'None',
+    Flag = 'FistTPSelect', 
+    Callback = function(t)
+        getgenv().TargetFSArea = t;
+    end,
+})
+-- 
+local Button = page4:CreateButton({
+    Name = 'Teleport',
+    Callback = function()
+        local t = getgenv().TargetFSArea
+        if t == 'ROCK [NO REQUIRED FS]' then 
+            main.toPos(CFrame.new(408,271,973))
         end
-        NC:Disconnect();
-    end
-end)
-
-player4:Toggle('Water Walking', nil, 'Toggle', function(t)
-    getgenv().WaterWalk = t; 
-    
-    for i,v in pairs(workspace.Map.Decorations.WaterWalkFloor:GetChildren()) do 
-         v.CanCollide = getgenv().WaterWalk
-    end
-end)
-
-teleport0:Toggle('Teleport to Last Position on Death', nil, 'Toggle', function(t)
-    getgenv().ComeAfterDeath = t;
-    
-    while task.wait() do 
-        if not getgenv().ComeAfterDeath then break; end
-        repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
-        if game.Players.LocalPlayer.Character.Humanoid.Health <= 1 then 
-            local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
-            if game.Players.LocalPlayer.PlayerGui.IntroGui.Enabled then 
-                main.clickButton(game.Players.LocalPlayer.PlayerGui.IntroGui.PlayBtn)
-                task.wait(1.25)
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
-            end
+        
+        if t == 'CRYSTAL [NO REQUIRED FS]' then 
+            main.toPos(CFrame.new(-2275,1943,1059))
         end
-    end
-end)
+        
+        if t == 'BLUE STAR [1B+ FS]' then 
+            main.toPos(CFrame.new(1176,4789,-2293))
+        end
+        
+        if t == 'GREEN STAR [100B+ FS]' then 
+            main.toPos(CFrame.new(1381,9274,1647))
+        end
+        
+        if t == 'ORANGE STAR [10T+ FS]' then 
+            main.toPos(CFrame.new(-369,15735,-9))
+        end
+    end,
+})
+teleport3 = page4:CreateSection('Body Toughness')
+local Dropdown = page4:CreateDropdown({
+    Name = 'Select Area',
+    Options = {'ICE BATH [100+ BT]', 'LAVA BATH [10K+ BT]', 'ICE MOUNTAIN [100K+ BT]', 'TORNADO [1M+ BT]', 'VOLCANO [10M+ BT]', 'ACID GAS [1B+ BT]', 'ACID POOL [100B+ BT]', 'LAVA POOL [10T+ BT]'},
+    CurrentOption = 'None',
+    Flag = 'BodyTPSelect',
+    Callback = function(t)
+        getgenv().TargetBTArea = t;
+    end,
+})
+-- 
+local Button = page4:CreateButton({
+    Name = 'Teleport',
+    Callback = function()
+        getgenv().TargetBTArea = t;
+        if t == 'ICE BATH [100+ BT]' then 
+            main.toPos(CFrame.new(365,250,-445))
+        end 
+        
+        if t == 'LAVA BATH [10K+ BT]' then 
+            main.toPos(CFrame.new(355,264,-491))
+        end 
+        
+        if t == 'ICE MOUNTAIN [100K+ BT]' then 
+            main.toPos(CFrame.new(1640,256,2244))
+        end 
+        
+        if t == 'TORNADO [1M+ BT]' then 
+            main.toPos(CFrame.new(-2307, 976, 1068))
+        end 
+        
+        if t == 'VOLCANO [10M+ BT]' then 
+            main.toPos(CFrame.new(-2024, 714, -1860))
+        end 
+        
+        if t == 'ACID GAS [1B+ BT]' then 
+            main.toPos(CFrame.new(-254, 286, 980))
+        end 
+        
+        if t == 'ACID POOL [100B+ BT]' then 
+            main.toPos(CFrame.new(-271, 279, 991))
+        end 
+        
+        if t == 'LAVA POOL [10T+ BT]' then 
+            main.toPos(CFrame.new(-279, 279, 1007))
+        end
+    end,
+})
+teleport4 = page4:CreateSection('Psychic')
+local Dropdown = page4:CreateDropdown({
+    Name = 'Select Area',
+    Options = {'ISLAND #1 [1M+ PP]', 'ISLAND #2 [1B+ PP]', 'ISLAND #3 [1T+ PP]', 'ISLAND #4 [1Qa+ PP]'},
+    CurrentOption = 'None',
+    Flag = 'PsychicTPSelect',
+    Callback = function(t)
+        getgenv().TargetPPArea = t;
+    end,
+})
+-- 
+local Button = page4:CreateButton({
+    Name = 'Teleport',
+    Callback = function()
+        local t = getgenv().TargetPPArea;
+        if t == 'ISLAND #1 [1M+ PP]' then 
+            main.toPos(CFrame.new(-2527, 5486, -532))
+        end 
+        
+        if t == 'ISLAND #2 [1B+ PP]' then 
+            main.toPos(CFrame.new(-2560, 5500, -439))
+        end 
+        
+        if t == 'ISLAND #3 [1T+ PP]' then 
+            main.toPos(CFrame.new(-2582, 5516, -504))
+        end 
+        
+        if t == 'ISLAND #4 [1Qa+ PP]' then 
+            main.toPos(CFrame.new(-2544, 5412, -495))
+        end
+    end,
+})
 
-teleport1:Dropdown('Strength Teleports', {'ROCK [NO REQUIRED FS]', 'CRYSTAL [NO REQUIRED FS]', 'BLUE STAR [1B+ FS]', 'GREEN STAR [100B+ FS]', 'ORANGE STAR [10T+ FS]'}, 'Select', 'Dropdown', function(t)
-    getgenv().strengthtp = t;
-end)
 
-teleport1:Button('Teleport', function()
-    local t = getgenv().strengthtp
-    if t == 'ROCK [NO REQUIRED FS]' then 
-        main.toPos(CFrame.new(408,271,973))
-    end
-    
-    if t == 'CRYSTAL [NO REQUIRED FS]' then 
-        main.toPos(CFrame.new(-2275,1943,1059))
-    end
-    
-    if t == 'BLUE STAR [1B+ FS]' then 
-        main.toPos(CFrame.new(1176,4789,-2293))
-    end
-    
-    if t == 'GREEN STAR [100B+ FS]' then 
-        main.toPos(CFrame.new(1381,9274,1647))
-    end
-    
-    if t == 'ORANGE STAR [10T+ FS]' then 
-        main.toPos(CFrame.new(-369,15735,-9))
-    end
-end)
 
-teleport2:Dropdown('Body Toughness Teleports', {'ICE BATH [100+ BT]', 'LAVA BATH [10K+ BT]', 'ICE MOUNTAIN [100K+ BT]', 'TORNADO [1M+ BT]', 'VOLCANO [10M+ BT]', 'ACID GAS [1B+ BT]', 'ACID POOL [100B+ BT]', 'LAVA POOL [10T+ BT]'}, 'Select', 'Dropdown', function(t)
-    getgenv().bodytp = t;  
-end)
 
-teleport2:Button('Teleport', function()
-    local t = getgenv().bodytp 
-    if t == 'ICE BATH [100+ BT]' then 
-        main.toPos(CFrame.new(365,250,-445))
-    end 
-    
-    if t == 'LAVA BATH [10K+ BT]' then 
-        main.toPos(CFrame.new(355,264,-491))
-    end 
-    
-    if t == 'ICE MOUNTAIN [100K+ BT]' then 
-        main.toPos(CFrame.new(1640,256,2244))
-    end 
-    
-    if t == 'TORNADO [1M+ BT]' then 
-        main.toPos(CFrame.new(-2307, 976, 1068))
-    end 
-    
-    if t == 'VOLCANO [10M+ BT]' then 
-        main.toPos(CFrame.new(-2024, 714, -1860))
-    end 
-    
-    if t == 'ACID GAS [1B+ BT]' then 
-        main.toPos(CFrame.new(-254, 286, 980))
-    end 
-    
-    if t == 'ACID POOL [100B+ BT]' then 
-        main.toPos(CFrame.new(-271, 279, 991))
-    end 
-    
-    if t == 'LAVA POOL [10T+ BT]' then 
-        main.toPos(CFrame.new(-279, 279, 1007))
-    end
-end)
-
-teleport3:Dropdown('Psychic Teleports', {'ISLAND #1 [1M+ PP]', 'ISLAND #2 [1B+ PP]', 'ISLAND #3 [1T+ PP]', 'ISLAND #4 [1Qa+ PP]'}, 'Select', 'Dropdown', function(t)
-    getgenv().psychictp = t; 
-end)
-
-teleport3:Button('Teleport', function()
-    local t = getgenv().psychictp;
-    if t == 'ISLAND #1 [1M+ PP]' then 
-        main.toPos(CFrame.new(-2527, 5486, -532))
-    end 
-    
-    if t == 'ISLAND #2 [1B+ PP]' then 
-        main.toPos(CFrame.new(-2560, 5500, -439))
-    end 
-    
-    if t == 'ISLAND #3 [1T+ PP]' then 
-        main.toPos(CFrame.new(-2582, 5516, -504))
-    end 
-    
-    if t == 'ISLAND #4 [1Qa+ PP]' then 
-        main.toPos(CFrame.new(-2544, 5412, -495))
-    end
-end)
+-- by lxst#2161 | 2023
