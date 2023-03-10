@@ -101,14 +101,19 @@ local Toggle = page1:CreateToggle({
             'Add_JF_Request';
             '+BT1';
         }
-        while task.wait() do 
-            if not getgenv(0.33).StatFarm then break; end;
+        while task.wait(0.33) do 
+            if not getgenv().StatFarm then break; end;
             for i,v in pairs(requestRemotes) do 
                 if table.find(requestRemotes, v) then 
                     task.wait(0.05)
                     s.ReplicatedStorage.RemoteEvent:FireServer({[1] = v})
                 end
             end
+        end
+        while task.wait(0.33) do 
+            if not getgenv().StatFarm then main.unequipTool() break; end;
+            repeat task.wait() until s.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
+            main.equipTool(s.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
         end
     end,
 })
