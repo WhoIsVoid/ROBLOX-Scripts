@@ -137,9 +137,8 @@ local Toggle = page1:CreateToggle({
     Callback = function(t)
         getgenv().Psychic = t;
         while task.wait(0.33) do 
-            if not getgenv().Psychic then break; end;
+            if not getgenv().Psychic then main.unequipTool() break; end;
             repeat task.wait() until s.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
-            if not getgenv().PP then main.unequipTool() break; end;
             main.equipTool(s.Players.LocalPlayer.Backpack:FindFirstChild('Meditate'))
         end
     end,
