@@ -81,8 +81,9 @@ Rayfield:Notify({
 --
 page0:CreateSection('Updates')
 
-page0:CreateLabel('[-] Last Update: March 10th, 2023')
-page0:CreateLabel('[-] Changed UI Libraries, DM me of any bugs that may occur!')
+page0:CreateLabel('[-] Last Update: March 12th, 2023')
+page0:CreateLabel('[-] WARNING: THERE IS A CHANCE THAT YOU CAN BE BANNED! USE WITH CAUTION')
+
 
 page0:CreateSection('Credits')
 page0:CreateLabel('[-] by lxst#2161')
