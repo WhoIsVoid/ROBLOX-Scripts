@@ -1,0 +1,341 @@
+
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local win = Rayfield:CreateWindow({
+   Name = 'Dragon Ball Rage v1.03 [STABLE]',
+   LoadingTitle = 'Dragon Ball Rage',
+   LoadingSubtitle = 'by Lxst ┃ lxst#3789',
+   ConfigurationSaving = {
+      Enabled = true,
+      FileName = 'DBR'
+   }
+})
+-- 
+local s = setmetatable({}, {
+    __index = function(self, serv)
+        return game:GetService(serv)
+    end
+}) 
+-- 
+local GC = getconnections or get_signal_cons -- synx / krnl support
+
+if GC then
+	for i,v in pairs(GC(s.Players.LocalPlayer.Idled)) do
+	    if v['Disable'] then
+			v['Disable'](v)
+		elseif v['Disconnect'] then
+			v['Disconnect'](v)
+		end
+	end
+end
+--
+main = {}; do 
+    main.toPos = function(v)
+        s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v
+    end
+    
+    main.clickButton = function(v)
+        for i, b in pairs(getconnections(v.Activated)) do
+            b.Function()
+        end
+
+        for i, b in pairs(getconnections(v.MouseButton1Click)) do
+            b.Function()
+        end
+    end
+    main.pressKey = function(keyPress) 
+        s.VirtualInputManager:SendKeyEvent(true, keyPress, false, game)
+    end 
+    
+    main.releaseKey = function(keyPress)
+        s.VirtualInputManager:SendKeyEvent(false, keyPress, false, game)
+    end
+end
+--
+for i,v in next, getupvalue(getupvalue(require(s.ReplicatedStorage:WaitForChild('_replicationFolder'):WaitForChild('Network')).FireServer,1),1) do
+    local remote = v.Remote;
+    local remoteName = v.Name;
+   
+    if remote and remoteName then
+       remote.Name = remoteName
+    end
+end
+--
+--\\\--
+local page0 = win:CreateTab('Information')
+--///--
+-------
+--\\\--
+local page1 = win:CreateTab('Main Functions')
+--///--
+-------
+--\\\--
+local page2 = win:CreateTab('Player Functions')
+--///--
+-------
+--\\\--
+local page3 = win:CreateTab('Teleports')
+--///--
+--
+Rayfield:Notify({
+    Title = 'UI Library has loaded!',
+    Content = 'by lxst#2163789',
+    Duration = 5
+})
+--
+page0:CreateSection('Updates')
+
+page0:CreateLabel('[-] Last Update: April 3rd, 2023')
+page0:CreateLabel('[-] WARNING: THERE IS A CHANCE THAT YOU CAN BE BANNED! USE WITH CAUTION')
+
+
+page0:CreateSection('Credits')
+page0:CreateLabel('[-] by lxst#3789')
+--
+page1:CreateSection('Auto Stats (Individual)')
+local Toggle = page1:CreateToggle({
+    Name = 'Auto Farm Strength',
+    CurrentValue = false,
+    Flag = 'AutoFarmStrength', 
+    Callback = function(t)
+        getgenv().trainStrength = t; 
+
+        while task.wait(.1) do 
+            if not getgenv().trainStrength then break; end
+            main.pressKey('E')
+        end
+    end,
+})
+-- 
+local Toggle = page1:CreateToggle({
+    Name = 'Auto Farm Ki',
+    CurrentValue = false,
+    Flag = 'AutoFarmKi', 
+    Callback = function(t)
+        getgenv().trainKi = t; 
+
+        while task.wait(.1) do 
+            if not getgenv().trainKi then break; end
+            if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
+                main.pressKey('C')
+            elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
+                main.releaseKey('C')
+                task.wait(.2)
+                main.pressKey('Q')
+            end
+        end
+    end,
+})
+--
+local Toggle = page1:CreateToggle({
+    Name = 'Auto Farm Durability',
+    CurrentValue = false,
+    Flag = 'AutoFarmDura', 
+    Callback = function(t)
+        getgenv().trainDefense = t; 
+
+        while task.wait(.1) do
+            if not getgenv().trainDefense then break; end
+            if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
+                main.pressKey('C')
+            elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
+                main.releaseKey('C')
+                task.wait(.2)
+                main.pressKey('R')
+            end
+        end
+    end,
+})
+-- 
+page1:CreateSection('Auto Stats (All)')
+local Toggle = page1:CreateToggle({
+    Name = 'Auto Farm All',
+    CurrentValue = false,
+    Flag = 'AutoFarmAll', 
+    Callback = function(t)
+        getgenv().farmAll = t; 
+
+        while task.wait() do
+            if not getgenv().farmAll then break; end
+            main.pressKey('R')
+            task.wait(3)
+            main.releaseKey('R')
+            task.wait(.25)
+            repeat task.wait()
+                main.pressKey('C')
+            until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.9 
+            task.wait(.25)
+            main.releaseKey('C')
+            task.wait(.1)
+            main.pressKey('Q')
+            task.wait(3)
+            main.releaseKey('Q')
+            task.wait(.1)
+            repeat task.wait()
+                main.pressKey('C')
+            until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 
+            task.wait(.25)
+            main.releaseKey('C')
+            task.wait(.1)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.releaseKey('E')
+            task.wait(.2)
+        end
+    end,
+})
+-- 
+page1:CreateSection('Auto Zenkai')
+local Toggle = page1:CreateToggle({
+    Name = 'Auto Zenkai',
+    CurrentValue = false,
+    Flag = 'AutoCharge', 
+    Callback = function(t)
+        getgenv().autoZenaki = t; 
+
+        while task.wait(1) do
+            if not getgenv().autoZenaki then break; end
+            if s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button.BackgroundColor3 ~= Color3.fromRGB('90', '90', '90') then 
+                main.clickButton(s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button)
+            end 
+        end
+    end,
+})
+--
+page1:CreateSection('Auto Zenkai')
+local Toggle = page1:CreateToggle({
+    Name = 'Auto Zenkai',
+    CurrentValue = false,
+    Flag = 'AutoCharge', 
+    Callback = function(t)
+        getgenv().autoZenaki = t; 
+
+        while task.wait(1) do
+            if not getgenv().autoZenaki then break; end
+            if s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button.BackgroundColor3 ~= Color3.fromRGB('90', '90', '90') then 
+                main.clickButton(s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button)
+            end 
+        end
+    end,
+})
+--
+page2:CreateSection('Walk Speed')
+local Slider = page2:CreateSlider({
+    Name = 'Walk-Speed',
+    Range = {16, 250},
+    Increment = 1,
+    Suffix = 'WS',
+    CurrentValue = 16,
+    Flag = 'WalkspeedSlider', 
+    Callback = function(t)
+        getgenv().Walkspeed = t;
+    end,
+})
+-- 
+local Toggle = page2:CreateToggle({
+    Name = 'Enable Walk-Speed',
+    CurrentValue = false,
+    Flag = 'WalkspeedToggle',
+    Callback = function(t)
+        getgenv().ToggleSpeed = t;
+        getgenv().WSS = s.RunService.Heartbeat:connect(function() 
+            if not getgenv().ToggleSpeed then return; end
+            repeat task.wait() until s.Players.LocalPlayer.Character.Humanoid
+            s.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().Walkspeed -- only non-skids know why I am not using shortnames
+        end)
+        
+        if not getgenv().ToggleSpeed then 
+            s.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50;
+            WSS:Disconnect();
+        end
+    end,
+})
+page2:CreateSection('Jump Power')
+local Slider = page2:CreateSlider({
+    Name = 'Jump-Power',
+    Range = {50, 250},
+    Increment = 1,
+    Suffix = 'WS',
+    CurrentValue = 50,
+    Flag = 'JumppowerSlider', 
+    Callback = function(t)
+        getgenv().Jumppower = t;
+    end,
+})
+-- 
+local Toggle = page2:CreateToggle({
+    Name = 'Enable Jump-Power',
+    CurrentValue = false,
+    Flag = 'JumppowerToggle',
+    Callback = function(t)
+        getgenv().ToggleJump = t;
+        getgenv().JPS = s.RunService.Heartbeat:connect(function() 
+            if not getgenv().ToggleJump then return; end
+            repeat task.wait() until s.Players.LocalPlayer.Character.Humanoid
+            s.Players.LocalPlayer.Character.Humanoid.JumpPower = getgenv().Jumppower -- only non-skids know why I am not using shortnames
+        end)
+        
+        if not getgenv().ToggleJump then 
+            s.Players.LocalPlayer.Character.Humanoid.JumpPower = 50;
+            JPS:Disconnect();
+        end
+    end,
+})
+page2:CreateSection('No-Clip')
+local Keybind = page3:CreateKeybind({
+    Name = 'No-Clip',
+    CurrentKeybind = 'Z',
+    HoldToInteract = false,
+    Flag = 'NoClipBind',
+    Callback = function()
+        if not getgenv().NoClip then 
+            getgenv().NoClip = true;
+            local function NoClip()
+                for _,nc in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
+                    if nc:IsA('BasePart') and nc.CanCollide == true and nc.Name ~= floatName then 
+                        nc.CanCollide = false 
+                    end
+                end
+            end
+            NC = s.RunService.Stepped:Connect(NoClip) 
+        elseif getgenv().NoClip then 
+            getgenv().NoClip = false;
+            for _,nc in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
+                if nc:IsA('BasePart') and nc.CanCollide == false and nc.Name ~= floatName then 
+                    nc.CanCollide = true 
+                end
+            end
+            NC:Disconnect();
+        end
+    end,
+})
+--
+local Button = page4:CreateButton({
+    Name = 'Teleport',
+    Callback = function()
+    end,
+})
+
+
+
+
+-- by lxst#3789 | 2023
