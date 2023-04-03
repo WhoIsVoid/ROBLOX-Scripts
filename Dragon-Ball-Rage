@@ -17,7 +17,7 @@ local s = setmetatable({}, {
     end
 }) 
 -- 
-local GC = getconnections or get_signal_cons -- synx / krnl support
+local gc = getconnections or get_signal_cons -- synx / krnl support
 
 if GC then
 	for i,v in pairs(GC(s.Players.LocalPlayer.Idled)) do
@@ -213,8 +213,8 @@ local Toggle = page1:CreateToggle({
 
         while task.wait(1) do
             if not getgenv().autoZenaki then break; end
-            if s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button.BackgroundColor3 ~= Color3.fromRGB('90', '90', '90') then 
-                main.clickButton(s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button)
+            if s.Players.LocalPlayer.PlayerGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button.BackgroundColor3 ~= Color3.fromRGB('90', '90', '90') then 
+                main.clickButton(s.Players.LocalPlayer.PlayerGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button)
             end 
         end
     end,
