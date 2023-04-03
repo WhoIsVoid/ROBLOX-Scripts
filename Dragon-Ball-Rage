@@ -1,4 +1,3 @@
-
 repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
@@ -221,6 +220,23 @@ local Toggle = page1:CreateToggle({
     end,
 })
 --
+page1:CreateSection('Auto Zenkai')
+local Toggle = page1:CreateToggle({
+    Name = 'Auto Zenkai',
+    CurrentValue = false,
+    Flag = 'AutoCharge', 
+    Callback = function(t)
+        getgenv().autoZenaki = t; 
+
+        while task.wait(1) do
+            if not getgenv().autoZenaki then break; end
+            if s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button.BackgroundColor3 ~= Color3.fromRGB('90', '90', '90') then 
+                main.clickButton(s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button)
+            end 
+        end
+    end,
+})
+--
 page2:CreateSection('Walk Speed')
 local Slider = page2:CreateSlider({
     Name = 'Walk-Speed',
@@ -284,9 +300,9 @@ local Toggle = page2:CreateToggle({
     end,
 })
 page2:CreateSection('No-Clip')
-local Keybind = page3:CreateKeybind({
+local Keybind = page2:CreateKeybind({
     Name = 'No-Clip',
-    CurrentKeybind = 'Z',
+    CurrentKeybind = 'N',
     HoldToInteract = false,
     Flag = 'NoClipBind',
     Callback = function()
@@ -311,12 +327,71 @@ local Keybind = page3:CreateKeybind({
         end
     end,
 })
---
-local Button = page4:CreateButton({
-    Name = 'Teleport',
+-- 
+page3:CreateSection('World Teleports')
+local Button = page3:CreateButton({
+    Name = 'Main Game',
     Callback = function()
+        s:GetService('TeleportService'):Teleport(71315343)
     end,
 })
+--
+local Button = page3:CreateButton({
+    Name = 'Yardrat (No Req.)',
+    Callback = function()
+        s:GetService('TeleportService'):Teleport(1357512648)
+    end,
+})
+--
+local Button = page3:CreateButton({
+    Name = 'Hyperbolic Time Chamber (1M+ Stats)',
+    Callback = function()
+        s:GetService('TeleportService'):Teleport(1362482151)
+    end,
+})
+--
+local Button = page3:CreateButton({
+    Name = 'Gravity Chamber (5 Zenkais)',
+    Callback = function()
+        s:GetService('TeleportService'):Teleport(3371469539)
+    end,
+})
+-- 
+local Button = page3:CreateButton({
+    Name = 'Bills Planet (5 Zenkais)',
+    Callback = function()
+        s:GetService('TeleportService'):Teleport(3336119605)
+    end,
+})
+--
+local Button = page3:CreateButton({
+    Name = 'Test Realm (Old Version)',
+    Callback = function()
+        s:GetService('TeleportService'):Teleport(6058646077)
+    end,
+})
+--
+local Button = page3:CreateButton({
+    Name = 'Test Realm (New Version)',
+    Callback = function()
+        s:GetService('TeleportService'):Teleport(8927587560)
+    end,
+})
+-- 
+local Button = page3:CreateButton({
+    Name = 'Test Realm (New Version)',
+    Callback = function()
+        s:GetService('TeleportService'):Teleport(8927587560)
+    end,
+})
+-- 
+local Button = page3:CreateButton({
+    Name = 'Boss Arena (lol)',
+    Callback = function()
+        s:GetService('TeleportService'):Teleport(3422324662)
+    end,
+})
+
 
 
 
