@@ -67,6 +67,75 @@ local page0 = win:CreateTab('Information')
 -------
 --\\\--
 local page1 = win:CreateTab('Main Functions')
+--///--repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local win = Rayfield:CreateWindow({
+   Name = 'Dragon Ball Rage v1.03 [STABLE]',
+   LoadingTitle = 'Dragon Ball Rage',
+   LoadingSubtitle = 'by Lxst ┃ lxst#3789',
+   ConfigurationSaving = {
+      Enabled = true,
+      FileName = 'DBR'
+   }
+})
+-- 
+local s = setmetatable({}, {
+    __index = function(self, serv)
+        return game:GetService(serv)
+    end
+}) 
+-- 
+local gc = getconnections or get_signal_cons -- synx / krnl support
+
+if GC then
+	for i,v in pairs(GC(s.Players.LocalPlayer.Idled)) do
+	    if v['Disable'] then
+			v['Disable'](v)
+		elseif v['Disconnect'] then
+			v['Disconnect'](v)
+		end
+	end
+end
+--
+main = {}; do 
+    main.toPos = function(v)
+        s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v
+    end
+    
+    main.clickButton = function(v)
+        for i, b in pairs(getconnections(v.Activated)) do
+            b.Function()
+        end
+
+        for i, b in pairs(getconnections(v.MouseButton1Click)) do
+            b.Function()
+        end
+    end
+    main.pressKey = function(keyPress) 
+        s.VirtualInputManager:SendKeyEvent(true, keyPress, false, game)
+    end 
+    
+    main.releaseKey = function(keyPress)
+        s.VirtualInputManager:SendKeyEvent(false, keyPress, false, game)
+    end
+end
+--
+for i,v in next, getupvalue(getupvalue(require(s.ReplicatedStorage:WaitForChild('_replicationFolder'):WaitForChild('Network')).FireServer,1),1) do
+    local remote = v.Remote;
+    local remoteName = v.Name;
+   
+    if remote and remoteName then
+       remote.Name = remoteName
+    end
+end
+--
+--\\\--
+local page0 = win:CreateTab('Information')
+--///--
+-------
+--\\\--
+local page1 = win:CreateTab('Main Functions')
 --///--
 -------
 --\\\--
@@ -116,15 +185,13 @@ local Toggle = page1:CreateToggle({
 
         while task.wait(.1) do 
             if not getgenv().trainKi then break; end
-            pcall(function()
-                if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
-                    main.pressKey('C')
-                elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
-                    main.releaseKey('C')
-                    task.wait(.2)
-                    main.pressKey('Q')
-                end
-            end)
+            if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
+                main.pressKey('C')
+            elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
+                main.releaseKey('C')
+                task.wait(.2)
+                main.pressKey('Q')
+            end
         end
     end,
 })
@@ -138,15 +205,13 @@ local Toggle = page1:CreateToggle({
 
         while task.wait(.1) do
             if not getgenv().trainDefense then break; end
-            pcall(function()
-                if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
-                    main.pressKey('C')
-                elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
-                    main.releaseKey('C')
-                    task.wait(.2)
-                    main.pressKey('R')
-                end
-            end)
+            if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
+                main.pressKey('C')
+            elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
+                main.releaseKey('C')
+                task.wait(.2)
+                main.pressKey('R')
+            end
         end
     end,
 })
@@ -161,50 +226,48 @@ local Toggle = page1:CreateToggle({
 
         while task.wait() do
             if not getgenv().farmAll then break; end
-            pcall(function()
-                main.pressKey('R')
-                task.wait(3)
-                main.releaseKey('R')
-                task.wait(.25)
-                repeat task.wait()
-                    main.pressKey('C')
-                until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.9 
-                task.wait(.25)
-                main.releaseKey('C')
-                task.wait(.1)
-                main.pressKey('Q')
-                task.wait(3)
-                main.releaseKey('Q')
-                task.wait(.1)
-                repeat task.wait()
-                    main.pressKey('C')
-                until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 
-                task.wait(.25)
-                main.releaseKey('C')
-                task.wait(.1)
-                main.pressKey('E')
-                task.wait(.4)
-                main.pressKey('E')
-                task.wait(.4)
-                main.pressKey('E')
-                task.wait(.4)
-                main.pressKey('E')
-                task.wait(.4)
-                main.pressKey('E')
-                task.wait(.4)
-                main.pressKey('E')
-                task.wait(.4)
-                main.pressKey('E')
-                task.wait(.4)
-                main.pressKey('E')
-                task.wait(.4)
-                main.pressKey('E')
-                task.wait(.4)
-                main.pressKey('E')
-                task.wait(.4)
-                main.releaseKey('E')
-                task.wait(.2)
-            end)
+            main.pressKey('R')
+            task.wait(3)
+            main.releaseKey('R')
+            task.wait(.25)
+            repeat task.wait()
+                main.pressKey('C')
+            until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.9 
+            task.wait(.25)
+            main.releaseKey('C')
+            task.wait(.1)
+            main.pressKey('Q')
+            task.wait(3)
+            main.releaseKey('Q')
+            task.wait(.1)
+            repeat task.wait()
+                main.pressKey('C')
+            until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 
+            task.wait(.25)
+            main.releaseKey('C')
+            task.wait(.1)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.pressKey('E')
+            task.wait(.4)
+            main.releaseKey('E')
+            task.wait(.2)
         end
     end,
 })
@@ -219,11 +282,9 @@ local Toggle = page1:CreateToggle({
 
         while task.wait(1) do
             if not getgenv().autoZenaki then break; end
-            pcall(function()
-                if s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button.BackgroundColor3 ~= Color3.fromRGB('90', '90', '90') then 
-                    main.clickButton(s.StarterGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button)
-                end 
-            end)
+            if s.Players.LocalPlayer.PlayerGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button.BackgroundColor3 ~= Color3.fromRGB('90', '90', '90') then 
+                main.clickButton(s.Players.LocalPlayer.PlayerGui.PlayerInterface.Center.Zenkai.Info.Zenkai.Button)
+            end 
         end
     end,
 })
@@ -293,7 +354,7 @@ local Toggle = page2:CreateToggle({
 page2:CreateSection('No-Clip')
 local Keybind = page2:CreateKeybind({
     Name = 'No-Clip',
-    CurrentKeybind = 'Z',
+    CurrentKeybind = 'N',
     HoldToInteract = false,
     Flag = 'NoClipBind',
     Callback = function()
@@ -318,76 +379,65 @@ local Keybind = page2:CreateKeybind({
         end
     end,
 })
---
-local Button = page4:CreateButton({
-    Name = 'Teleport',
-    Callback = function()
-    end,
-})
 -- 
 page3:CreateSection('World Teleports')
 local Button = page3:CreateButton({
     Name = 'Main Game',
     Callback = function()
-        s:GetService('TeleportService'):Teleport(71315343)
+        s.GetService('TeleportService'):Teleport(71315343)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Yardrat (No Req.)',
     Callback = function()
-        s:GetService('TeleportService'):Teleport(1357512648)
+        s.GetService('TeleportService'):Teleport(1357512648)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Hyperbolic Time Chamber (1M+ Stats)',
     Callback = function()
-        s:GetService('TeleportService'):Teleport(1362482151)
+        s.GetService('TeleportService'):Teleport(1362482151)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Gravity Chamber (5 Zenkais)',
     Callback = function()
-        s:GetService('TeleportService'):Teleport(3371469539)
+        s.GetService('TeleportService'):Teleport(3371469539)
     end,
 })
 -- 
 local Button = page3:CreateButton({
     Name = 'Bills Planet (5 Zenkais)',
     Callback = function()
-        s:GetService('TeleportService'):Teleport(3336119605)
+        s.GetService('TeleportService'):Teleport(3336119605)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Test Realm (Old Version)',
     Callback = function()
-        s:GetService('TeleportService'):Teleport(6058646077)
+        s.GetService('TeleportService'):Teleport(6058646077)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Test Realm (New Version)',
     Callback = function()
-        s:GetService('TeleportService'):Teleport(8927587560)
-    end,
-})
--- 
-local Button = page3:CreateButton({
-    Name = 'Test Realm (New Version)',
-    Callback = function()
-        s:GetService('TeleportService'):Teleport(8927587560)
+        s.GetService('TeleportService'):Teleport(8927587560)
     end,
 })
 -- 
 local Button = page3:CreateButton({
     Name = 'Boss Arena (lol)',
     Callback = function()
-        s:GetService('TeleportService'):Teleport(3422324662)
+        s.GetService('TeleportService'):Teleport(3422324662)
     end,
 })
+
+
 
 
 
