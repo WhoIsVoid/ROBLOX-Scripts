@@ -19,55 +19,7 @@ local s = setmetatable({}, {
 -- 
 local GC = getconnections or get_signal_cons -- synx / krnl support
 
-if GC then
-	for i,v in pairs(GC(s.Players.LocalPlayer.Idled)) do
-	    if v['Disable'] then
-			v['Disable'](v)
-		elseif v['Disconnect'] then
-			v['Disconnect'](v)
-		end
-	end
-end
---
-main = {}; do 
-    main.toPos = function(v)
-        s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v
-    end
-    
-    main.clickButton = function(v)
-        for i, b in pairs(getconnections(v.Activated)) do
-            b.Function()
-        end
-
-        for i, b in pairs(getconnections(v.MouseButton1Click)) do
-            b.Function()
-        end
-    end
-    main.pressKey = function(keyPress) 
-        s.VirtualInputManager:SendKeyEvent(true, keyPress, false, game)
-    end 
-    
-    main.releaseKey = function(keyPress)
-        s.VirtualInputManager:SendKeyEvent(false, keyPress, false, game)
-    end
-end
---
-for i,v in next, getupvalue(getupvalue(require(s.ReplicatedStorage:WaitForChild('_replicationFolder'):WaitForChild('Network')).FireServer,1),1) do
-    local remote = v.Remote;
-    local remoteName = v.Name;
-   
-    if remote and remoteName then
-       remote.Name = remoteName
-    end
-end
---
---\\\--
-local page0 = win:CreateTab('Information')
---///--
--------
---\\\--
-local page1 = win:CreateTab('Main Functions')
---///--repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
+if GC thenrepeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 local win = Rayfield:CreateWindow({
@@ -384,56 +336,56 @@ page3:CreateSection('World Teleports')
 local Button = page3:CreateButton({
     Name = 'Main Game',
     Callback = function()
-        s.GetService('TeleportService'):Teleport(71315343)
+        s.TeleportService:Teleport(71315343)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Yardrat (No Req.)',
     Callback = function()
-        s.GetService('TeleportService'):Teleport(1357512648)
+        s.TeleportService:Teleport(1357512648)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Hyperbolic Time Chamber (1M+ Stats)',
     Callback = function()
-        s.GetService('TeleportService'):Teleport(1362482151)
+        s.TeleportService:Teleport(1362482151)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Gravity Chamber (5 Zenkais)',
     Callback = function()
-        s.GetService('TeleportService'):Teleport(3371469539)
+        s.TeleportService:Teleport(3371469539)
     end,
 })
 -- 
 local Button = page3:CreateButton({
     Name = 'Bills Planet (5 Zenkais)',
     Callback = function()
-        s.GetService('TeleportService'):Teleport(3336119605)
+        s.TeleportService:Teleport(3336119605)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Test Realm (Old Version)',
     Callback = function()
-        s.GetService('TeleportService'):Teleport(6058646077)
+        s.TeleportService:Teleport(6058646077)
     end,
 })
 --
 local Button = page3:CreateButton({
     Name = 'Test Realm (New Version)',
     Callback = function()
-        s.GetService('TeleportService'):Teleport(8927587560)
+        s.TeleportService:Teleport(8927587560)
     end,
 })
 -- 
 local Button = page3:CreateButton({
     Name = 'Boss Arena (lol)',
     Callback = function()
-        s.GetService('TeleportService'):Teleport(3422324662)
+        s.TeleportService:Teleport(3422324662)
     end,
 })
 
