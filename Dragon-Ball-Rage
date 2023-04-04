@@ -102,7 +102,9 @@ local Toggle = page1:CreateToggle({
 
         while task.wait(.1) do 
             if not getgenv().trainStrength then break; end
-            main.pressKey('E')
+            pcall(function()
+                main.pressKey('E')
+            end)
         end
     end,
 })
@@ -116,13 +118,15 @@ local Toggle = page1:CreateToggle({
 
         while task.wait(.1) do 
             if not getgenv().trainKi then break; end
-            if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
-                main.pressKey('C')
-            elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
-                main.releaseKey('C')
-                task.wait(.2)
-                main.pressKey('Q')
-            end
+            pcall(function()
+                if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
+                    main.pressKey('C')
+                elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
+                    main.releaseKey('C')
+                    task.wait(.2)
+                    main.pressKey('Q')
+                end
+            end)
         end
     end,
 })
@@ -136,13 +140,15 @@ local Toggle = page1:CreateToggle({
 
         while task.wait(.1) do
             if not getgenv().trainDefense then break; end
-            if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
-                main.pressKey('C')
-            elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
-                main.releaseKey('C')
-                task.wait(.2)
-                main.pressKey('R')
-            end
+            pcall(function()
+                if s.Players.LocalPlayer.Character.State.Energy.Value <= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.1 then
+                    main.pressKey('C')
+                elseif s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 then
+                    main.releaseKey('C')
+                    task.wait(.2)
+                    main.pressKey('R')
+                end
+            end)
         end
     end,
 })
@@ -157,48 +163,50 @@ local Toggle = page1:CreateToggle({
 
         while task.wait() do
             if not getgenv().farmAll then break; end
-            main.pressKey('R')
-            task.wait(3)
-            main.releaseKey('R')
-            task.wait(.25)
-            repeat task.wait()
-                main.pressKey('C')
-            until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.9 
-            task.wait(.25)
-            main.releaseKey('C')
-            task.wait(.1)
-            main.pressKey('Q')
-            task.wait(3)
-            main.releaseKey('Q')
-            task.wait(.1)
-            repeat task.wait()
-                main.pressKey('C')
-            until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 
-            task.wait(.25)
-            main.releaseKey('C')
-            task.wait(.1)
-            main.pressKey('E')
-            task.wait(.4)
-            main.pressKey('E')
-            task.wait(.4)
-            main.pressKey('E')
-            task.wait(.4)
-            main.pressKey('E')
-            task.wait(.4)
-            main.pressKey('E')
-            task.wait(.4)
-            main.pressKey('E')
-            task.wait(.4)
-            main.pressKey('E')
-            task.wait(.4)
-            main.pressKey('E')
-            task.wait(.4)
-            main.pressKey('E')
-            task.wait(.4)
-            main.pressKey('E')
-            task.wait(.4)
-            main.releaseKey('E')
-            task.wait(.2)
+            pcall(function()
+                main.pressKey('R')
+                task.wait(3)
+                main.releaseKey('R')
+                task.wait(.25)
+                repeat task.wait()
+                    main.pressKey('C')
+                until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.9 
+                task.wait(.25)
+                main.releaseKey('C')
+                task.wait(.1)
+                main.pressKey('Q')
+                task.wait(3)
+                main.releaseKey('Q')
+                task.wait(.1)
+                repeat task.wait()
+                    main.pressKey('C')
+                until s.Players.LocalPlayer.Character.State.Energy.Value >= s.Players.LocalPlayer.Character.State.MaxEnergy.Value * 0.96 
+                task.wait(.25)
+                main.releaseKey('C')
+                task.wait(.1)
+                main.pressKey('E')
+                task.wait(.4)
+                main.pressKey('E')
+                task.wait(.4)
+                main.pressKey('E')
+                task.wait(.4)
+                main.pressKey('E')
+                task.wait(.4)
+                main.pressKey('E')
+                task.wait(.4)
+                main.pressKey('E')
+                task.wait(.4)
+                main.pressKey('E')
+                task.wait(.4)
+                main.pressKey('E')
+                task.wait(.4)
+                main.pressKey('E')
+                task.wait(.4)
+                main.pressKey('E')
+                task.wait(.4)
+                main.releaseKey('E')
+                task.wait(.2)
+            end)
         end
     end,
 })
