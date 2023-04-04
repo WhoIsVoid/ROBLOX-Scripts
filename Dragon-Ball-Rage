@@ -17,27 +17,6 @@ local s = setmetatable({}, {
     end
 }) 
 -- 
-local GC = getconnections or get_signal_cons -- synx / krnl support
-
-if GC thenrepeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
-
-local win = Rayfield:CreateWindow({
-   Name = 'Dragon Ball Rage v1.03 [STABLE]',
-   LoadingTitle = 'Dragon Ball Rage',
-   LoadingSubtitle = 'by Lxst ┃ lxst#3789',
-   ConfigurationSaving = {
-      Enabled = true,
-      FileName = 'DBR'
-   }
-})
--- 
-local s = setmetatable({}, {
-    __index = function(self, serv)
-        return game:GetService(serv)
-    end
-}) 
--- 
 local gc = getconnections or get_signal_cons -- synx / krnl support
 
 if GC then
