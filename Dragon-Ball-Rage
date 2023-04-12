@@ -2,7 +2,7 @@ repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 local win = Rayfield:CreateWindow({
-   Name = 'Dragon Ball Rage v1.03 [STABLE]',
+   Name = 'Dragon Ball Rage v1.04 [STABLE]',
    LoadingTitle = 'Dragon Ball Rage',
    LoadingSubtitle = 'by Lxst ┃ lxst#3789',
    ConfigurationSaving = {
@@ -76,6 +76,10 @@ local page2 = win:CreateTab('Player Functions')
 --\\\--
 local page3 = win:CreateTab('Teleports')
 --///--
+-------
+--\\\--
+local page4 = win:CreateTab('Easter')
+--///--
 --
 Rayfield:Notify({
     Title = 'UI Library has loaded!',
@@ -85,7 +89,7 @@ Rayfield:Notify({
 --
 page0:CreateSection('Updates')
 
-page0:CreateLabel('[-] Last Update: April 3rd, 2023')
+page0:CreateLabel('[-] Last Update: April 12th, 2023')
 page0:CreateLabel('[-] WARNING: THERE IS A CHANCE THAT YOU CAN BE BANNED! USE WITH CAUTION')
 
 
@@ -375,7 +379,18 @@ local Button = page3:CreateButton({
         s.TeleportService:Teleport(3422324662)
     end,
 })
-
+-- 
+local Button = page4:CreateButton({
+    Name = 'Get All Eggs',
+    Callback = function()
+        for i,v in pairs(workspace.Map.Eggs:GetChildren()) do 
+            if v.Transparency then
+                s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame; 
+                task.wait(0.25)
+            end
+        end
+    end,
+})
 
 
 
