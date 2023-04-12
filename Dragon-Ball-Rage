@@ -384,7 +384,7 @@ local Button = page4:CreateButton({
     Name = 'Get All Eggs',
     Callback = function()
         for i,v in pairs(workspace.Map.Eggs:GetChildren()) do 
-            if v.Transparency ~= 0 then
+            if v.Transparency ~= 1 then
                 s.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame; 
                 task.wait(0.25)
             end
