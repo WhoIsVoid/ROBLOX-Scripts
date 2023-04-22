@@ -12,7 +12,7 @@ while task.wait() and farmTrailer do
     elseif Client.PlayerGui.Interface.Score.Frame.Jobs.Visible then 
         for _,v in pairs(workspace.Cars:GetDescendants()) do 
             if v.Name == 'Owner' and v.Value == Client and Client:DistanceFromCharacter(s.Workspace.CompletionRegion.Primary.Position) > 20 then 
-                v.Parent:SetPrimaryPartCFrame(s.Workspace.CompletionRegion.Primary.CFrame * CFrame.new(0, 3, -21))
+                v.Parent:SetPrimaryPartCFrame(s.Workspace.CompletionRegion.Primary.CFrame * CFrame.new(0, 3, -20))
                 task.wait(.1)
             end 
         end
@@ -35,7 +35,7 @@ while task.wait() and farmFood do
     elseif Client.PlayerGui.Interface.Score.Frame.Jobs.Visible then 
         for _,v in pairs(workspace.Cars:GetDescendants()) do 
             if v.Name == 'Owner' and v.Value == Client and Client:DistanceFromCharacter(s.Workspace.CompletionRegion.Primary.Position) > 20 then 
-                v.Parent:SetPrimaryPartCFrame(s.Workspace.CompletionRegion.Primary.CFrame * CFrame.new(0, 3, -21))
+                v.Parent:SetPrimaryPartCFrame(s.Workspace.CompletionRegion.Primary.CFrame * CFrame.new(0, 3, -20))
                 task.wait(.1)
             end 
         end
