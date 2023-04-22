@@ -4,6 +4,18 @@
 --]]
 
 local s, Client = game, game.Players.LocalPlayer
+local GC = getconnections or get_signal_cons -- synx / krnl support
+
+if GC then
+	for _,v in pairs(GC(Client.Idled)) do
+	    if v['Disable'] then
+			v['Disable'](v)
+		elseif v['Disconnect'] then
+			v['Disconnect'](v)
+		end
+	end
+end
+
 
 while task.wait() and farmTrailer do 
     if not Client.PlayerGui.Interface.Score.Frame.Jobs.Visible then 
