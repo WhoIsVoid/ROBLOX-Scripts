@@ -27,10 +27,11 @@ while task.wait() and farmTrailer do
             if v.Name == 'Owner' and v.Value == Client and Client:DistanceFromCharacter(s.Workspace.CompletionRegion.Primary.Position) > 20 then 
                 workspace.CompletionRegion.Primary.Size = Vector3.new(100, 0.5, 350)
                 v.Parent:SetPrimaryPartCFrame(workspace.CompletionRegion.Primary.CFrame * CFrame.new(0, 3, -20))
-                task.wait(.1)
+                task.wait(.33)
             end 
         end
-        repeat task.wait() until Client.PlayerGui.Interface.JobComplete.Enabled
+	task.wait(.1)
+        if Client.PlayerGui.Interface.JobComplete.Enabled then
         s.ReplicatedStorage.Systems.Jobs.CashBankedEarnings:FireServer()
         Client.PlayerGui.Interface.JobComplete.Enabled = false;
         s.Lighting.BackgroundBlur.Enabled = false;
@@ -51,10 +52,11 @@ while task.wait() and farmFood do
             if v.Name == 'Owner' and v.Value == Client and Client:DistanceFromCharacter(s.Workspace.CompletionRegion.Primary.Position) > 20 then 
                 workspace.CompletionRegion.Primary.Size = Vector3.new(100, 0.5, 350)
                 v.Parent:SetPrimaryPartCFrame(workspace.CompletionRegion.Primary.CFrame * CFrame.new(0, 3, -20))
-                task.wait(.1)
+                task.wait(.33)
             end 
         end
-        repeat task.wait() until Client.PlayerGui.Interface.JobComplete.Enabled
+        task.wait(.1)
+        if Client.PlayerGui.Interface.JobComplete.Enabled then
         s.ReplicatedStorage.Systems.Jobs.CashBankedEarnings:FireServer()
         Client.PlayerGui.Interface.JobComplete.Enabled = false;
         s.Lighting.BackgroundBlur.Enabled = false;
