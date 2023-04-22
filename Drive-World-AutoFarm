@@ -3,10 +3,6 @@
     NOTE: YOU NEED TO BE IN A VEHICLE FOR THIS TO WORK!
 --]]
 
-getgenv().farmFood = false;
-getgenv().farmTrailer = true; 
-getgenv().waitTime = 25 -- I recommend 25; you can go lower but it is not recommended.
-
 local s, Client = game, game.Players.LocalPlayer
 
 while task.wait() and farmTrailer do 
