@@ -41,8 +41,6 @@ s.StarterGui:SetCore('SendNotification',{
                     end 
                 end
                 
-        	    task.wait(.1)
-        	    
                 if Client.PlayerGui.Interface.JobComplete.Enabled then
                     s.ReplicatedStorage.Systems.Jobs.CashBankedEarnings:FireServer()
                     Client.PlayerGui.Interface.JobComplete.Enabled = false;
@@ -70,8 +68,6 @@ s.StarterGui:SetCore('SendNotification',{
                     task.wait(.33)
                 end 
             end
-            
-            task.wait(.1)
             
             if Client.PlayerGui.Interface.JobComplete.Enabled then
                 s.ReplicatedStorage.Systems.Jobs.CashBankedEarnings:FireServer()
