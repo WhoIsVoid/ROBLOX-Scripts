@@ -1,8 +1,3 @@
---[[
-    by Lxst#3789 | Trailer Delivery + Food Delivery 
-    NOTE: YOU NEED TO BE IN A VEHICLE FOR THIS TO WORK!
---]]
-
 local s, Client = game, game.Players.LocalPlayer
 local GC = getconnections or get_signal_cons -- synx / krnl support
 
@@ -17,9 +12,9 @@ if GC then
 end
 
 s.StarterGui:SetCore('SendNotification',{
-	Title = 'Drive World Autofarm', 
+	Title = 'Autofarm', 
 	Text = 'by Lxst#3789', 
-	Icon = 'rbxassetid://9395380248' 
+	Icon = 'rbxassetid://9395380227',
 	Duration = math.huge
 })
 
