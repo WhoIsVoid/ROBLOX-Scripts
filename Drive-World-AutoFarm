@@ -16,6 +16,12 @@ if GC then
 	end
 end
 
+s.StarterGui:SetCore('SendNotification',{
+	Title = 'Drive World Autofarm', 
+	Text = 'by Lxst#3789', 
+	Icon = 'rbxassetid://9395380248' 
+	Duration = math.huge
+})
 
 while task.wait() and farmTrailer do 
     if not Client.PlayerGui.Interface.Score.Frame.Jobs.Visible then 
