@@ -1,0 +1,43 @@
+
+local s, Client = game, game.Players.LocalPlayer
+
+while task.wait() and farmTrailer do 
+    if not Client.PlayerGui.Interface.Score.Frame.Jobs.Visible then 
+        s.ReplicatedStorage.Systems.Jobs.StartJob:InvokeServer('TrailerDelivery', 'Dealership'); 
+        task.wait(waitTime)
+    elseif Client.PlayerGui.Interface.Score.Frame.Jobs.Visible then 
+        for _,v in pairs(workspace.Cars:GetDescendants()) do 
+            if v.Name == 'Owner' and v.Value == Client and Client:DistanceFromCharacter(s.Workspace.CompletionRegion.Primary.Position) > 20 then 
+                v.Parent:SetPrimaryPartCFrame(s.Workspace.CompletionRegion.Primary.CFrame * CFrame.new(0, 5, -21))
+                task.wait(.1)
+            end 
+        end
+        repeat task.wait() until Client.PlayerGui.Interface.JobComplete.Enabled
+        s.ReplicatedStorage.Systems.Jobs.CashBankedEarnings:FireServer()
+        Client.PlayerGui.Interface.JobComplete.Enabled = false;
+        s.Lighting.BackgroundBlur.Enabled = false;
+    end 
+end
+
+while task.wait() and farmFood do 
+    if not Client.PlayerGui.Interface.Score.Frame.Jobs.Visible then 
+        local randomNumber = math.random(1, 7)
+        for i,v in pairs(workspace.Jobs.FoodDelivery.StartPoints:GetChildren()) do
+            if i == randomNumber then
+                s.ReplicatedStorage.Systems.Jobs.StartJob:InvokeServer('FoodDelivery', v.Name)
+            end
+        end
+        task.wait(waitTime)
+    elseif Client.PlayerGui.Interface.Score.Frame.Jobs.Visible then 
+        for _,v in pairs(workspace.Cars:GetDescendants()) do 
+            if v.Name == 'Owner' and v.Value == Client and Client:DistanceFromCharacter(s.Workspace.CompletionRegion.Primary.Position) > 20 then 
+                v.Parent:SetPrimaryPartCFrame(s.Workspace.CompletionRegion.Primary.CFrame * CFrame.new(0, 5, -21))
+                task.wait(.1)
+            end 
+        end
+        repeat task.wait() until Client.PlayerGui.Interface.JobComplete.Enabled
+        s.ReplicatedStorage.Systems.Jobs.CashBankedEarnings:FireServer()
+        Client.PlayerGui.Interface.JobComplete.Enabled = false;
+        s.Lighting.BackgroundBlur.Enabled = false;
+    end
+end
