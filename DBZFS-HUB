@@ -1,74 +1,55 @@
-local SolarisLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/sol'))()
+--DBZFS GUI by Lxst | 2023 Redux
 
-local win = SolarisLib:New({
-  Name = 'Nexus | GUI';
-  FolderToSave = 'Nexus_AutoFarm'
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character;
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local win = Rayfield:CreateWindow({
+   Name = 'Dragon Ball Z: Final Stand v1.02 [BETA]',
+   LoadingTitle = 'Dragon Ball Z: Final Stand',
+   LoadingSubtitle = 'by Lxst ┃ Lxst#0001',
+   ConfigurationSaving = {
+      Enabled = false,
+      FileName = 'dbzfs'
+   }
 })
---
-
-local page0 = win:Tab('Information')
-local credits1 = page0:Section('Updates')
-local credits2 = page0:Section('Credits')
-
-local page = win:Tab('Auto Farm')
-local farm1 = page:Section('NPC Farm')
-local farm2 = page:Section('Toggle Auto-Farm')
-local farm3 = page:Section('Toggle Auto-Punch')
-local farm4 = page:Section('Toggle Auto Bean Spam')
-
-local page1 = win:Tab('Main Scripts')
-local main1 = page1:Section('Respawn')
---local main2 = page1:Section('TOP Respawn')
-local main3 = page1:Section('God-Mode')
-local main4 = page1:Section('No-Slow')
---local main5 = page1:Section('Remove')
-
-local page2 = win:Tab('Misc Scripts')
-local misc1 = page2:Section('Teleport to Entity')
-local misc2 = page2:Section('Speed Adjuster')
-local misc3 = page2:Section('FOV')
---local misc4 = page2:Section('Ki-Tracker')
---local misc5 = page2:Section('Move Spam')
-
-local page3 = win:Tab('Other Scripts')
-local local1 = page3:Section('Stat Checker')
-local local2 = page3:Section('Stat Adder')
-local local3 = page3:Section('Level 1-55')
-
-local page4 = win:Tab('Visuals')
-local visuals1 = page4:Section('Dust')
-local visuals2 = page4:Section('Dark Chat Theme')
-local visuals3 = page4:Section('Remove Aura')
-local visuals4 = page4:Section('Auras')
-
-local page5 = win:Tab('Buy')
-local buy1 = page5:Section('Beans / Jars')
-local buy2 = page5:Section('Elder Kai')
-local buy3 = page5:Section('Saiyan Prestige Forms')
-local buy4 = page5:Section('Jiren Prestige Forms')
-local buy5 = page5:Section('Namekian Prestige Forms')
-local buy6 = page5:Section('Acrosian Prestige Forms')
-local buy7 = page5:Section('Majin Prestige Forms')
-local buy8 = page5:Section('Human Prestige Forms')
-local buy9 = page5:Section('Mastered Ultra Instinct')
-local buy10 = page5:Section('Clothing')
-
-local page6 = win:Tab('Teleports')
-local tp1 = page6:Section('World Teleports')
-
---
-local s = setmetatable({},{
-    __index = function(self, key)
-        return game:GetService(key)
+-- 
+local s = setmetatable({}, {
+    __index = function(self, serv)
+        return game:GetService(serv)
     end
-})
+}) 
+-- 
+local GC = getconnections or get_signal_cons -- synx / krnl support
+
+if GC then
+	for i,v in pairs(GC(s.Players.LocalPlayer.Idled)) do
+	    if v['Disable'] then
+			v['Disable'](v)
+		elseif v['Disconnect'] then
+			v['Disconnect'](v)
+		end
+	end
+end
 --
-local Client = game.Players.LocalPlayer;
-local Character = Client.Character or Client.CharacterAdded:Wait()
-local Humanoid = Character.Humanoid
-local Root = Character.HumanoidRootPart or Character.PrimaryPart
+local Client = s.Players.LocalPlayer;
+local Character = Client.Character or Client.CharacterAdded:Wait();
+local Humanoid = Character.Humanoid;
+local Root = Character.HumanoidRootPart or Character.PrimaryPart;
+-- 
+Client.CharacterAdded:connect(function(char)
+    Character = char;
+    Humanoid = char and (char.Humanoid or char:WaitForChild('Humanoid'));
+    Root = char and (char.HumanoidRootPart or char:WaitForChild('HumanoidRootPart'));
+end)
 --
 main = {}; do 
+    main.NOTIFY = function(arg1, arg2)
+        Rayfield:Notify({
+            Title = arg1,
+            Content = arg2,
+            Duration = 5
+        })
+    end
     main.NewChat = function(args)
         Client.Backpack.ServerTraits.ChatStart:FireServer(workspace.FriendlyNPCs[args])
     end 
@@ -162,577 +143,917 @@ main = {}; do
         main.RespondChat('k')
     end
 end
--- 
--- 
-local GC = getconnections or get_signal_cons -- synx / krnl support
-
-if GC then
-	for i,v in pairs(GC(Client.Idled)) do
-	    if v['Disable'] then
-			v['Disable'](v)
-		elseif v['Disconnect'] then
-			v['Disconnect'](v)
-		end
-	end
-end
--- 
-SolarisLib:Notification('Nexus | GUI', 'Created by: Lxst')
 --
-NPC = {}
+--\\\--
+local page0 = win:CreateTab('Information')
+--///--
+-------
+--\\\--
+local page1 = win:CreateTab('Farming Functions')
+--///--
+-------
+--\\\--
+local page2 = win:CreateTab('Main Functions')
+--///--
+-------
+--\\\--
+local page3 = win:CreateTab('Misc Functions')
+--///--
+-------
+--\\\--
+local page4 = win:CreateTab('Stat Functions')
+--///--
+-------
+--\\\--
+local page5 = win:CreateTab('Fun Functions')
+--///--
+-------
+--\\\--
+local page6 = win:CreateTab('Buy Functions')
+--///--
+-------
+--\\\--
+local page7 = win:CreateTab('Teleport Functions')
+--///--
+
 --
-credits1:Button('Last Updated: Dec. 24th, 2022', nil, function()
-end)
+main.NOTIFY('UI Library has loaded!', 'by Lxst')
+--
+page0:CreateSection('Updates')
 
-credits1:Button('[-] Added "Visuals" tab', nil, function()
-end)
+page0:CreateLabel('[-] Last Update: April 28th, 2023')
+page0:CreateLabel('[-] WARNING: THERE IS A CHANCE THAT YOU CAN BE BANNED! USE WITH CAUTION')
 
-credits1:Button('[-] Improved the Auto Farm function', nil, function()
-end)
 
-credits2:Button('Scripts created by Lxst', nil, function()
-end)
-
-farm1:Textbox('NPC 1', nil, function(v1)
-    NPC[1] = v1
-end)
-
-farm1:Textbox('NPC 2', nil, function(v2)
-    NPC[2] = v2
-end)
-
-farm1:Textbox('NPC 3', nil, function(v3)
-    NPC[3] = v3
-end)
-
-farm1:Textbox('NPC 4', nil, function(v4)
-    NPC[4] = v4
-end)
-
-farm2:Toggle('Auto Farm', nil, 'Toggle', function(TAF)
-    getgenv().AF = TAF;
+page0:CreateSection('Credits')
+page0:CreateLabel('[-] by Lxst#0001')
+--
+getgenv().NPCTableContents = {};
+getgenv().getCurrentNPC = ''
+-- 
+page1:CreateSection('Auto-Farm Settings')
+page1:CreateInput({
+    Name = 'NPC #1';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+        NPCTableContents[1] = t;
+    end;
+})
+-- 
+page1:CreateInput({
+    Name = 'NPC #2';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+        NPCTableContents[2] = t;
+    end;
+})
+-- 
+page1:CreateInput({
+    Name = 'NPC #3';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+        NPCTableContents[3] = t;
+    end;
+})
+-- 
+page1:CreateInput({
+    Name = 'NPC #4';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+        NPCTableContents[4] = t;
+    end;
+})
+page1:CreateToggle({
+   Name = 'Auto Farm NPCs';
+   CurrentValue = false;
+   Flag = 'npcFarmToggled';
+    Callback = function(t)
+        getgenv().npcFarmToggle = t;
     
-    NPCN = 1
-    Client = game.Players.LocalPlayer;
-    TS = game:GetService('TweenService');
-        
-    while true and task.wait() do  
-        if not getgenv().AF then break end 
-        pcall(function()    -- although this isn't the best script practice, DBZ:FS has old code so not much I can do here lol
-            for _,v in pairs(workspace.Live:GetChildren()) do 
-                if v.Name:find(NPC[NPCN]) and string.len(NPC[NPCN]) > 2 and not v.Name:find('Red') then -- honestly this code is 2 years old so I forgot what 'Red' was lmfao
-                    if v.HumanoidRootPart and v.HumanoidRootPart.Position.Y > 1000 then 
-                        repeat wait(.5) until 
-                        v.HumanoidRootPart.Position.Y <= 1000
-                    else     
-                        if v:FindFirstChild('Humanoid') and v.Humanoid.Health < 0.01 then 
-                            v:Destroy() 
-                        else
-                            repeat game:GetService('RunService').Stepped:wait()  
-                                if not getgenv().AF then return end 
-                                Character.Humanoid:ChangeState(11)
-                                workspace.CurrentCamera.CFrame = Root.CFrame -- more ideal than wasting memory lol
-                                CT = (Root.Position - v.HumanoidRootPart.Position).Magnitude / 5000;
-                                TS:create(Root, TweenInfo.new(CT, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,4)}):Play()
-                            until v.Humanoid.Health < 0.01 or not v.HumanoidRootPart
+        getgenv().currentNPCNum = 1
+
+        while true and task.wait() do  
+            if not getgenv().npcFarmToggle then break; end 
+            pcall(function()
+                for _,v in pairs(workspace.Live:GetChildren()) do 
+                    if v.Name:find(NPCTableContents[currentNPCNum]) and string.len(NPCTableContents[currentNPCNum]) > 2 and not v.Name:find('Red') then -- I forgot what "Red" was since this function was made a long time ago, lol.
+                        if v.HumanoidRootPart and v.HumanoidRootPart.Position.Y > 1000 then 
+                            repeat task.wait(.5) until 
+                            v.HumanoidRootPart.Position.Y <= 1000
+                        else     
+                            if v:FindFirstChild('Humanoid') and v.Humanoid.Health < 0.01 then 
+                                v:Destroy() 
+                            else
+                                repeat s.RunService.Stepped:Wait()  
+                                    getgenv().canAutoPunch = true;
+                                    if not getgenv().npcFarmToggle then return end 
+                                    Character.Humanoid:ChangeState(11)
+                                    workspace.CurrentCamera.CFrame = Root.CFrame
+                                    CT = (Root.Position - v.HumanoidRootPart.Position).Magnitude / 5000;
+                                    main.Tween({CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,4)}, CT)
+                                until v.Humanoid.Health < 0.01 or not v.HumanoidRootPart
+                                getgenv().canAutoPunch = false;
+                            end
                         end
                     end
                 end
-            end
-        end)
-        if NPCN ~= #NPC then 
-            NPCN = NPCN + 1
-        elseif NPCN == #NPC then
-            NPCN = 1
-        end
-    end
-end)
-
-farm3:Toggle('Auto Punch', nil, 'Toggle', function(TAP)
-    getgenv().AP = TAP
-    
-    Client = game.Players.LocalPlayer
-    
-    while task.wait(.38) and true do 
-        if not getgenv().AP then break; end
-        Client.Backpack.ServerTraits.Input:FireServer({ 'md' }, CFrame.new());
-    end
-end)
-
-farm4:Toggle('Auto Bean Spam', nil, 'Toggle', function(ABS)
-    getgenv().AB = ABS 
-    
-    Client = game.Players.LocalPlayer
-
-    while task.wait() and true do 
-        if not getgenv().AB then break; end
-        Client.Backpack.ServerTraits.EatSenzu:FireServer(' ')
-    end 
-end)
-
-main1:Button('Instant Respawn (Earth)', function()
-    local chatGui = Client.PlayerGui.HUD.Bottom.ChatGui;
-    local oldPosition = Root.CFrame;
-                    
-    fireclickdetector(game.Workspace.FriendlyNPCs['Hair Stylist'].ClickDetector);
-    repeat firesignal(chatGui.Opt1.MouseButton1Click) chatGui.Visible = false task.wait() until Client.Backpack:FindFirstChild('HairScript');
-                
-    Client.Backpack.HairScript.RemoteEvent:FireServer('woah');
-    Client.CharacterAdded:Wait();
-    repeat Root.CFrame = oldPosition task.wait() until Character:FindFirstChildOfClass('BoolValue');
-end)
-
-main3:Toggle('God Mode (Earth)', nil, 'Toggle', function(t)
-    getgenv().God1 = t
-    local function God()
-        if not God1 then return end
-        firetouchinterest(Root, game:GetService('Workspace').Touchy.Part, 0)
-        firetouchinterest(Root, game:GetService('Workspace').Touchy.Part, 1)
-        Client.PlayerGui:WaitForChild('Popup').Enabled = false
-    end
-    s.RunService.Stepped:Connect(God) -- will ensure that the loop doesn't 'break'
-end)
-
-main3:Toggle('God Mode (Universal)', nil, 'Toggle', function(t)
-    getgenv().God2 = t
-
-    local function God() 
-        local Client = game.Players.LocalPlayer;
-        local Character = Client.Character or Client.CharacterAdded:Wait()
-        local AIS = Client.Backpack:FindFirstChild('Afterimage Strike')
-        if not Character.PrimaryPart:FindFirstChild('VanishParticle') or not God2 then return end
-        AIS.Parent = Character
-                    
-        repeat task.wait() until Character:FindFirstChildOfClass('BoolValue')
-                    
-        pcall(function() -- so the loop doesn't 'break' since FS's shitty code is in the way
-            Character.PrimaryPart:FindFirstChild('VanishParticle'):Destroy()
-        end)
-                    
-        repeat
-            task.wait()
-            AIS.Targeter:FireServer(Character)
-            AIS:Activate()
-        until Character:FindFirstChild('i')
-        AIS:Deactivate()
-    end
-    GMS = s.RunService.Stepped:Connect(God) -- same shit as before
-    
-    if not God2 then
-        GMS:Disconnect()
-        if not Character.PrimaryPart:FindFirstChild('VanishParticle') then 
-            Character:BreakJoints()
-        end
-        return
-    end
-    
-    -- bypass cause it's needed (made this before 'Aloof' did *cough*)
-    if not Bypass then 
-        old = hookmetamethod(game, '__namecall', function(self, ...)
-            args = {...}
-                if getnamecallmethod() == 'FireServer' and self.Name == 'Input' then
-                    if args[1][1] == 'blockoff' or args[1][1] == 'blockon' then
-                        return nil
-                    end;
-                end;
-            return old(self, ...)
-        end);
-    end
-    Bypass = true; -- one way of making a check if the script has ran at least once
-end)
-
-main4:Toggle('No-Slow (Universal)', nil, 'Toggle', function(t)
-    
-    getgenv().NS = t
-    
-    local Client = game.Players.LocalPlayer
-    local NoS = {'Action', 'SuperAction', 'Attacking', 'Using', 'heavy', 'hyper', 'Hyper', 'Tele', 'tele', 'Slow', 'Killed', 'KiBlasted', 'MoveStart', 'Dodging', 'KiBlasting', 'BStun', 'KnockBacked', 'NotHardBack', 'creator'}
-
-    while task.wait() do
-    if not NS then break end;
-    for _,v in next, Client.Character:GetDescendants() do 
-        if table.find(NoS, v.Name) then 
-            v:Destroy()
+            end)
+            if currentNPCNum ~= #NPCTableContents then 
+                currentNPCNum = currentNPCNum + 1
+            elseif currentNPCNum == #NPCTableContents then
+                currentNPCNum = 1
             end
         end
-    end
-end)
+    end;
+})
+-- 
+page1:CreateSection('Auto-Punch')
+page1:CreateToggle({
+    Name = 'Auto Punch NPCs';
+    CurrentValue = false;
+    Flag = 'autoPunchToggled';
+    Callback = function(t)
+        getgenv().autoPunchToggle = t;
 
-local TRGT1 = {}
+        while task.wait(.38) and autoPunchToggle do 
+            if not canAutoPunch then repeat task.wait() until canAutoPunch end
+            Client.Backpack.ServerTraits.Input:FireServer({ 'md' }, CFrame.new());
+        end
+    end;
+})
+-- 
+page1:CreateSection('Auto Bean-Spam')
+page1:CreateToggle({
+    Name = 'Auto Beans';
+    CurrentValue = false;
+    Flag = 'autoBeanToggled';
+    Callback = function(t)
+        getgenv().autoBeanToggle = t;
 
-misc1:Textbox('Target:', nil, function(t)
-    TRGT1[1] = t;
-end)
+        while task.wait() and autoBeanToggle do 
+            Client.Backpack.ServerTraits.EatSenzu:FireServer(' ')
+        end
+    end;
+})
+-- 
+page2:CreateSection('Instant Respawn')
+page2:CreateButton({
+    Name = 'Instant Respawn (Earth)';
+    Callback = function(t)
+        local chatGui = Client.PlayerGui.HUD.Bottom.ChatGui;
+        local oldPosition = Root.CFrame;
+                        
+        fireclickdetector(workspace.FriendlyNPCs['Hair Stylist'].ClickDetector);
+        repeat firesignal(chatGui.Opt1.MouseButton1Click) chatGui.Visible = false task.wait() until Client.Backpack:FindFirstChild('HairScript');
+                    
+        Client.Backpack.HairScript.RemoteEvent:FireServer('woah');
+        Client.CharacterAdded:Wait();
+        repeat Root.CFrame = oldPosition task.wait() until Character:FindFirstChildOfClass('BoolValue');
+    end;
+})
+-- 
+page2:CreateSection('God-Modes')
+page2:CreateToggle({
+    Name = 'God-Mode (Earth)';
+    CurrentValue = false;
+    Flag = 'earthGodModeToggled';
+    Callback = function(t)
+        getgenv().earthGodModeToggle = t
+        while task.wait() and earthGodModeToggle do 
+            pcall(function()
+                firetouchinterest(Root, workspace.Touchy.Part, 0)
+                firetouchinterest(Root, workspace.Touchy.Part, 1)
+                Client.PlayerGui:WaitForChild('Popup').Enabled = false
+            end)
+        end
+    end;
+})
+--
+page2:CreateToggle({
+    Name = 'God-Mode (Universal)';
+    CurrentValue = false;
+    Flag = 'uniGodModeToggled';
+    Callback = function(t)
+        getgenv().uniGodModeToggle = t;
 
-misc1:Button('Teleport (Universal)', function(t)
-    local v = main.GetPlayer(TRGT1[1])
-    
-    repeat task.wait()
-        MG = (Root.Position - v.Character.HumanoidRootPart.Position).Magnitude / 3250
-        main.Tween({CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(3,1,0)}, MG)
-    until Client:DistanceFromCharacter(v.Character.HumanoidRootPart.Position) <= 4
-end)
+        local function God() 
+            local AIS = Client.Backpack:FindFirstChild('Afterimage Strike')
+            if not Character.PrimaryPart:FindFirstChild('VanishParticle') or not uniGodModeToggle then return end
+            
+            AIS.Parent = Character
+                        
+            repeat task.wait() until Character:FindFirstChildOfClass('BoolValue')
+                        
+            pcall(function() 
+                Character.PrimaryPart:FindFirstChild('VanishParticle'):Destroy()
+            end)
+                        
+            repeat task.wait()
+                AIS.Targeter:FireServer(Character)
+                AIS:Activate()
+            until Character:FindFirstChild('i')
+            AIS:Deactivate()
+        end
 
-misc2:Slider('Speed (Universal)', 0, 5000, 0, 1, 'Slider', function(t)
-    getgenv().Speed = t;
-    if t == 0 then return end
-    firesignal(Client.Backpack.ServerTraits.Input.OnClientEvent, { Speed });
-end)
-
-misc3:Slider('Field of View (Universal)', 0, 120, 0, 70, 'Slider', function(t)
-    getgenv().FOV = t;
-    if t == 0 then return end
-	workspace.CurrentCamera.FieldOfView = FOV
-end)
-
-local TRGT2 = {}
-
-local1:Textbox('Target: ', nil, function(t)
-    TRGT2[1] = t;
-end)
-
-local1:Button('Get Stats (Universal)', function(t)
-    local s = main.GetPlayer(TRGT2[1]);
-    
-    local Name = s.Name
-    local Race = s.Character.Race.Value
-    local Health = s.Character.Stats['Health-Max'].Value
-    local Ki = s.Character.Stats['Ki-Max'].Value
-    local Melee = s.Character.Stats['Phys-Damage'].Value
-    local KiD = s.Character.Stats['Ki-Damage'].Value
-    local MeleeR = s.Character.Stats['Phys-Resist'].Value
-    local KiR = s.Character.Stats['Ki-Resist'].Value
-    local Speed = s.Character.Stats['Speed'].Value
-    SolarisLib:Notification('Grabbing stats of: ', ''..Name)
-    task.wait(0.25)
-    SolarisLib:Notification('Race: ', ''..Race)
-    task.wait(0.25)
-    SolarisLib:Notification('Health-Max: ', ''..Health)
-    task.wait(0.25)
-    SolarisLib:Notification('Ki-Max: ', ''..Ki)
-    task.wait(0.25)
-    SolarisLib:Notification('Phys-Damage: ', ''..Melee)
-    task.wait(0.25)
-    SolarisLib:Notification('Ki-Damage: ', ''..KiD)
-    task.wait(0.25)
-    SolarisLib:Notification('Phys-Resist: ', ''..MeleeR)
-    task.wait(0.25)
-    SolarisLib:Notification('Ki-Resist: ', ''..KiR)
-    task.wait(0.25)
-    SolarisLib:Notification('Speed: ', ''..Speed)
-end)
-
-
-local2:Dropdown('Target Stat', {'Health-Max', 'Ki-Max', 'Phys-Damage', 'Ki-Damage', 'Phys-Resist', 'Ki-Resist', 'Speed'}, 'Health-Max', 'Dropdown', function(t)
-    getgenv().StatTrgt = t;
-end)
-
-local2:Textbox('Stat Points:', nil, function(t)
-   getgenv().StatAmt = t; 
-end)
-
-local2:Button('Add Stats (Universal)', function(t)
-    for i = 1, StatAmt do
-        Client.Backpack.ServerTraits.AttemptUpgrade:FireServer(Client.PlayerGui.HUD.Bottom.Stats[StatTrgt])
-    end
-end)
-
-local3:Button('Level 1 -> 55 (Earth)', function(t)
-    main.LevelSeq()
-end)
-
-visuals1:Toggle('Dust Particles (Universal)', nil, 'Toggle', function(t)
-	getgenv().Dusti = t;
-	local function Dust()
-	    if not Dusti then return end
-		Client.Backpack.ServerTraits.Vanish:FireServer('average', CFrame.new())
-	end
-	
-	RD = s.RunService.Stepped:Connect(Dust)
-	
-	if not Dusti then 
-		RD:Disconnect();
-		return
-	end
-end)
-
-visuals2:Toggle('Dark Theme Chat (Client)', nil, 'Toggle', function(t)
-	getgenv().Dark = t;
-	
-	local DarkTheme = Instance.new('Folder')
-	DarkTheme.Name = 'DarkTheme'
-	DarkTheme.Parent = Client.Character
-	
-	if not Dark and Character:FindFirstChild('DarkTheme') then 
-		Character:FindFirstChild('DarkTheme'):Destroy()
-	end
-end)
-
-visuals3:Toggle('Remove Form Aura', nil, 'Toggle', function(t)
-    getgenv().RF = t;
-    
-    local function RAU()
-    	if Root then
-    		if Root:FindFirstChild('TempAura') then
-    			Root.TempAura:Destroy()
-    		end
-    		if Root:FindFirstChild('Lightning') then
-    			Root.Lightning:Destroy()
-    		end
-    	end
-    end
-	
-    RA = s.RunService.Stepped:Connect(RAU)
-
-	if not RF then  
-		RA:Disconnect();
-	end
-end)
-
-visuals3:Toggle('Remove Bean Aura', nil, 'Toggle', function(t)
-	getgenv().RemB = t;
-	
-	local function Bean()
-		if Root:FindFirstChild('Critz') then
-			Root.Critz:Destroy()
-		else 
-		    return
-		end
-	end
-	
-	RB = s.RunService.Stepped:Connect(Bean)
-	
-	if not RemB then 
-		RB:Disconnect()
-	end
-end)
-
-visuals4:Button('Blaster Meteor Aura', function()
-	if not Client.Backpack:FindFirstChild('Blaster Meteor') and not Character:FindFirstChild('Blaster Meteor') then
-        SolarisLib:Notification('Error!', 'You need to defeat Broly BR until you get "Blaster Meteor"')
-        return
-	end
-	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Blaster Meteor'))
-	task.wait(.3)
-	Character['Blaster Meteor'].Activator.Sound:Destroy()
-end)
-
-visuals4:Button('Rush Aura', function()
-	if not Client.Backpack:FindFirstChild('Rush') and not Character:FindFirstChild('Rush') then
-        SolarisLib:Notification('Error!', 'You need to buy "Rush" from the move shop!')
-		return
-	end
-	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Rush'))
-	task.wait(.3)
-	Character['Rush'].Activator.DASH2:Destroy()
-end)
-
-visuals4:Button('Super Rush Aura', function()
-	if not Client.Backpack:FindFirstChild('Super Rush') and not Character:FindFirstChild('Super Rush') then
-        SolarisLib:Notification('Error!', 'You need to buy "Super Rush" from the move shop!')
-		return
-	end
-	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Super Rush'))
-	task.wait(.3)
-	Character['Super Rush'].Activator.DASH2:Destroy()
-end)
-
-visuals4:Button('Dragon Fist Aura', function()
-	if not Client.Backpack:FindFirstChild('Super Dragon Fist') and not Character:FindFirstChild('Super Dragon Fist') then
-        SolarisLib:Notification('Error!', 'You need to buy "Dragon Fist" from the move shop!')
-		return
-	end
-	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Super Dragon Fist'))
-	task.wait(.5)
-	Character['Super Dragon Fist'].Activator.Forward:Destroy()
-end)
-
-visuals4:Button('Kaioken Assault Aura', function()
-	if not Client.Backpack:FindFirstChild('Kaioken Assault') and not Character:FindFirstChild('Kaioken Assault') then
-        SolarisLib:Notification('Error!', 'You need to buy "Kaioken Assault" from the move shop!')
-		return
-	end
-	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Kaioken Assault'))
-	task.wait(0.5)
-	Character['Kaioken Assault'].Activator.Forward:Destroy()
-end)
-
-visuals4:Button('Wrathful Charge Aura', function()
-	if not Client.Backpack:FindFirstChild('Wrathful Charge') and not Character:FindFirstChild('Wrathful Charge') then
-        SolarisLib:Notification('Error!', 'You need to defeat Broly BR until you get "Wraithful Charge"')
-		return
-	end
-	Humanoid:EquipTool(Client.Backpack:FindFirstChild('Wrathful Charge'))
-	task.wait(0.5)
-	Character['Wrathful Charge'].Activator.Forward:Destroy()
-end)
-
-
-buy1:Dropdown('What to buy', {'Beans', 'Jars'}, 'Beans', 'Dropdown', function(BUY1)
-    getgenv().TYPE = BUY1
-end)
-
-buy1:Dropdown('Amount', {'80', '8'}, '80', 'Dropdown', function(AMT)
-    getgenv().AMT = AMT
-end)
-
-buy1:Dropdown('Color', {'Red', 'Yellow', 'Blue', 'Green'}, 'Red', 'Dropdown', function(CLR)
-    getgenv().CLR = CLR
-end)
-
-buy1:Toggle('Auto Buy', nil, 'Toggle', function(AB)
-    getgenv().AutoB = AB
-
-    while true and task.wait() do
-        if not getgenv().AutoB then break end
-        Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
-        task.wait(0.015)
-        main.NewChat('Korin BEANS')
-        task.wait(.3)
-        main.RespondChat('k')
-        task.wait(.3)
-        main.RespondChat('k')
-        task.wait(.3)
-        main.RespondChat(TYPE)
-        task.wait(.3)
-        main.RespondChat('k')
-        task.wait(.3)
-        main.RespondChat(AMT)
-        task.wait(.3)
-        main.RespondChat('k')
-        task.wait(.3)
-        main.RespondChat(CLR)
-        task.wait(.3)
-        main.RespondChat('k')
-
-        if AMT == '80' then 
-            task.wait(.3)
-            main.RespondChat('Yes')
-        elseif AMT ~= '80' then
-            task.wait(.3)
-            main.RespondChat('Use Zenni')
+        GMS = s.RunService.Stepped:Connect(God)
+        
+        if not uniGodModeToggle then
+            GMS:Disconnect()
+            if not Character.PrimaryPart:FindFirstChild('VanishParticle') then 
+                Character:BreakJoints()
+            end
         end
         
+        if not Bypass then 
+            old = hookmetamethod(game, '__namecall', function(self, ...)
+                args = {...}
+                    if getnamecallmethod() == 'FireServer' and self.Name == 'Input' then
+                        if args[1][1] == 'blockoff' or args[1][1] == 'blockon' then
+                            return nil
+                        end;
+                    end;
+                return old(self, ...)
+            end);
+        end
+        Bypass = true;
+    end;
+})
+--
+page2:CreateToggle({
+    Name = 'No-Slow (Universal)';
+    CurrentValue = false;
+    Flag = 'noSlowToggled';
+    Callback = function(t)
+        getgenv().noSlowToggle = t;
+        
+        local NoS = {'Action', 'SuperAction', 'Attacking', 'Using', 'heavy', 'hyper', 'Hyper', 'Tele', 'tele', 'Slow', 'Killed', 'KiBlasted', 'MoveStart', 'Dodging', 'KiBlasting', 'BStun', 'KnockBacked', 'NotHardBack', 'creator'}
+        
+        while task.wait() and noSlowToggle do
+            for _,v in next, Client.Character:GetDescendants() do 
+                if table.find(NoS, v.Name) then 
+                    v:Destroy()
+                end
+            end
+        end
+    end;
+})
+--
+getgenv().teleportTarget = {};
+page3:CreateSection('Teleport Functions')
+page3:CreateInput({
+    Name = 'Target: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+        teleportTarget[1] = t;
+    end;
+})
+page3:CreateButton({
+    Name = 'Teleport to Player';
+    Callback = function(t)
+        local v = main.GetPlayer(teleportTarget[1])
+    
+        repeat task.wait()
+            MG = (Root.Position - v.Character.HumanoidRootPart.Position).Magnitude / 3250
+            main.Tween({CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(3,1,0)}, MG)
+        until Client:DistanceFromCharacter(v.Character.HumanoidRootPart.Position) <= 4
+    end;
+})
+page3:CreateSection('Client Utilities')
+page3:CreateSlider({
+    Name = 'Walk-Speed';
+    Range = {1, 5000};
+    Increment = 1;
+    Suffix = '';
+    CurrentValue = Character.Stats['Speed'].Value;
+    Flag = 'WalkspeedSlider'; 
+    Callback = function(t)
+        getgenv().setWalkspeed = t;
+    end;
+})
+--
+page3:CreateToggle({
+    Name = 'Walk-Speed (Universal)';
+    CurrentValue = false;
+    Flag = 'walkSpeedToggled';
+    Callback = function(t)
+        getgenv().walkSpeedToggle = t;
+
+        while task.wait() and walkSpeedToggle do 
+            pcall(function()
+                firesignal(Client.Backpack.ServerTraits.Input.OnClientEvent, { setWalkspeed });
+            end)
+        end
+    end;
+})
+--
+page3:CreateSlider({
+    Name = 'Field of View (Universal)';
+    Range = {0, 120};
+    Increment = 1;
+    Suffix = '';
+    CurrentValue = math.round(workspace.CurrentCamera.FieldOfView);
+    Flag = 'FOVSlider'; 
+    Callback = function(t)
+        workspace.CurrentCamera.FieldOfView = t
+    end;
+})
+--
+getgenv().statCheckTarget = {};
+page4:CreateSection('Stat Checker')
+page4:CreateInput({
+    Name = 'Target: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+        statCheckTarget[1] = t;
+    end;
+})
+-- 
+page4:CreateButton({
+    Name = 'Check Stats (Universal)';
+    Callback = function(t)
+    local v = main.GetPlayer(statCheckTarget[1]);
+    
+    s.CoreGui.Rayfield.Main.Elements['Stat Functions']['Name: '].InputFrame.InputBox.Text = v.Name
+    s.CoreGui.Rayfield.Main.Elements['Stat Functions']['Race: '].InputFrame.InputBox.Text = v.Character.Race.Value
+    s.CoreGui.Rayfield.Main.Elements['Stat Functions']['Health-Max: '].InputFrame.InputBox.Text = v.Character.Stats['Health-Max'].Value
+    s.CoreGui.Rayfield.Main.Elements['Stat Functions']['Ki-Max: '].InputFrame.InputBox.Text = v.Character.Stats['Ki-Max'].Value
+    s.CoreGui.Rayfield.Main.Elements['Stat Functions']['Phys-Damage: '].InputFrame.InputBox.Text = v.Character.Stats['Phys-Damage'].Value
+    s.CoreGui.Rayfield.Main.Elements['Stat Functions']['Ki-Damage: '].InputFrame.InputBox.Text = v.Character.Stats['Ki-Damage'].Value
+    s.CoreGui.Rayfield.Main.Elements['Stat Functions']['Phys-Resist: '].InputFrame.InputBox.Text = v.Character.Stats['Phys-Resist'].Value
+    s.CoreGui.Rayfield.Main.Elements['Stat Functions']['Ki-Resist: '].InputFrame.InputBox.Text = v.Character.Stats['Ki-Resist'].Value
+    s.CoreGui.Rayfield.Main.Elements['Stat Functions']['Speed: '].InputFrame.InputBox.Text = v.Character.Stats['Speed'].Value
+    end;
+})
+-- 
+page4:CreateSection('Output')
+page4:CreateInput({
+    Name = 'Name: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+    end;
+})
+-- 
+page4:CreateInput({
+    Name = 'Race: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+    end;
+})
+-- 
+page4:CreateInput({
+    Name = 'Health-Max: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+    end;
+})
+-- 
+page4:CreateInput({
+    Name = 'Ki-Max: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+    end;
+})
+-- 
+page4:CreateInput({
+    Name = 'Phys-Damage: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+    end;
+})
+-- 
+page4:CreateInput({
+    Name = 'Ki-Damage: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+    end;
+})
+-- 
+page4:CreateInput({
+    Name = 'Phys-Resist: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+    end;
+})
+-- 
+page4:CreateInput({
+    Name = 'Ki-Resist: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+    end;
+})
+-- 
+page4:CreateInput({
+    Name = 'Speed: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+    end;
+})
+-- 
+page4:CreateSection('Stat Adder')
+page4:CreateDropdown({
+    Name = 'Target Stat';
+    Options = {'None', 'Health-Max', 'Ki-Max', 'Phys-Damage', 'Ki-Damage', 'Phys-Resist', 'Ki-Resist', 'Speed'};
+    CurrentOption = 'None';
+    MultipleOptions = false;
+    Flag = 'statDropdown';
+    Callback = function(t)
+        getgenv().selectedStat = t;
+    end;
+})
+--
+page4:CreateInput({
+    Name = 'Stat Points: ';
+    PlaceholderText = '';
+    RemoveTextAfterFocusLost = false;
+    Callback = function(t)
+        getgenv().statPointAmount = t;
+    end
+})
+-- 
+page4:CreateButton({
+    Name = 'Add Stats (Universal)';
+    Callback = function(t)
+        for i = 1, statPointAmount do
+            Client.Backpack.ServerTraits.AttemptUpgrade:FireServer(Client.PlayerGui.HUD.Bottom.Stats[selectedStat[1]])
+        end
+    end
+})
+page4:CreateSection('Level 1 -> 55 (Earth)')
+page4:CreateButton({
+    Name = 'Level Up!';
+    Callback = function(t)
+        main.LevelSeq()
+    end
+})
+-- 
+page5:CreateSection('Dust Particles')
+page5:CreateToggle({
+    Name = 'Dust Particles (Universal)';
+    CurrentValue = false;
+    Flag = 'dustParticlesToggled';
+    Callback = function(t)
+        getgenv().dustParticlesToggle = t;
+        
+        while task.wait() and dustParticlesToggle do 
+            pcall(function()
+                Client.Backpack.ServerTraits.Vanish:FireServer('average', CFrame.new())
+            end)
+        end
+    end;
+})
+--
+page5:CreateSection('Remove')
+page5:CreateToggle({
+    Name = 'Remove Form Aura (Universal)';
+    CurrentValue = false;
+    Flag = 'formAuraToggled';
+    Callback = function(t)
+        getgenv().formAuraToggle = t;
+        
+        while task.wait() and formAuraToggle do 
+            pcall(function()
+                if Root then
+                    if Root:FindFirstChild('TempAura') then
+                        Root.TempAura:Destroy()
+                    end
+                    if Root:FindFirstChild('Lightning') then
+                        Root.Lightning:Destroy()
+                    end
+                end
+            end)
+        end
+    end;
+})
+--
+page5:CreateToggle({
+    Name = 'Remove Bean Aura (Universal)';
+    CurrentValue = false;
+    Flag = 'beanAuraToggled';
+    Callback = function(t)
+        getgenv().beanAuraToggle = t;
+        
+        while task.wait() and beanAuraToggle do 
+            pcall(function()
+                if Root:FindFirstChild('Critz') then
+                    Root.Critz:Destroy()
+                else 
+                    return
+                end
+            end)
+        end
+    end;
+})
+--
+page5:CreateSection('Auras')
+page5:CreateButton({
+    Name = 'Blaster Meteor Aura';
+    Callback = function(t)
+        if not Client.Backpack:FindFirstChild('Blaster Meteor') and not Character:FindFirstChild('Blaster Meteor') then
+            main.NOTIFY('Error!', 'You need to defeat Broly BR until you get "Blaster Meteor"')
+            return
+        end
+        Humanoid:EquipTool(Client.Backpack:FindFirstChild('Blaster Meteor'))
+        task.wait(.3)
+        Character['Blaster Meteor'].Activator.Sound:Destroy()
+        Character['Blaster Meteor'].Targeter:FireServer(Character)
+        Character['Blaster Meteor']:Activate()
+    end
+})
+--
+page5:CreateButton({
+    Name = 'Rush Aura';
+    Callback = function(t)
+        if not Client.Backpack:FindFirstChild('Rush') and not Character:FindFirstChild('Rush') then
+            main.NOTIFY('Error!', 'You need to buy "Rush" from the move shop!')
+            return
+        end
+        Humanoid:EquipTool(Client.Backpack:FindFirstChild('Rush'))
+        task.wait(.3)
+        Character['Rush'].Activator.DASH2:Destroy()
+        Character['Rush'].Targeter:FireServer(Character)
+        Character['Rush']:Activate()
+    end
+})
+--
+page5:CreateButton({
+    Name = 'Super Rush Aura';
+    Callback = function(t)
+        if not Client.Backpack:FindFirstChild('Super Rush') and not Character:FindFirstChild('Super Rush') then
+            main.NOTIFY('Error!', 'You need to buy "Super Rush" from the move shop!')
+            return
+        end
+        Humanoid:EquipTool(Client.Backpack:FindFirstChild('Super Rush'))
+        task.wait(.3)
+        Character['Super Rush'].Activator.DASH2:Destroy()
+        Character['Super Rush'].Targeter:FireServer(Character)
+        Character['Super Rush']:Activate()
+    end
+})
+--
+page5:CreateButton({
+    Name = 'Super Dragon Fist Aura';
+    Callback = function(t)
+        if not Client.Backpack:FindFirstChild('Super Dragon Fist') and not Character:FindFirstChild('Super Dragon Fist') then
+            main.NOTIFY('Error!', 'You need to buy "Dragon Fist" from the move shop!')
+            return
+        end
+        Humanoid:EquipTool(Client.Backpack:FindFirstChild('Super Dragon Fist'))
+        task.wait(.5)
+        Character['Super Dragon Fist'].Activator.Forward:Destroy()
+        Character['Super Dragon Fist'].Targeter:FireServer(Character)
+        Character['Super Dragon Fist']:Activate()
+    end
+})
+--
+page5:CreateButton({
+    Name = 'KaioKen Assault Aura';
+    Callback = function(t)
+        if not Client.Backpack:FindFirstChild('Kaioken Assault') and not Character:FindFirstChild('Kaioken Assault') then
+            main.NOTIFY('Error!', 'You need to buy "Kaioken Assault" from the move shop!')
+            return
+        end
+        Humanoid:EquipTool(Client.Backpack:FindFirstChild('Kaioken Assault'))
+        task.wait(0.5)
+        Character['Kaioken Assault'].Activator.Forward:Destroy()
+        Character['Kaioken Assault'].Targeter:FireServer(Character)
+        Character['Kaioken Assault']:Activate()
+    end
+})
+--
+page5:CreateButton({
+    Name = 'Wrathful Charge Aura';
+    Callback = function(t)
+        if not Client.Backpack:FindFirstChild('Wrathful Charge') and not Character:FindFirstChild('Wrathful Charge') then
+            main.NOTIFY('Error!', 'You need to defeat Broly BR until you get "Wraithful Charge"')
+            return
+        end
+        Humanoid:EquipTool(Client.Backpack:FindFirstChild('Wrathful Charge'))
+        task.wait(0.5)
+        Character['Wrathful Charge'].Activator.Forward:Destroy()
+        Character['Wrathful Charge'].Targeter:FireServer(Character)
+        Character['Wrathful Charge']:Activate()
+    end
+})
+-- 
+page6:CreateSection('Bean Shop')
+page6:CreateDropdown({
+    Name = 'What to buy: ';
+    Options = {'None', 'Beans', 'Jars'};
+    CurrentOption = {'None'};
+    MultipleOptions = false;
+    Flag = 'beanSelectDropdown';
+    Callback = function(t)
+        getgenv().selectedBean = t;
+    end;
+})
+--
+page6:CreateDropdown({
+    Name = 'Bean Amount: ';
+    Options = {'None', '8', '80'};
+    CurrentOption = {'None'};
+    MultipleOptions = false;
+    Flag = 'beanAmountDropdown';
+    Callback = function(t)
+        getgenv().selectedBeanAmt = t;
+    end;
+})
+--
+page6:CreateDropdown({
+    Name = 'Bean Colour: ';
+    Options = {'None', 'Red', 'Blue', 'Green', 'Yellow'};
+    CurrentOption = {'None'};
+    MultipleOptions = false;
+    Flag = 'statDropdown';
+    Callback = function(t)
+        getgenv().selectedBeanClr = t;
+    end;
+})
+-- 
+page6:CreateToggle({
+    Name = 'Buy Senzus (Earth, Heaven)';
+    CurrentValue = false;
+    Flag = 'buyBeanToggled';
+    Callback = function(t)
+        getgenv().buyBeanToggle = t;
+
+        while task.wait() and buyBeanToggle do 
+            pcall(function()
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                task.wait(0.015)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.NewChat('Korin BEANS')
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('k')
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('k')
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat(selectedBean)
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('k')
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat(selectedBeanAmt)
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('k')
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat(selectedBeanClr)
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('k')
+                
+                if selectedBeanAmt == '80' then 
+                    task.wait(.3)
+                    Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                    main.RespondChat('Yes')
+                elseif selectedBeanAmt ~= '80' then
+                    task.wait(.3)
+                    Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                    main.RespondChat('Use Zenni')
+                end
+
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('k')
+                task.wait(.3)
+            end)
+        end
+    end;
+})
+-- 
+page6:CreateSection('Elder Kai Shop')
+page6:CreateToggle({
+    Name = 'Elder Kai (Earth)';
+    CurrentValue = false;
+    Flag = 'buyElderKaiToggled';
+    Callback = function(t)
+        getgenv().buyElderKaiToggle = t;
+        local zenniAmount = Client.PlayerGui.HUD.FullSize.Money.Text:gsub('%p+','')
+        while task.wait() and buyElderKaiToggle do 
+            pcall(function()
+                if tonumber(zenniAmount) < 10000 then return; end
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.NewChat('Elder Kai')
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('k')
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('Yes')
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('k')
+                task.wait(.3)
+                Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false
+                main.RespondChat('k')
+            end)
+        end
+    end;
+})
+-- 
+page6:CreateSection('Form Shop (Saiyans)')
+page6:CreateButton({
+    Name = 'Super Saiyan 4 (800k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('SSJ4')
+    end
+})
+-- 
+page6:CreateButton({
+    Name = 'Super Saiyan Blue: Evolution (500k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Complete Super Saiyan Blue')
+    end
+})
+-- 
+page6:CreateButton({
+    Name = 'Super Saiyan Rose (100k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('SSJ Rose')
+    end
+})
+-- 
+page6:CreateSection('Form Shop (Jiren)') 
+page6:CreateButton({
+    Name = 'Despair (800k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Despair')
+    end
+})
+-- 
+page6:CreateSection('Form Shop (Namekians)') 
+page6:CreateButton({
+    Name = 'Demon Namekian (100k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Demon Namekian')
+    end
+})
+-- 
+page6:CreateButton({
+    Name = 'White Namekian (400k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('White Namekian')
+    end
+})
+--
+page6:CreateSection('Form Shop (Acrosian)') 
+page6:CreateButton({
+    Name = 'Cooler Form (10k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Fifth Form')
+    end
+})
+-- 
+page6:CreateButton({
+    Name = 'Golden Cooler (400k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Gold Cooler')
+    end
+})
+--
+page6:CreateSection('Form Shop (Majins)') 
+page6:CreateButton({
+    Name = 'Dark Majin (100k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Dark Majin')
+    end
+})
+-- 
+page6:CreateButton({
+    Name = 'Unstable Majin (400k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Unstable')
+    end
+})
+--
+page6:CreateSection('Form Shop (Humans)') 
+page6:CreateButton({
+    Name = 'Kaioken x100 (100k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Kaioken x100')
+    end
+})
+-- 
+page6:CreateButton({
+    Name = 'Dark Human (400k Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Dark Human')
+    end
+})
+--
+page6:CreateSection('Form Shop (All Races)') 
+page6:CreateButton({
+    Name = 'Mastered Ultra Instinct (1.2M Zenni)';
+    Callback = function(t)
+        s.ReplicatedStorage.AttemptBuy:InvokeServer('Mastered Ultra Instinct')
+    end
+})
+-- 
+page6:CreateSection('Misc Shop')
+page6:CreateButton({
+    Name = 'Time Chamber Armor';
+    Callback = function(t)
+        main.NewChat('TC Armor')
+        task.wait(.3)
         main.RespondChat('k')
         task.wait(.3)
+        main.RespondChat('Purchase')
+        task.wait(.3)
+        main.RespondChat('k')
     end
-end)
+})
+--
+page6:CreateButton({
+    Name = 'Aqua Gi';
+    Callback = function(t)
+        main.NewChat('Aqua Gi')
+        task.wait(.3)
+        main.RespondChat('k')
+        task.wait(.3)
+        main.RespondChat('Purchase')
+        task.wait(.3)
+        main.RespondChat('k')
+    end
+})
+--
+page7:CreateSection('Rejoin')
+page7:CreateButton({
+    Name = 'Rejoin Server';
+    Callback = function()
+        s.TeleportService:Teleport(game.PlaceId)
+    end
+})
+-- 
+page7:CreateSection('Worlds')
+page7:CreateButton({
+    Name = 'Earth (Lvl. 0+)';
+    Callback = function()
+        s.TeleportService:Teleport(536102540)
+    end
+})
+-- 
+page7:CreateButton({
+    Name = 'Namek (Lvl. 100+)';
+    Callback = function()
+        s.TeleportService:Teleport(882399924)   
+    end
+})
+-- 
+page7:CreateButton({
+    Name = 'Space (Lvl. 200+)';
+    Callback = function()
+        s.TeleportService:Teleport(478132461) 
+    end
+})
+-- 
+page7:CreateButton({
+    Name = 'Future (Lvl. 300+)';
+    Callback = function()
+        s.TeleportService:Teleport(569994010)
+    end
+})
+-- 
+page7:CreateButton({
+    Name = 'Secret World (Lvl. 350+)';
+    Callback = function()
+        s.TeleportService:Teleport(2046990924)
+    end
+})
+-- 
+page7:CreateButton({
+    Name = 'Queue World (Lvl. 399+)';
+    Callback = function()
+        s.TeleportService:Teleport(3565304751)
+    end
+})
+-- 
+page7:CreateButton({
+    Name = 'Zaros (Lvl. 600+)';
+    Callback = function()
+        s.TeleportService:Teleport(2651456105)
+    end
+})
 
-buy2:Toggle('Elder Kai', nil, 'Toggle', function(AB2)
-   
-    getgenv().EK = AB2
-   
-    local Zen = Client.PlayerGui.HUD.FullSize.Money.Text:gsub('%p+','')
+-- by Lxst#0001 | 2023
     
-    while true and task.wait() do -- you could utilitize rbxconnections here but this is for simplicity's sake (2.5 year old scripts remind you)
-        if tonumber(Zen) < 10000 then return end
-        if not getgenv().EK then break end 
-        Client.PlayerGui.HUD.Bottom.ChatGui.Visible = false -- this doesn't work properly for some reason; will debug soon
-        task.wait(0.015)
-        main.NewChat('Elder Kai')
-        task.wait(.35)
-        main.RespondChat('k')
-        task.wait(.35)
-        main.RespondChat('Yes')
-        task.wait(.35)
-        main.RespondChat('k')
-        task.wait(.35)
-        main.RespondChat('k')
-    end
-end)
-
-buy3:Button('SSJ4', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('SSJ4')
-end)
-
-buy3:Button('SSJBE', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Complete Super Saiyan Blue')
-end)
-
-buy3:Button('SSJ Rose', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('SSJ Rose')
-end)
-
-buy4:Button('Despair', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Despair')
-end)
-
-buy5:Button('White Namekian', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('White Namek')
-end)
-
-buy5:Button('Demon Namekian', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Demon Namekian')
-end)
-
-buy6:Button('Golden Cooler', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Gold Cooler')
-end)
-
-buy6:Button('Cooler Form', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Fifth Form')
-end)
-
-buy7:Button('Unstable Majin', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Unstable')
-end)
-
-buy7:Button('Dark Majin', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Dark Majin')
-end)
-
-buy8:Button('KKx100', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Kaioken x100')
-end)
-
-buy8:Button('Dark Human', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Dark Human')
-end)
-
-buy9:Button('MUI', function()
-	s.ReplicatedStorage.AttemptBuy:InvokeServer('Mastered Ultra Instinct')
-end)
-
-buy10:Button('TC Armor', function()
-    main.NewChat('TC Armor')
-    task.wait(.3)
-    main.RespondChat('k')
-    task.wait(.3)
-    main.RespondChat('Purchase')
-    task.wait(.3)
-    main.RespondChat('k')
-end)
-
-buy10:Button('Aqua Gi', function()
-    main.NewChat('Aqua Gi')
-    task.wait(.3)
-    main.RespondChat('k')
-    task.wait(.3)
-    main.RespondChat('Purchase')
-    task.wait(.3)
-    main.RespondChat('k')
-end)
-
-tp1:Button('Rejoin', function()
-    game:GetService('TeleportService'):Teleport(game.PlaceId)
-end)
-tp1:Button('Earth', function()
-    game:GetService('TeleportService'):Teleport(536102540)   
-end) 
-tp1:Button('Namek', function()
-    game:GetService('TeleportService'):Teleport(882399924)   
-end) 
-tp1:Button('Space', function()
-    game:GetService('TeleportService'):Teleport(478132461)   
-end) 
-tp1:Button('Future', function()
-    game:GetService('TeleportService'):Teleport(569994010)   
-end) 
-tp1:Button('Secret World', function()
-    game:GetService('TeleportService'):Teleport(2046990924)   
-end) 
-tp1:Button('Zaros', function()
-    game:GetService('TeleportService'):Teleport(2651456105)   
-end) 
-tp1:Button('Queue World', function()
-    game:GetService('TeleportService'):Teleport(3565304751)   
-end) 
