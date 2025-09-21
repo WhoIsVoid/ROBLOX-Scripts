@@ -1,0 +1,100 @@
+getgenv().auto_lootbox = true
+getgenv().auto_drops = true
+
+local user_input_service = game:GetService("UserInputService")
+local player_service = game:GetService("Players")
+local prompt_service = game:GetService("ProximityPromptService")
+local teleport_service = game:GetService("TeleportService")
+local http_service = game:GetService("HttpService")
+
+local client = player_service.LocalPlayer
+local character = client.Character or client.CharacterAdded:Wait()
+local root_part = character:WaitForChild("HumanoidRootPart")
+local place_id = game.PlaceId
+local job_id = game.JobId
+
+prompt_service.PromptButtonHoldBegan:Connect(function(prompt)
+    fireproximityprompt(prompt)
+end)
+
+local function collect_lootboxes()
+    if not getgenv().auto_lootbox then return false end
+    local lootboxes = {}
+    for _, model in pairs(workspace:GetDescendants()) do
+        if model:IsA("Model") and model.Name:find("Lootbox") then
+            local crate_door = model:FindFirstChild("CrateDoor", true)
+            if crate_door then
+                local prompts = {}
+                for _, obj in ipairs(model:GetDescendants()) do
+                    if obj:IsA("ProximityPrompt") then
+                        table.insert(prompts, obj)
+                    end
+                end
+                table.insert(lootboxes, {model = model, crate_door = crate_door, prompts = prompts})
+            end
+        end
+    end
+
+    if #lootboxes == 0 then
+        return false
+    end
+
+    for _, lootbox in ipairs(lootboxes) do
+        while lootbox.model and lootbox.crate_door and #lootbox.crate_door:GetDescendants() > 0 do
+            local target_cframe = (lootbox.model.PrimaryPart and lootbox.model.PrimaryPart.CFrame or lootbox.model:GetPivot()) + Vector3.new(0, 3, 0)
+            root_part.CFrame = target_cframe
+            task.wait(0.1)
+
+            for _, prompt_obj in ipairs(lootbox.prompts) do
+                prompt_obj:InputHoldBegin(Enum.UserInputType.Keyboard)
+                task.wait()
+                prompt_obj:InputHoldEnd(Enum.UserInputType.Keyboard)
+            end
+
+            if getgenv().auto_drops then
+                local drops_folder = workspace:FindFirstChild("ActiveDrops")
+                if drops_folder then
+                    for _, drop in ipairs(drops_folder:GetChildren()) do
+                        for _, descendant in ipairs(drop:GetDescendants()) do
+                            if descendant:IsA("ProximityPrompt") then
+                                fireproximityprompt(descendant)
+                            end
+                        end
+                    end
+                end
+            end
+
+            task.wait()
+        end
+
+        if lootbox.model and lootbox.model.Parent then
+            lootbox.model:Destroy()
+        end
+    end
+
+    return true
+end
+
+local function serverhop()
+    local servers = {}
+    local req = game:HttpGet("https://games.roblox.com/v1/games/" .. place_id .. "/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true")
+    local body = http_service:JSONDecode(req)
+
+    if body and body.data then
+        for _, v in next, body.data do
+            if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= job_id then
+                table.insert(servers, 1, v.id)
+            end
+        end
+    end
+
+    if #servers > 0 then
+        teleport_service:TeleportToPlaceInstance(place_id, servers[math.random(1, #servers)], client)
+        queue_on_teleport([[
+            loadstring(game:HttpGet("YOUR_RAW_SCRIPT_URL_HERE"))()
+        ]])
+    end
+end
+
+repeat task.wait() until not collect_lootboxes()
+serverhop()
