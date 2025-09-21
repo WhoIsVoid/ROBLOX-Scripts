@@ -13,6 +13,8 @@ local root_part = character:WaitForChild("HumanoidRootPart")
 local place_id = game.PlaceId
 local job_id = game.JobId
 
+workspace.Map["East City"]._Dev.Lootboxes:Destroy()
+
 prompt_service.PromptButtonHoldBegan:Connect(function(prompt)
     fireproximityprompt(prompt)
 end)
