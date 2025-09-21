@@ -91,7 +91,7 @@ local function serverhop()
     if #servers > 0 then
         teleport_service:TeleportToPlaceInstance(place_id, servers[math.random(1, #servers)], client)
         queue_on_teleport([[
-            loadstring(game:HttpGet("YOUR_RAW_SCRIPT_URL_HERE"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/WhoIsVoid/ROBLOX-Scripts/refs/heads/main/DS%20Auto%20Lootboxes"))()
         ]])
     end
 end
