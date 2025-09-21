@@ -26,6 +26,7 @@ pcall(function()
     workspace.Map["East City"]._Dev.Lootboxes:Destroy()
 end)
 
+
 local function collect_lootboxes()
     if not getgenv().auto_lootbox then return false end
     local lootboxes = {}
