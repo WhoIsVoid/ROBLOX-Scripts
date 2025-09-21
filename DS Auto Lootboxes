@@ -1,6 +1,11 @@
 getgenv().auto_lootbox = true
 getgenv().auto_drops = true
 
+
+repeat task.wait() until game:IsLoaded and game.Players.LocalPlayer.Character;
+
+task.wait(3)
+
 local user_input_service = game:GetService("UserInputService")
 local player_service = game:GetService("Players")
 local prompt_service = game:GetService("ProximityPromptService")
