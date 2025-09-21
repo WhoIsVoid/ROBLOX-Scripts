@@ -18,8 +18,6 @@ local root_part = character:WaitForChild("HumanoidRootPart")
 local place_id = game.PlaceId
 local job_id = game.JobId
 
-workspace.Map["East City"]._Dev.Lootboxes:Destroy()
-
 prompt_service.PromptButtonHoldBegan:Connect(function(prompt)
     fireproximityprompt(prompt)
 end)
@@ -48,7 +46,7 @@ local function collect_lootboxes()
 
     for _, lootbox in ipairs(lootboxes) do
         while lootbox.model and lootbox.crate_door and #lootbox.crate_door:GetDescendants() > 0 do
-            local target_cframe = (lootbox.model.PrimaryPart and lootbox.model.PrimaryPart.CFrame or lootbox.model:GetPivot()) + Vector3.new(0, 3, 0)
+            local target_cframe = (lootbox.model.PrimaryPart and lootbox.model.PrimaryPart.CFrame or lootbox.model:GetPivot()) + Vector3.new(2, 0, 0)
             root_part.CFrame = target_cframe
             task.wait(0.1)
 
@@ -104,4 +102,4 @@ local function serverhop()
 end
 
 repeat task.wait() until not collect_lootboxes()
-serverhop()
+serverhop()	
