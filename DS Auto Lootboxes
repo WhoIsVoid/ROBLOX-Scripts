@@ -15,7 +15,7 @@ local http_service = game:GetService("HttpService")
 local client = player_service.LocalPlayer
 local character = client.Character or client.CharacterAdded:Wait()
 local root_part = character:WaitForChild("HumanoidRootPart")
-local place_id = game.PlaceId
+local place_id = 8246874626
 local job_id = game.JobId
 
 prompt_service.PromptButtonHoldBegan:Connect(function(prompt)
